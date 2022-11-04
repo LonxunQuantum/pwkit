@@ -1,0 +1,14 @@
+#!/bin/bash
+submenu::7opt2() {
+  cat <<EOF
+This module is used to introduce how to calculate optical absorption spectrum for bulk systems
+using LAD+RPA (random phase approximation), LDA+rt-TDDFT and HSE (RSE)+rt-TDDFT methods.
+PWmat can run the range separated hybrid (RSH, also called it HSE in PWmat) function with HSE_alpha,
+HSE_omega, HSE_beta parameters, representing short range mixing (HSE_alpha) and long range mixing (HSE_beta),
+as well as the transition position (HSE_omega, optimally tuned functional). The RSH can describe the long
+range dielectric screening with HSE_beta, it is thus believed it can describe the correct Coulomb
+interaction in electron-hole interaction.（周期性体系计算光吸收谱的几种方法，RPA/tddft/tddft+hse））
+EOF
+
+exit 0
+}

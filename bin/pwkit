@@ -1,0 +1,34 @@
+#!/usr/bin/bash
+
+PWKIT_ROOT=${PWKIT_ROOT:-"/share/app/pwkit"}
+
+if [ ! -d $HOME/.local/pwkit ];then
+    mkdir -p $HOME/.local/pwkit
+    cp $PWKIT_ROOT/pwkit.cfg $HOME/.local/pwkit
+fi
+
+# source $PWKIT_ROOT/pwkit.cfg
+source $HOME/.local/pwkit/pwkit.cfg
+
+### 日志 ###
+echo "=== `basename $0`: PWmat Kit Log `date` ===" >> $glog
+exec > >(tee -a "$glog")
+exec 2>&1
+### 日志 ###
+
+### 加载 lib 函数库
+source $PWKIT_ROOT/asset/logo.sh
+source $PWKIT_ROOT/lib/usage.sh
+source $PWKIT_ROOT/menu/menu.sh
+###
+
+if [ $#  == 0 ]; then
+    asset::logo
+    menu
+fi
+
+### 加载 lib 函数库
+source $PWKIT_ROOT/lib/cmd.sh
+###
+
+parse_cmd_parameters $@

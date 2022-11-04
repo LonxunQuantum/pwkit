@@ -1,0 +1,8 @@
+#%Module####################################################
+## modules modulefile
+set    prefix    /share/app/pwkit
+
+module-whatis "pwkit 1.0.0"
+setenv PWKIT_ROOT  $prefix
+prepend-path PATH    $prefix/bin
+
