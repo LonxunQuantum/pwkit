@@ -3,15 +3,15 @@
 # 加载menu函数
 source $PWKIT_ROOT/menu.sh
 
-# 加载gmenu显示函数
-source $PWKIT_ROOT/menu/gmenu/gmenu_cn.sh
-source $PWKIT_ROOT/menu/gmenu/gmenu_en.sh
+# 加载umenu显示函数
+source $PWKIT_ROOT/menu/umenu/umenu_cn.sh
+source $PWKIT_ROOT/menu/umenu/umenu_en.sh
 
-gmenu() {
+umenu() {
 
 while [ 1 ]
     do
-        gmenu::gmenu_${glanguage}
+        umenu::umenu_${glanguage}
         read -p " ------------>> " menuOpt
     
     case $menuOpt in

@@ -6,6 +6,12 @@ source $PWKIT_ROOT/menu/menu_en.sh
 # gmenu package函数的载入
 source $PWKIT_ROOT/menu/gmenu/gmenu.sh
 
+# mmenu package函数的载入
+source $PWKIT_ROOT/menu/mmenu/mmenu.sh
+
+# umenu package函数的载入
+source $PWKIT_ROOT/menu/umenu/umenu.sh
+
 
 menu() {
     while [ 1 ]
@@ -21,10 +27,10 @@ menu() {
                 gmenu
                 ;;
             m|M)
-                exit 0
+                mmenu
                 ;;
             u|U)
-                exit 0
+                umenu
                 ;;
             esac
         done
