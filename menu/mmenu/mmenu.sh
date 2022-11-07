@@ -7,6 +7,9 @@ source $PWKIT_ROOT/menu.sh
 source $PWKIT_ROOT/menu/mmenu/mmenu_cn.sh
 source $PWKIT_ROOT/menu/mmenu/mmenu_en.sh
 
+# 加载1msubmenu显示函数
+source $PWKIT_ROOT/menu/mmenu/msubmenu/1msubmenu/menu.sh
+
 mmenu() {
 
 while [ 1 ]
@@ -22,10 +25,13 @@ while [ 1 ]
         menu
         ;;
     1)
-        exit    
+        mmenu::1    # 结构搜索
         ;;
     2) 
-        exit
+        exit            # 无序结构
+        ;;
+    3)
+        exit            # 分子动力学数据处理
         ;;
 
     esac

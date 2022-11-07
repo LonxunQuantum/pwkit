@@ -1,12 +1,12 @@
 #!/bin/bash
-submenu::1menu_cn() {
+submenu::1menu_en() {
   cat <<EOF
- === PWmat 模块 --> 结构搜索 ===
+ === PWmat Module --> Material structure ===
  1) CALYPSO
  2) USPEX
  3) Genetic algorithm to search global minimum structure
 
- b) 返回上一级目录
- q) 退出
+ q)   Quit
+ b)   Back
 EOF
 }

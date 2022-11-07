@@ -1,5 +1,5 @@
 #!/bin/bash
-submenu::1menu_cn() {
+1msubmenu::1menu_cn() {
   cat <<EOF
  === PWmat 模块 --> 结构搜索 ===
  1) CALYPSO
