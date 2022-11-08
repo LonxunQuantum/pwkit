@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 加载menu函数
-source $PWKIT_ROOT/menu.sh
+#source $PWKIT_ROOT/menu/menu.sh
 
 # 加载umenu显示函数
 source $PWKIT_ROOT/menu/umenu/umenu_cn.sh

@@ -1,7 +1,6 @@
 #!/bin/bash
-# menu
-source $PWKIT_ROOT/menu/menu_cn.sh
-source $PWKIT_ROOT/menu/menu_en.sh
+
+# 展现 menu 选项的函数：menu_cn.py, menu_en.py
 
 # gmenu package函数的载入
 source $PWKIT_ROOT/menu/gmenu/gmenu.sh
@@ -16,21 +15,22 @@ source $PWKIT_ROOT/menu/umenu/umenu.sh
 menu() {
     while [ 1 ]
         do
-            menu::menu_${glanguage} | fold -w 70 -s
-            read -p " ------------>> " menuOpt
+            $PWKIT_ROOT/menu/menu_cn.py     # 显示菜单
+            read -p " ------------>> 
+" menuOpt 
         
             case $menuOpt in 
             q|Q)
                 exit 0
                 ;;
             g|G)
-                gmenu
+                gmenu   # 进入 Generator 部分
                 ;;
             m|M)
-                mmenu
+                mmenu   # 进入 Module 部分
                 ;;
             u|U)
-                umenu
+                umenu   # 进入 Utility 部分
                 ;;
             esac
         done
