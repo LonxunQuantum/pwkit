@@ -1,0 +1,25 @@
+#!/bin/bash
+
+
+mmenu::msubmenuj() {
+while [ 1 ]
+  do
+    $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuj/menu_${glanguage}.py
+    read -p " ------------>> 
+" submenuOpt
+    case $submenuOpt in
+    q|Q)
+      exit 0
+      ;;
+    bb|BB)
+      mmenu
+      ;;
+    #1)
+    #  msubmenui::opt1
+    #  ;;
+    *)
+      echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
+    esac
+  done
+}
+

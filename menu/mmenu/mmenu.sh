@@ -20,6 +20,8 @@ source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuf/menu.sh
 source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenug/menu.sh
 source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuh/menu.sh
 source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenui/menu.sh
+source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuj/menu.sh
+
 
 mmenu() {
 
@@ -89,6 +91,9 @@ while [ 1 ]
         ;; 
     i)
         mmenu::msubmenui    # 机器学习力场
+        ;; 
+    j)
+        mmenu::msubmenuj    # 其他
         ;; 
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

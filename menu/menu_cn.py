@@ -1,7 +1,5 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import click
-import textwrap
-
 
 @click.command()
 def menu_cn():
@@ -49,7 +47,7 @@ def menu_cn():
 
     ### Part IV. Exit
     print(
-" q) 退出"
+''' q)  退出'''
     )
     
 

@@ -32,6 +32,8 @@ menu() {
             u|U)
                 umenu   # 进入 Utility 部分
                 ;;
+            *)
+                echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
             esac
         done
 }
