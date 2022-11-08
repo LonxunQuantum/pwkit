@@ -27,7 +27,13 @@ def mmenu_cn():
     print(
 ''' 7) 光学性质                8) 磁学性质
  9) 力学性质                a) 极化性质
- b) 缺陷性质                c) 电化学性质
+'''
+    )
+
+    ### Part IV. 其他模块
+    print("{0:-^50}".format(" 其他模块 "))
+    print(
+''' b) 缺陷性质                c) 电化学性质
  d) 输运性质                e) 超快动力学过程
  f) Beyond DFT              g) 电子束辐照分解
  h) 大体系计算              i) 机器学习力场
@@ -35,11 +41,11 @@ def mmenu_cn():
 '''
     )
 
-    # Part IV. EXIT
+    ### Part V. EXIT
     print(
 '''
- b) 上一步
- q) 退出
+ bb) 返回上一级目录
+ q)  退出
 '''
     )
 
