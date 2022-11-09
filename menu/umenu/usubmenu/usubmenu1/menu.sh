@@ -2,20 +2,6 @@
 
 
 # 加载 usubmenu 对应的所有opt函数
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt1.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt2.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt3.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt4.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt5.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt6.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt7.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt8.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt9.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opta.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optb.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optc.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optd.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opte.sh
 
 
 
@@ -34,46 +20,60 @@ while [ 1 ]
         umenu
         ;;
     1)
-        usubmenu1::opt1
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt1.py
+        exit 0
         ;;
     2)
-        usubmenu1::opt2
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt2.py
+        exit 0
         ;;
     3)
-        usubmenu1::opt3
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt3.py
+        exit 0
         ;;
     4)
-        usubmenu1::opt4
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt4.py
+        exit 0
         ;;
     5)
-        usubmenu1::opt5
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt5.py
+        exit 0
         ;;
     6)
-        usubmenu1::opt6
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt6.py
+        exit 0
         ;;
     7)
-        usubmenu1::opt7
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt7.py
+        exit 0
         ;;
     8)
-        usubmenu1::opt8
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt8.py
+        exit 0
         ;;
     9)
-        usubmenu1::opt9
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt9.py
+        exit 0
         ;;
     a)
-        usubmenu1::opta
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opta.py
+        exit 0
         ;;
     b)
-        usubmenu1::optb
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optb.py
+        exit 0
         ;;
     c)
-        usubmenu1::optc
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optc.py
+        exit 0
         ;;
     d)
-        usubmenu1::optd
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optd.py
+        exit 0
         ;;
     e)
-        usubmenu1::opte
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opte.py
+        exit 0
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
