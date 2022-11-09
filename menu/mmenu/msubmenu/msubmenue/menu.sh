@@ -2,9 +2,6 @@
 
 
 # 加载每 msubmenuc 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt3.sh
 
 
 mmenu::msubmenue() {
@@ -21,13 +18,16 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenue::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt1.py
+      exit 0
       ;;
     2)
-      msubmenue::opt2
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt2.py
+      exit 0
       ;;
     3)
-      msubmenue::opt3
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt3.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
