@@ -2,12 +2,7 @@
 
 
 # 加载每 msubmenub 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt3.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt4.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt5.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt6.sh
+
 
 mmenu::msubmenub() {
 while [ 1 ]
@@ -23,22 +18,28 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenub::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt1.py
+      exit 0
       ;;
     2)
-      msubmenub::opt2
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt2.py
+      exit 0
       ;;
     3)
-      msubmenub::opt3
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt3.py
+      exit 0
       ;;
     4)
-      msubmenub::opt4
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt4.py
+      exit 0
       ;;
     5)
-      msubmenub::opt5
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt5.py
+      exit 0
       ;;
     6)
-      msubmenub::opt6
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenub/opt6.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

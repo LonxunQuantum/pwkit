@@ -1,11 +1,7 @@
 #!/bin/bash
 
 
-# 加载每 msubmenu4 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt3.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt4.sh
+# 加载每 msubmenu4 对应的所有 opt 函数 -- Python Click: opt1.py, ...
 
 
 mmenu::msubmenua() {
