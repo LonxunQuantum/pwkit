@@ -5,10 +5,7 @@
 #source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/menu_cn.sh
 #source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/menu_en.sh
 
-# 加载每xmsubmenu对应的所有opt函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt3.sh
+# 加载每 msubmenu对应的所有opt函数 -- Python click -- opt1.py, opt2.py, ...
 
 mmenu::msubmenu1() {
 while [ 1 ]
@@ -24,13 +21,16 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenu1::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt1.py
+      exit 0
       ;;
     2)
-      msubmenu1::opt2
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt2.py
+      exit 0
       ;;
     3)
-      msubmenu1::opt3
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt3.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
