@@ -22,16 +22,20 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenua::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt1.py
+      exit 0
       ;;
     2)
-      msubmenua::opt2
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt2.py
+      exit 0
       ;;
     3)
-      msubmenua::opt3
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt3.py
+      exit 0
       ;;
     4)
-      msubmenua::opt4
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenua/opt4.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
