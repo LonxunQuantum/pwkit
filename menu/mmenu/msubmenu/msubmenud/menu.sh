@@ -2,15 +2,6 @@
 
 
 # 加载每 msubmenuc 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt3.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt4.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt5.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt6.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt7.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt8.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt9.sh
 
 
 mmenu::msubmenud() {
@@ -27,31 +18,40 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenud::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt1.py
+      exit 0
       ;;
     2)
-      msubmenud::opt2
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt2.py
+      exit 0
       ;;
     3)
-      msubmenud::opt3
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt3.py
+      exit 0
       ;;
     4)
-      msubmenud::opt4
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt4.py
+      exit 0
       ;;
     5)
-      msubmenud::opt5
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt5.py
+      exit 0
       ;;
     6)
-      msubmenud::opt6
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt6.py
+      exit 0
       ;;
     7)
-      msubmenud::opt7
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt7.py
+      exit 0
       ;;
     8)
-      msubmenud::opt8
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt8.py
+      exit 0
       ;;
     9)
-      msubmenud::opt9
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt9.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
