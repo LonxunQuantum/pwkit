@@ -19,7 +19,8 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenu4::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu4/opt1.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
