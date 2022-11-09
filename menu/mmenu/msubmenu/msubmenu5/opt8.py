@@ -5,13 +5,11 @@ import click
 @click.command()
 def opt8():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> Electron localization function（ELF） "))
+    print("{0:=^180}".format(" Module --> Electron localization function（ELF） "))
     print(
 '''1.模块简介
 ----------
-  电子局域函数（Electron Localization Function—ELF）是研究电子结构的手段之一。用来描述
-以某个位置处的电子为参考，在其附近找到与他同自旋的电子的概率，可以表征这个作为参考的电
-子的局域化程度，也是一种描述在多电子体系中的电子对概率的方法。
+  电子局域函数（Electron Localization Function—ELF）是研究电子结构的手段之一。用来描述以某个位置处的电子为参考，在其附近找到与他同自旋的电子的概率，可以表征这个作为参考的电子的局域化程度，也是一种描述在多电子体系中的电子对概率的方法。
 '''
     )
     print(

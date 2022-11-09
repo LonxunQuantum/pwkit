@@ -5,11 +5,11 @@ import click
 @click.command()
 def opt2():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> High temperature phonon calculation "))
+    print("{0:=^180}".format(" Module --> High temperature phonon calculation "))
     print(
 '''1.模块简介
 ----------
-  不稳定结构的高温非谐声子模式（计算有限温度的声子谱）
+  不稳定结构的高温非谐声子模式（计算有限温度的声子谱）。
 '''
     )
     print(

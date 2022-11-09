@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt4():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> pw_absorption "))
+    print("{0:=^180}".format(" Module --> pw_absorption "))
     print(
 '''1.模块简介
 ----------

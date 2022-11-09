@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt6():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> Absorption coefficient/Extinction coefficient/Reflectivity/Refractive index/Emissivity calculations "))
+    print("{0:=^180}".format(" Module --> Absorption coefficient/Extinction coefficient/Reflectivity/Refractive index/Emissivity calculations "))
     print(
 '''1.模块简介
 ----------

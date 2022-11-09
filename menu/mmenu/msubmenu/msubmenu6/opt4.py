@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt1():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> electron-phonon coupling (EPC) "))
+    print("{0:=^180}".format(" Module --> electron-phonon coupling (EPC) "))
     print(
 '''1.模块简介
 ----------

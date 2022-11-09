@@ -1,8 +1,7 @@
 #!/bin/bash
 
 
-# 加载每 msubmenu4 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu9/opt1.sh
+# 加载每 msubmenu4 对应的所有 opt 函数 -- Python Click -- opts
 
 
 mmenu::msubmenu9() {
@@ -19,7 +18,8 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      msubmenu9::opt1
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu9/opt1.py
+      exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

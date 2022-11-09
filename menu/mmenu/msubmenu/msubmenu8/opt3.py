@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt3():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> 	magnetic exchange parameters "))
+    print("{0:=^180}".format(" Module --> 	magnetic exchange parameters "))
     print(
 '''1.模块简介
 ----------

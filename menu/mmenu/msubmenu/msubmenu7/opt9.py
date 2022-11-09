@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt9():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> infrared spectrum/born charge(finite electric field method) "))
+    print("{0:=^180}".format(" Module --> infrared spectrum/born charge(finite electric field method) "))
     print(
 '''1.模块简介
 ----------

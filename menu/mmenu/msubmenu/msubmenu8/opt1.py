@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt1():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> gilbert damping constant "))
+    print("{0:=^180}".format(" Module --> gilbert damping constant "))
     print(
 '''1.模块简介
 ----------

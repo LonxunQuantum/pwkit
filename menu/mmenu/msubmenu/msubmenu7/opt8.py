@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt8():
     ### Part I. 模块名
-    print("{0:=^80}".format(" Module --> second harmonic generation (SHG) "))
+    print("{0:=^180}".format(" Module --> second harmonic generation (SHG) "))
     print(
 '''1.模块简介
 ----------
