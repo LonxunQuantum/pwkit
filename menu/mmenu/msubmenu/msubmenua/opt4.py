@@ -9,7 +9,7 @@ def opt4():
     print(
 '''1.模块简介
 ----------
-  ionic dieclectric contribution
+  计算介电常数离子部分的贡献，可以加上高频介电常数后得到低频介电常数。
 '''
     )
     print(
