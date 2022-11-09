@@ -4,7 +4,7 @@ import sys
 
 
 @click.command()
-def opt1():
+def opt2():
     ### Part I. 模块名
     print("{0:=^80}".format(" Module --> USPEX "))
     print(
@@ -23,4 +23,4 @@ USPEX还可以预测纳米颗粒、聚合物、表面、界面和2D晶体的结�
     )
 
 if __name__ == "__main__":
-    opt1()
+    opt2()
