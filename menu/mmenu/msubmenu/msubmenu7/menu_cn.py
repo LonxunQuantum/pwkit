@@ -5,7 +5,7 @@ import click
 def menu_cn():
   print("{0:=^80}".format(" PWmat 模块 --> 光学性质 "))
   print(
-'''  1) Absorption Spectrum for non-periodic systems
+''' 1) Absorption Spectrum for non-periodic systems
  2) Absorption Spectrum Calculations for bulk systems using LDA+RPA, LDA+rt-TDDFT, HSE+rt-TDDFT methods
  3) Absorption Spectrum and dielectric constant Calculations for bulk systems using RPA method
  4) pw_absorption

@@ -1,8 +1,6 @@
 #!/bin/bash
 
 # 加载每 msubmenu4 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu4/opt1.sh
-
 
 
 mmenu::msubmenu4() {
