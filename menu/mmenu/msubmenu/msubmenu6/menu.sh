@@ -1,10 +1,6 @@
 #!/bin/bash
 
-# 加载每 msubmenu4 对应的所有 opt 函数
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt1.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt2.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt3.sh
-source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt4.sh
+# 加载每 msubmenu4 对应的所有 opt 函数 -- Python click: opt1.py, ...
 
 
 mmenu::msubmenu6() {
@@ -15,17 +11,27 @@ while [ 1 ]
 " submenuOpt
     case $submenuOpt in
     q|Q)
-      exit 0 ;;
+      exit 0
+      ;;
     bb|BB)
-      mmenu ;;
+      mmenu
+      ;;
     1)
-      msubmenu6::opt1 ;;
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt1.py
+      exit 0
+      ;;
     2)
-      msubmenu6::opt2 ;;
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt2.py
+      exit 0
+      ;;
     3)
-      msubmenu6::opt3 ;;
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt3.py
+      exit 0
+      ;;
     4)
-      msubmenu6::opt4 ;;
+      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu6/opt4.py
+      exit 0
+      ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
     esac
