@@ -2,8 +2,10 @@
 
 
 # 用于返回：加载中/英显示菜单的函数 -- Python click
-#source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/menu_cn.sh
-#source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/menu_en.sh
+source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt1/menu_opt1.sh
+source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt2/menu_opt2.sh
+source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt3/menu_opt3.sh
+
 
 # 加载每 msubmenu对应的所有opt函数 -- Python click -- opt1.py, opt2.py, ...
 
@@ -21,19 +23,25 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt1.py
+      msubmenu1::menu_opt1
       exit 0
       ;;
     2)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt2.py
+      msubmenu1::menu_opt2
       exit 0
       ;;
     3)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu1/opt3.py
+      msubmenu1::menu_opt3
       exit 0
       ;;
     *)
       echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
     esac
   done
+}
+
+
+
+mmenu::return_msubmenu1() {
+  mmenu::msubmenu1
 }
