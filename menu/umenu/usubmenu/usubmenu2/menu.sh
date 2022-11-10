@@ -2,18 +2,6 @@
 
 
 # 加载 usubmenu 对应的所有opt函数
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt1.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt2.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt3.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt4.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt5.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt6.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt7.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt8.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt9.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opta.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/optb.sh
-
 
 
 umenu::usubmenu2() {
@@ -31,37 +19,48 @@ while [ 1 ]
         umenu
         ;;
     1)
-        usubmenu2::opt1
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt1.py;
+        exit 0
         ;;
     2)
-        usubmenu2::opt2
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt2.py;
+        exit 0
         ;;
     3)
-        usubmenu2::opt3
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt3.py;
+        exit 0
         ;;
     4)
-        usubmenu2::opt4
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt4.py;
+        exit 0
         ;;
     5)
-        usubmenu2::opt5
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt5.py;
+        exit 0
         ;;
     6)
-        usubmenu2::opt6
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt6.py;
+        exit 0
         ;;
     7)
-        usubmenu2::opt7
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt7.py;
+        exit 0
         ;;
     8)
-        usubmenu2::opt8
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt8.py;
+        exit 0
         ;;
     9)
-        usubmenu2::opt9
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opt9.py;
+        exit 0
         ;;
     a)
-        usubmenu2::opta
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/opta.py;
+        exit 0
         ;;
     b)
-        usubmenu2::optb
+        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/optb.py;
+        exit 0
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

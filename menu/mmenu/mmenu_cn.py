@@ -7,7 +7,7 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 物质结构
-    print("{0:-^50}".format(" 物质结构 "))
+    print("{0:-^60}".format(" 物质结构 "))
     print(
 ''' 1) 结构搜索                2) 无序结构
  3) 分子动力学数据处理      4) CIF 文件转换与结构处理
@@ -15,14 +15,14 @@ def mmenu_cn():
     )
 
     ### Part II. 电子结构及声子计算
-    print("{0:-^50}".format(" 电子结构及声子计算 "))
+    print("{0:-^55}".format(" 电子结构及声子计算 "))
     print(
 ''' 5) 电子结构                6) 声子计算
 '''
     )
 
     ### Part III. 电子结构及声子计算
-    print("{0:-^50}".format(" 光、磁、力学和极化性质 "))
+    print("{0:-^53}".format(" 光、磁、力学和极化性质 "))
     print(
 ''' 7) 光学性质                8) 磁学性质
  9) 力学性质                a) 极化性质
@@ -30,7 +30,7 @@ def mmenu_cn():
     )
 
     ### Part IV. 其他模块
-    print("{0:-^50}".format(" 其他模块 "))
+    print("{0:-^60}".format(" 其他模块 "))
     print(
 ''' b) 缺陷性质                c) 电化学性质
  d) 输运性质                e) 超快动力学过程
