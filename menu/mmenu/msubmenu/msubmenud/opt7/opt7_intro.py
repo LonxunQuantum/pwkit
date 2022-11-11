@@ -5,7 +5,7 @@ import click
 @click.command()
 def opt7():
     ### Part I. 模块名
-    print("{0:=^180}".format(" Module --> Anomalous Hall Conductivity（new interpolation method） "))
+    print("{0:=^180}".format(" Module --> Anomalous Hall Conductivity (new interpolation method) "))
     print(
 '''1.模块简介
 ----------
@@ -18,6 +18,11 @@ def opt7():
   http://www.pwmat.com:3389/pwmat-resource/module-download7/pdf/guide_AHC.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opt7()
