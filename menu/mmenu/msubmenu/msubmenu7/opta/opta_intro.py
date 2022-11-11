@@ -18,6 +18,11 @@ def opta():
   http://www.pwmat.com:3389/pwmat-resource/module-download7/pdf/Use_charge_density_to_calculate_absorption_spectrum_of_large_quantum.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opta()

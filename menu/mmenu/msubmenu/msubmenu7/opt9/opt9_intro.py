@@ -18,6 +18,11 @@ def opt9():
   http://www.pwmat.com:3389/pwmat-resource/module-download7/pdf/guide_infrared_20211202.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opt9()

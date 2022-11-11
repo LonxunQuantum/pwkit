@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# 加载每 msubmenu4 对应的所有 opt 函数 -- Python Click: opt1.py, ...
+# 加载每 msubmenu4 对应的所有 opt 函数
+for i in {1,2,3,4,5,6,7,8,9,a,b}
+  do
+    source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt${i}/menu_opt${i}.sh
+  done
+
 
 mmenu::msubmenu7() {
 while [ 1 ]
@@ -14,47 +19,47 @@ while [ 1 ]
     bb|BB)
       mmenu ;;
     1)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt1.py
+      msubmenu7::menu_opt1
       exit 0
       ;;
     2)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt2.py
+      msubmenu7::menu_opt2
       exit 0
       ;;
     3)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt3.py
+      msubmenu7::menu_opt3
       exit 0
       ;;
     4)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt4.py
+      msubmenu7::menu_opt4
       exit 0
       ;;
     5)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt5.py
+      msubmenu7::menu_opt5
       exit 0
       ;;
     6)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt6.py
+      msubmenu7::menu_opt6
       exit 0
       ;;
     7)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt7.py
+      msubmenu7::menu_opt7
       exit 0
       ;;
     8)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt8.py
+      msubmenu7::menu_opt8
       exit 0
       ;;
     9)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opt9.py
+      msubmenu7::menu_opt9
       exit 0
       ;;
     a)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/opta.py
+      msubmenu7::menu_opta
       exit 0
       ;;
     b)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/optb.py
+      msubmenu7::menu_optb
       exit 0
       ;;
     *)

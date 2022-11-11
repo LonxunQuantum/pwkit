@@ -18,6 +18,11 @@ def opt1():
   http://www.pwmat.com:3389/pwmat-resource/module-download7/pdf/plot_tddft_absorp_guide.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opt1()
