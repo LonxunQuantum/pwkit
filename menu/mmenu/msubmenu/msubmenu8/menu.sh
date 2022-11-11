@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# 加载每 msubmenu4 对应的所有 opt 函数 -- Python Click: opt1.py
+# 加载每 msubmenu8 对应的所有 opt 函数
+for i in {1,2,3}
+  do
+    source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu8/opt${i}/menu_opt${i}.sh
+  done
+
 
 mmenu::msubmenu8() {
 while [ 1 ]
@@ -16,15 +21,15 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu8/opt1.py
+      msubmenu8::menu_opt1
       exit 0
       ;;
     2)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu8/opt2.py
+      msubmenu8::menu_opt2
       exit 0
       ;;
     3)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu8/opt3.py
+      msubmenu8::menu_opt3
       exit 0
       ;;
     *)
