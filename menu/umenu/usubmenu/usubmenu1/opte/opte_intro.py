@@ -5,7 +5,7 @@ import click
 @click.command()
 def opte():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> convert_wg2rho "))
+    print("{0:=^180}".format(" Utility --> convert_rho_multiply "))
     print(
 '''1.工具简介
 ----------
@@ -18,6 +18,11 @@ def opte():
   http://www.pwmat.com:8080/upload/utility/pdf/convert_rho_multiply.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opte()

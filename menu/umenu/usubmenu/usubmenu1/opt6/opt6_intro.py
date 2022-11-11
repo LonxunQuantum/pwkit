@@ -18,6 +18,10 @@ def opt6():
   http://www.pwmat.com:8080/upload/utility/pdf/xsfconfig.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
 
 if __name__ == "__main__":
     opt6()

@@ -18,6 +18,11 @@ def opt1():
   http://www.pwmat.com:8080/upload/utility/pdf/convert_rho.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
+    
 
 if __name__ == "__main__":
     opt1()
