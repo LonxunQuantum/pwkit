@@ -2,6 +2,10 @@
 
 
 # 加载每 msubmenuc 对应的所有 opt 函数
+for i in {1,2,3}
+  do 
+    source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt${i}/menu_opt${i}.sh
+  done
 
 
 mmenu::msubmenue() {
@@ -18,15 +22,15 @@ while [ 1 ]
       mmenu
       ;;
     1)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt1.py
+      msubmenue::menu_opt1
       exit 0
       ;;
     2)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt2.py
+      msubmenue::menu_opt2
       exit 0
       ;;
     3)
-      $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenue/opt3.py
+      msubmenue::menu_opt3
       exit 0
       ;;
     *)
