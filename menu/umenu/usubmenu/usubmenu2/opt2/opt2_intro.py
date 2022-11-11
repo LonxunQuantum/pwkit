@@ -3,21 +3,25 @@ import click
 
 
 @click.command()
-def opt8():
+def opt2():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> plot_fatband_structure.x "))
+    print("{0:=^180}".format(" Utility --> plot_DOS.py "))
     print(
 '''1.工具简介
 ----------
-  用于输出投影能带结构
+  用于画态密度
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/plot_fatband_structure.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/plot_DOS.pdf
 '''
+    )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
     )
 
 if __name__ == "__main__":
-    opt8()
+    opt2()

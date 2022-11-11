@@ -7,7 +7,7 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 格式转换
-    print("{0:-^50}".format(" 格式转换 "))
+    print("{0:-^60}".format(" 数据可视化 "))
     print(
 ''' 1) plot_band_structure.x            2) plot_DOS.py
  3) absorption_spec_K2step.x         4) plot_wg.x

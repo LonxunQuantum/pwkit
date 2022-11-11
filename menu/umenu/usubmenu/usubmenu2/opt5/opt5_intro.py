@@ -18,6 +18,10 @@ def opt5():
   http://www.pwmat.com:8080/upload/utility/pdf/plot_DOS_interp.pdf
 '''
     )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
+    )
 
 if __name__ == "__main__":
     opt5()

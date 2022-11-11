@@ -3,21 +3,25 @@ import click
 
 
 @click.command()
-def opt2():
+def opt4():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> plot_DOS.py "))
+    print("{0:=^180}".format(" Utility --> plot_wg.x "))
     print(
 '''1.工具简介
 ----------
-  用于画态密度
+  用于画波函数（OUT.WG）
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/plot_DOS.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/plot_wg.pdf
 '''
+    )
+    print(
+''' bb) 返回上一级目录
+ q)  退出'''
     )
 
 if __name__ == "__main__":
-    opt2()
+    opt4()

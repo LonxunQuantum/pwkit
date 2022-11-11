@@ -7,7 +7,7 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 格式转换
-    print("{0:-^50}".format(" 格式转换 "))
+    print("{0:-^60}".format(" 格式转换 "))
     print(
 ''' 1) convert_rho.x            2) vwr2upf.x
  3) uspp2upf.x               4) poscar2config.x
