@@ -7,7 +7,7 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 格式转换
-    print("{0:-^60}".format(" 格式转换 "))
+    print("{0:-^60}".format(" 数据后处理 "))
     print(
 ''' 1) add_field.x             2) split_kp.x
  3) NAMD_psi.x              4) NAMD_Boltzman.x

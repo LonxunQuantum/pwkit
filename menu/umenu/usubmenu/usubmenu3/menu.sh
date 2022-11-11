@@ -2,6 +2,10 @@
 
 
 # 加载 usubmenu 对应的所有opt函数
+for i in {1,2,3,4,5,6,7,8,9,a}
+    do 
+        source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt${i}/menu_opt${i}.sh
+    done
 
 
 umenu::usubmenu3() {
@@ -19,43 +23,43 @@ while [ 1 ]
         umenu
         ;;
     1)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt1.py
+        usubmenu3::menu_opt1
         exit 0
         ;;
     2)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt2.py
+        usubmenu3::menu_opt2
         exit 0
         ;;
     3)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt3.py
+        usubmenu3::menu_opt3
         exit 0
         ;;
     4)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt4.py
+        usubmenu3::menu_opt4
         exit 0
         ;;
     5)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt5.py
+        usubmenu3::menu_opt5
         exit 0
         ;;
     6)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt6.py
+        usubmenu3::menu_opt6
         exit 0
         ;;
     7)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt7.py
+        usubmenu3::menu_opt7
         exit 0
         ;;
     8)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt8.py
+        usubmenu3::menu_opt8
         exit 0
         ;;
     9)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opt9.py
+        usubmenu3::menu_opt9
         exit 0
         ;;
     a)
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/opta.py
+        usubmenu3::menu_opta
         exit 0
         ;;
     *)
