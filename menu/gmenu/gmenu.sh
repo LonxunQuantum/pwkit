@@ -18,7 +18,8 @@ while [ 1 ]
     ## Part 1. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
     taskStr=`echo $longStr | cut -c 1-2`
     restStr=`echo $longStr | cut -c 3-`
-    mark_task=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
+    # taskStr 经处理后，均为大写
+    taskStr=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
 
     case $taskStr in
     q|Q)
@@ -28,7 +29,7 @@ while [ 1 ]
         menu
         ;;
     sc|SC)
-        echo "任务类型: " $mark_task
+        echo "任务类型: " $taskStr
         ;;
     cr|CR)
         exit 0
@@ -63,8 +64,11 @@ while [ 1 ]
     ts|TS)
         exit 0
         ;;
+    default)
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        ;;
     *)
-        echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
         ;;
     esac
     done

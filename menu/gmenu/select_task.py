@@ -26,13 +26,21 @@ def select_task(task_str:str=task_str):
         1. task_str: str
             长度为2的字符串，用于指定任务类型
     '''
-    # 防止输入 q 退出时，再输出一个 None
-    if task_str == "":
-        return None
+    ### Situation I. 如果输入为q
+    if task_str.upper() == "Q":
+        print("q")
+        return 
     
-    # 解决了大小写的问题：大小写均可以指定 `任务类型`
+    ### Situation II. 当没有输入时，直接返回到 defualt/*)
+    if task_str == "":
+        print("default")  # 没有对应选项
+        return  
+    
+    ### Situation III. 解决了大小写的问题：大小写均可以指定 `任务类型`
     if ( task_str.upper() in tasks_str_lst ): 
         print( task_str.upper() )
+    else: 
+        print("*")  # 没有对应选项
 
 if __name__ == "__main__":
     select_task()
