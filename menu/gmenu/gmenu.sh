@@ -193,6 +193,12 @@ while [ 1 ]
 
     ### Part IV. 特殊设置 -- specificStr, 将 restStr[3:] 保存为 restStr
     value=`echo "123" | cut -c 4`
+    if [ "$restStr" = "$value" ]
+        then
+        echo "特殊设置: " "None"
+        exit 0
+    fi
+
     until [ "$restStr" = "$value" ]
     do 
     specificStr=`echo $restStr | cut -c 1-2`
