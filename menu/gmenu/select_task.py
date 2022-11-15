@@ -30,13 +30,18 @@ def select_task(task_str:str=task_str):
     if task_str.upper() == "Q":
         print("q")
         return 
+
+    ### Situation II. 如果输入为bb
+    if task_str.upper() == "BB":
+        print("bb")
+        return 
     
-    ### Situation II. 当没有输入时，直接返回到 defualt/*)
+    ### Situation III. 当没有输入时，直接返回到 defualt/*)
     if task_str == "":
         print("default")  # 没有对应选项
         return  
     
-    ### Situation III. 解决了大小写的问题：大小写均可以指定 `任务类型`
+    ### Situation IV. 解决了大小写的问题：大小写均可以指定 `任务类型`
     if ( task_str.upper() in tasks_str_lst ): 
         print( task_str.upper() )
     else: 

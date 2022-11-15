@@ -15,9 +15,8 @@ while [ 1 ]
 " longStr
 
 
-    ## Part 1. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
+    ### Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
     taskStr=`echo $longStr | cut -c 1-2`
-    restStr=`echo $longStr | cut -c 3-`
     # taskStr 经处理后，均为大写
     taskStr=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
 
@@ -30,46 +29,225 @@ while [ 1 ]
         ;;
     sc|SC)
         echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     cr|CR)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     ar|AR)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     ns|NS)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     ds|DS)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     os|OS)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     ep|EP)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     md|MD)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     na|NA)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     td|TD)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;   
     tc|TC)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     ts|TS)
-        exit 0
+        echo "任务类型: " $taskStr
+        restStr=`echo $longStr | cut -c 3-`
         ;;
     default)
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
         ;;
     *)
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
         ;;
     esac
+
+
+    ### Part II. 泛函设置 -- functionalStr, 将 restStr[3:] 保存为 restStr
+    functionalStr=`echo $restStr | cut -c 1-2`
+    # functionalStr 经处理后，均为大写
+    functionalStr=`$PWKIT_ROOT/menu/gmenu/select_functional.py $functionalStr`
+
+    case $functionalStr in
+    q|Q)
+        exit
+        ;;
+    bb|BB)
+        menu
+        ;;
+    pe|PE)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    91)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    ps|PS)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    ld|LD)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    h6|H6)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    h3|H3)
+        echo "任务类型: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    p0|P0)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    b3|B3)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    tp|TP)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    sc|SC)
+        echo "泛函设置: " $functionalStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;   
+    default)
+        functionalStr="默认"
+        echo "泛函设置: " $functionalStr
+        #restStr=$restStr
+        ;;
+    *)
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
+        ;;
+    esac
+
+
+
+    ### Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
+    pseudoStr=`echo $restStr | cut -c 1-2`
+    # functionalStr 经处理后，均为大写
+    pseudoStr=`$PWKIT_ROOT/menu/gmenu/select_pseudo.py $pseudoStr`
+
+    case $pseudoStr in
+    q|Q)
+        exit
+        ;;
+    bb|BB)
+        menu
+        ;;
+    sg|SG)
+        echo "泛函设置: " $pseudoStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    pd|PD)
+        echo "泛函设置: " $pseudoStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    fh|FH)
+        echo "泛函设置: " $pseudoStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    pw|PW)
+        echo "泛函设置: " $pseudoStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    default)
+        pseudoStr="默认"
+        echo "泛函设置: " $pseudoStr
+        #restStr=$restStr
+        ;;
+    *)
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
+        ;;
+    esac
+
+
+
+    ### Part IV. 特殊设置 -- specificStr, 将 restStr[3:] 保存为 restStr
+    specificStr=`echo $restStr | cut -c 1-2`
+    # functionalStr 经处理后，均为大写
+    specificStr=`$PWKIT_ROOT/menu/gmenu/select_specific.py $specificStr`
+
+    case $specificStr in
+    q|Q)
+        exit
+        ;;
+    bb|BB)
+        menu
+        ;;
+    sp|SP)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    so|SO)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    sn|SN)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    cs|CS)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    pu|PU)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    d3|D3)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    ff|FF)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    se|SE)
+        echo "特殊设置: " $specificStr
+        restStr=`echo $restStr | cut -c 3-`
+        ;;
+    default)
+        pseudoStr="默认"
+        echo "特殊设置: " $specificStr
+        #restStr=$restStr
+        ;;
+    *)
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
+        ;;
+    esac
+
+
+    exit 0
     done
 }

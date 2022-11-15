@@ -36,7 +36,7 @@ def mmenu_cn():
     print(
 ''' 
  SP) 自旋极化    SO) 自旋轨道耦合   SN) 非共线磁矩+自旋轨道耦合    CS) 带点体系
- PU) DFT+U       D3) DFT+D3         FF) 固定电势计算               FF) 溶剂效应
+ PU) DFT+U       D3) DFT+D3         FF) 固定电势计算               SE) 溶剂效应
 '''
     )
 
