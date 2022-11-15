@@ -42,7 +42,7 @@ def select_task(functional_str:str=functional_str):
     if ( functional_str.upper() in functionals_str_lst ): 
         print( functional_str.upper() )
     else: 
-        print("default")  # 没有对应选项,认为这一项没有输入
+        print("*")  # 没有对应选项,认为这一项没有输入
 
 if __name__ == "__main__":
     select_task()

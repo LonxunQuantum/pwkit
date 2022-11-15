@@ -191,12 +191,13 @@ while [ 1 ]
     esac
 
 
-
     ### Part IV. 特殊设置 -- specificStr, 将 restStr[3:] 保存为 restStr
+    value=`echo "123" | cut -c 4`
+    until [ "$restStr" = "$value" ]
+    do 
     specificStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
     specificStr=`$PWKIT_ROOT/menu/gmenu/select_specific.py $specificStr`
-
     case $specificStr in
     q|Q)
         exit
@@ -238,16 +239,22 @@ while [ 1 ]
         ;;
     default)
         pseudoStr="默认"
-        echo "特殊设置: " $specificStr
+        echo "特殊设置: 无" 
         #restStr=$restStr
         ;;
     *)
-        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
-        continue
+        echo -e "\033[35m(*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        echo -e "\033[35m(*_*) Check your input: $longStr! (*_*)\033[0m"
+        break
         ;;
     esac
+    done
 
+    # 当 restStr 等于 ""，退出程序
+    if [ "$restStr" = "$value" ]
+    then
+        exit 0
+    fi
 
-    exit 0
     done
 }
