@@ -14,23 +14,13 @@ while [ 1 ]
         read -p " ------------>>
 " longStr
 
-    ### Part I: 将 longStr 拆分为多个长度为2的字符串，并执行相应的要求
-    #export shiftIdx=1
-    #while [ 1 ]
-    #do 
-    #    tmp=`echo $longStr | cut -c $shiftIdx-$(($shiftIdx+1))`
-    #    if [ "$tmp" != "" ]
-    #    then
-    #        ((shiftIdx++)); ((shiftIdx++));
-    #        echo $tmp
-    #    else
-    #        break
-    #    fi
-    #done
 
-    ## Part 1. 任务类型 
-    $PWKIT_ROOT/menu/gmenu/select_task.py $longStr
-    case $longStr in
+    ## Part 1. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
+    taskStr=`echo $longStr | cut -c 1-2`
+    restStr=`echo $longStr | cut -c 3-`
+    mark_task=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
+
+    case $taskStr in
     q|Q)
         exit
         ;;
@@ -38,7 +28,7 @@ while [ 1 ]
         menu
         ;;
     sc|SC)
-        echo "SC"
+        echo "任务类型: " $mark_task
         ;;
     cr|CR)
         exit 0
@@ -62,6 +52,15 @@ while [ 1 ]
         exit 0
         ;;
     na|NA)
+        exit 0
+        ;;
+    td|TD)
+        exit 0
+        ;;   
+    tc|TC)
+        exit 0
+        ;;
+    ts|TS)
         exit 0
         ;;
     *)

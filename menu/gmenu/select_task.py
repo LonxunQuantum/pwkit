@@ -11,7 +11,13 @@ tasks_str_lst = [
 ]
 
 
-task_str = sys.argv[1]
+# 防止 Python 程序报错
+# 设置默认的任务类型
+try: 
+    task_str = sys.argv[1]
+except IndexError:
+    task_str = ""
+    
 
 def select_task(task_str:str=task_str):
     '''
@@ -20,10 +26,13 @@ def select_task(task_str:str=task_str):
         1. task_str: str
             长度为2的字符串，用于指定任务类型
     '''
+    # 防止输入 q 退出时，再输出一个 None
+    if task_str == "":
+        return None
+    
     # 解决了大小写的问题：大小写均可以指定 `任务类型`
     if ( task_str.upper() in tasks_str_lst ): 
-        return task_str.upper()
-
+        print( task_str.upper() )
 
 if __name__ == "__main__":
-    print(select_task())
+    select_task()
