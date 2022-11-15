@@ -12,7 +12,7 @@ def mmenu_cn():
 ''' 1) add_field.x             2) split_kp.x
  3) NAMD_psi.x              4) NAMD_Boltzman.x
  5) ug_moment.x             6) vacuum.x
- 7) bandgap                 8) nonradiative.x   
+ 7) bandgap                 8) nonradiative.x
  9) plot_tddft_absorp.x     a) TDM.x
 '''
     )
