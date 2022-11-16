@@ -2,6 +2,50 @@
 import os 
 import sys
 
+from pflow.io.publicLayer.structure import DStructure
+
+
+# `任务类型` 简写: PWmat任务类型
+task_short2name = {
+    "SC": "SCF",
+    "CR": "RELAX",
+    "AR": "RELAX",
+    "NS": "NONSCF",
+    "DS": "DOS",
+    "OS": None,
+    "EP": None,
+    "MD": None,
+    "NA": None,
+    "TD": None, 
+    "TC": None,
+    "TS": None
+}
+# `泛函设置` 简写: PWmat泛函类型
+functional_short2name = {
+    "PE": "PBE",
+    "91": None,
+    "PS": None,
+    "LD": None,
+    "H6": None,
+    "H3": None,
+    "P0": None,
+    "B3": None,
+    "TP": None,
+    "SC": None
+}
+
+# `赝势设置` 简写: PWmat赝势类型
+pseudo_short2name = {
+    "SG": "SG15",
+    "PD": "PD04",
+    "FH": "FHI",
+    "PW": "PWM",
+    "UD": "自定义"
+}
+
+# `特殊设置` 简写: PWmat特殊设置
+
+
 
 class EtotWriter(object):
     '''
@@ -19,8 +63,14 @@ class EtotWriter(object):
     '''
     def __init__(self,
                 etot_path:str=os.path.join(os.getcwd(), "etot.input"),
+                atom_config_path:str=os.path.join(os.getcwd(), "atom.config")
                 ):
         self.etot_path = etot_path
+        self.dstructure = DStructure.from_file(
+                                    file_path=atom_config_path,
+                                    file_format="pwmat",
+                                    coords_are_cartesian=False,
+                                    )
         
         #if os.path.exists(self.etot_path):
         #    os.remove(self.etot_path)
@@ -37,7 +87,7 @@ class EtotWriter(object):
         with open(self.etot_path, "a") as f:
             f.write("1  4\n\n")
             f.write("#基础设置\n")
-            f.write("JOB = {0}\n".format(self.task_name))
+            f.write("JOB = {0}\n".format(task_short2name[self.task_name]))
     
     
     def write_functional(self):
@@ -49,14 +99,14 @@ class EtotWriter(object):
         setattr(self, "functional_name", sys.argv[1])
         
         with open(self.etot_path, "a") as f:
-            f.write("XCFUNCTIONAL = {0}\n".format(self.functional_name))
+            f.write("XCFUNCTIONAL = {0}\n".format(functional_short2name[self.functional_name]))
     
     
     def write_accuracy(self):
         '''
         Description
         -----------
-            1. 
+            1. run in `3_write_accuracy.py` file
         '''
         if self.task_name == "SC":
             accuracy = "NORM"
@@ -70,6 +120,11 @@ class EtotWriter(object):
     
     
     def write_scf(self):
+        '''
+        Description
+        -----------
+            1. run in `4_write_scf.py` file
+        '''
         if self.task_name == "SC":
             ecut = 50
             mp_n123 = "12 12 1 0 0 0 0"
@@ -86,6 +141,11 @@ class EtotWriter(object):
     
     
     def write_specific(self):
+        '''
+        Description
+        -----------
+            1. run in `5_write_specific.py` file
+        '''
         specific_name = sys.argv[1]
         
         # 首次写入 "#特殊设置\n" 
@@ -111,11 +171,14 @@ class EtotWriter(object):
             # 7. 固定电势计算
             # 8. 溶剂效应
             
-        pass
     
     
     def write_input_output(self):
         '''
+        Description
+        -----------
+            1. run in `6_write_input_output.py` file    
+    
         Note
         ---- 
             1. 内部包含写入赝势文件 `IN.PSP1`, `IN.PSP2`, ...
@@ -156,8 +219,10 @@ class EtotWriter(object):
                 f.write("IN.ATOM = atom.config\n")
                 
                 ## Note: 赝势部分
-                for idx, element in enumerate(["Mo", "S"]):
-                    f.write("IN.PSP{0} = {1}{2}\n".format(idx, element, pseudo_suffix))
+                species_lst = [specie.symbol for specie in self.dstructure.species]
+                species_lst = list(set(species_lst))
+                for idx, element in enumerate(species_lst):
+                    f.write("IN.PSP{0} = {1}{2}\n".format(idx+1, element, pseudo_suffix))
                 
                 f.write("IN.WG = {0}\n".format(in_wg))
                 f.write("IN.RHO = {0}\n".format(in_rho))

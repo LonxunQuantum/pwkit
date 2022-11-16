@@ -9,7 +9,6 @@
 gmenu() {
 
 if [ -f "etot.input" ]; then 
-    echo "exist"
     rm "etot.input"
 fi
 
@@ -212,10 +211,9 @@ while [ 1 ]
         echo "赝势设置: " $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
-    default)
-        pseudoStr="默认"
+    default)        
+        pseudoStr="SG"
         echo "泛函设置: " $pseudoStr
-        #restStr=$restStr
         ;;
     *)
         echo -e "\033[35m赝势设置: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
@@ -229,7 +227,6 @@ while [ 1 ]
     if [ "$restStr" = "$endMark" ]
         then
         echo "特殊设置: " "None"
-        exit 0
     fi
 
     until [ "$restStr" = "$endMark" ]
@@ -290,9 +287,12 @@ while [ 1 ]
     esac
     done
 
-    # 当 restStr 等于 ""，退出程序
+
+    # 当 restStr 等于 ""，写入输入输出设置后，退出程序
     if [ "$restStr" = "$endMark" ]
     then
+        ### 写入 `输入输出设置` 到 `etot.input`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr
         exit 0
     fi
 
