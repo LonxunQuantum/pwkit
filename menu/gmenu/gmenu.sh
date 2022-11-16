@@ -178,6 +178,10 @@ while [ 1 ]
         ;;
     esac
 
+    ### 写入 ACCURACY 设置
+    $PWKIT_ROOT/menu/gmenu/generateETOT/3_write_accuracy.py
+    ### 写入 #电子自洽设置
+    $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py
 
 
     ### Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
@@ -193,19 +197,19 @@ while [ 1 ]
         menu
         ;;
     sg|SG)
-        echo "泛函设置: " $pseudoStr
+        echo "赝势设置: " $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     pd|PD)
-        echo "泛函设置: " $pseudoStr
+        echo "赝势设置: " $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     fh|FH)
-        echo "泛函设置: " $pseudoStr
+        echo "赝势设置: " $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     pw|PW)
-        echo "泛函设置: " $pseudoStr
+        echo "赝势设置: " $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     default)
@@ -243,6 +247,7 @@ while [ 1 ]
     sp|SP)
         echo "特殊设置: " $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     so|SO)
         echo "特殊设置: " $specificStr

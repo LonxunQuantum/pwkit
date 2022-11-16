@@ -4,30 +4,28 @@ import joblib
 from etotWriter import EtotWriter
 
 
-def write_functional():
+
+def write_scf():
     '''
     Description
     -----------
-        1. 向 `etot.input` 写入 `泛函设置`
-        2. 载入 `etot_writer` 对象后，再写入
+        1. 向 `etot.input` 写入 `特殊设置`
     
     Example
     -------
-    1   4
-    #基础设置
-    JOB = SCF
-    XCFUNCTIONAL = PBE
-    ACCURACY = NORM
-    CONVERGENCE = EASY
-    PRECISION = AUTO
+    #电子自洽设置
+    Ecut = 50
+    MP_N123 = 12 12 1 0 0 0 0
+    SCF_ITER0_1 = 6 4 3 0.0 0.025 1
+    SCF_ITER0_2 = 94 4 3 1.0 0.025 1
     '''
     try: 
         etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_functional()
+    etot_writer.write_specific()
 
 
 if __name__ == "__main__":
-    write_functional()
+    write_scf()

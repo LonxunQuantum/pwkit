@@ -4,11 +4,12 @@ import joblib
 from etotWriter import EtotWriter
 
 
-def write_task():
+
+def write_accuracy():
     '''
     Description
     -----------
-        1. 向 `etot.input` 写入 `任务类型`
+        1. 向 `etot.input` 写入 `收敛精度`
     
     Example
     -------
@@ -20,14 +21,13 @@ def write_task():
     CONVERGENCE = EASY
     PRECISION = AUTO
     '''
-    etot_writer = EtotWriter()
-    etot_writer.write_task()
-    
-    etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
-    if os.path.exists(etot_writer_path):
-        os.remove(etot_writer_path)
-    joblib.dump(etot_writer, etot_writer_path)
+    try: 
+        etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
+        etot_writer = joblib.load(etot_writer_path)
+    except:
+        print("Error!!! check your input.")
+    etot_writer.write_accuracy()
 
 
 if __name__ == "__main__":
-    write_task()
+    write_accuracy()
