@@ -8,6 +8,12 @@
 
 gmenu() {
 
+if [ -f "etot.input" ]; then 
+    echo "exist"
+    rm "etot.input"
+fi
+
+
 while [ 1 ]
     do
         $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
@@ -30,50 +36,62 @@ while [ 1 ]
     sc|SC)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     cr|CR)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ar|AR)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ns|NS)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ds|DS)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     os|OS)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ep|EP)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     md|MD)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     na|NA)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     td|TD)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;   
     tc|TC)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ts|TS)
         echo "任务类型: " $taskStr
         restStr=`echo $longStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     default)
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
@@ -101,46 +119,57 @@ while [ 1 ]
     pe|PE)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     91)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ps|PS)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ld|LD)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h6|H6)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h3|H3)
         echo "任务类型: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     p0|P0)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     b3|B3)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     tp|TP)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     sc|SC)
         echo "泛函设置: " $functionalStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;   
     default)
-        functionalStr="默认"
+        functionalStr="PE"
         echo "泛函设置: " $functionalStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         #restStr=$restStr
         ;;
     *)
