@@ -114,5 +114,59 @@ class EtotWriter(object):
         pass
     
     
+    def write_input_output(self):
+        '''
+        Note
+        ---- 
+            1. 内部包含写入赝势文件 `IN.PSP1`, `IN.PSP2`, ...
+        '''
+        ### Part I. 根据赝势类型确定赝势文件后缀
+        pseudo_name = sys.argv[1]
+        # 1. SG15
+        if pseudo_name == "SG":
+            pseudo_suffix = ".SG15.PBE.UPF"
+        # 2. PD04
+        if pseudo_name == "PD":
+            pseudo_suffix = None
+        # 3. FHI
+        if pseudo_name == "Fh":
+            pseudo_suffix = None
+        # 4. PWM
+        if pseudo_name == "PW":
+            pseudo_suffix = None
+        # 5. 自定义
+        if pseudo_name == "UD":
+            pseudo_suffix = None
+        
+        
+        ### Part II. 根据任务类型写入 `etot.input`
+        # 1. task_name == SC        
+        if self.task_name == "SC":
+            in_wg = "F"
+            in_rho = "F"
+            in_vr = "F"
+            out_wg = "T"
+            out_rho = "T"
+            out_vr = "T"
+            out_vatom = "T"
+            
+            with open(self.etot_path, "a") as f:
+                f.write("\n\n")
+                f.write("#输入输出设置\n")
+                f.write("IN.ATOM = atom.config\n")
+                
+                ## Note: 赝势部分
+                for idx, element in enumerate(["Mo", "S"]):
+                    f.write("IN.PSP{0} = {1}{2}\n".format(idx, element, pseudo_suffix))
+                
+                f.write("IN.WG = {0}\n".format(in_wg))
+                f.write("IN.RHO = {0}\n".format(in_rho))
+                f.write("IN.VR = {0}\n".format(in_vr))
+                f.write("OUT.WG = {0}\n".format(out_wg))
+                f.write("OUT.RHO = {0}\n".format(out_rho))
+                f.write("OUT.VR = {0}\n".format(out_vr))
+                f.write("OUT.VATOM = {0}\n".format(out_vatom))
+    
+    
     def write_pseudo(self):
         pass

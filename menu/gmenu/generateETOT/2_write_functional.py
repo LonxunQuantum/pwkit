@@ -27,6 +27,7 @@ def write_functional():
     except:
         print("Error!!! check your input.")
     etot_writer.write_functional()
+    joblib.dump(etot_writer, etot_writer_path)
 
 
 if __name__ == "__main__":
