@@ -5,7 +5,7 @@
 
 ### 生成 etot.input 步骤
 # Step 1. 读取结构: 各种格式的结构文件
-# Step 2. 判断任务类型
+# Step 2. 判断任务类型, 部分任务需要输入 kmesh density
 # Step 3. 部分任务读取 KMesh: 不同方向的真空层
 # Step 4. 泛函设置、赝势设置
 # Step 5. 特殊设置
@@ -15,7 +15,7 @@
 # 1.pflow 可以支持的结构文件类型
 file_formats_lst=([0]="pwmat" [1]="vasp" [2]="mcsqs" [3]="json" [4]="xsf" [5]="yaml" [6]="cssr" [7]="prismatic")
 # 2. 需要输入 KMesh 的任务类型
-tasks_need_kmesh=([0]="SC" [1]="")
+tasks_need_kmesh=([0]="SC" [1]="CR" [2]="AR" [3]="NS" [4]="DS" [5]="OS" [6]="EP" [7]="MD" [8]="NA" [9]="TD" [10]="TC" [11]="TS")
 
 
 ### Driver code
@@ -31,10 +31,6 @@ while [ 1 ]
         $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
         read -p " ------------>>
 " longStr
-        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
-        read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
------------->>
-" density_in_2pi
 
     
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
@@ -65,7 +61,7 @@ while [ 1 ]
     done
 
 
-    ### Step 2. 判断结构文件的类型
+    ### Step 2. 判断任务类型，对于部分任务，应得到 KMesh density
     ## Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
     taskStr=`echo $longStr | cut -c 1-2`
     # taskStr 经处理后，均为大写
@@ -147,6 +143,15 @@ while [ 1 ]
         continue
         ;;
     esac
+
+    ## 对于部分任务 (在$tasks_need_kmesh数组中的任务)，输入density (为了后面得到 KMesh)
+    if echo "$tasks_need_kmesh[@]" | grep -w $taskStr &> /dev/null; then 
+        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
+        read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
+------------>>
+" density_in_2pi
+    fi
+
 
 
     ## Part II. 泛函设置 -- functionalStr, 将 restStr[3:] 保存为 restStr
