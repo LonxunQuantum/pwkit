@@ -3,9 +3,22 @@
 # 加载menu函数
 #source $PWKIT_ROOT/menu/menu.sh
 
-# 加载gmenu显示函数 -- Python click
+### 生成 etot.input 步骤
+# Step 1. 读取结构: 各种格式的结构文件
+# Step 2. 判断任务类型
+# Step 3. 部分任务读取 KMesh: 不同方向的真空层
+# Step 4. 泛函设置、赝势设置
+# Step 5. 特殊设置
 
 
+### Key global parameters
+# 1.pflow 可以支持的结构文件类型
+file_formats_lst=([0]="pwmat" [1]="vasp" [2]="mcsqs" [3]="json" [4]="xsf" [5]="yaml" [6]="cssr" [7]="prismatic")
+# 2. 需要输入 KMesh 的任务类型
+tasks_need_kmesh=([0]="SC" [1]="")
+
+
+### Driver code
 gmenu() {
 
 if [ -f "etot.input" ]; then 
@@ -23,8 +36,37 @@ while [ 1 ]
 ------------>>
 " density_in_2pi
 
+    
+    ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
+    while [ 1 ]
+    do  
+    if [ ! -f "atom.config" ]; then
+        $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "structure_convert_warning"
+        
+        read -p " 结构文件的格式 
+--------------->>
+" file_format
+        if ! echo "${file_formats_lst[@]}" | grep -w $file_format &>/dev/null;
+        then
+            echo -e "\033[35m(*_*) 检查输入的文件格式... (*_*)\033[0m"
+            continue
+        fi
+        read -p " 结构文件的名字
+--------------->>
+" file_name
+        if [ ! -e $file_name ];
+        then
+            echo "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
+            continue
+        fi
+        $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name
+        break
+    fi
+    done
 
-    ### Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
+
+    ### Step 2. 判断结构文件的类型
+    ## Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
     taskStr=`echo $longStr | cut -c 1-2`
     # taskStr 经处理后，均为大写
     taskStr=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
@@ -107,7 +149,7 @@ while [ 1 ]
     esac
 
 
-    ### Part II. 泛函设置 -- functionalStr, 将 restStr[3:] 保存为 restStr
+    ## Part II. 泛函设置 -- functionalStr, 将 restStr[3:] 保存为 restStr
     functionalStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
     functionalStr=`$PWKIT_ROOT/menu/gmenu/select_functional.py $functionalStr`
@@ -187,7 +229,7 @@ while [ 1 ]
     $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py $density_in_2pi
 
 
-    ### Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
+    ## Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
     pseudoStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
     pseudoStr=`$PWKIT_ROOT/menu/gmenu/select_pseudo.py $pseudoStr`
@@ -226,7 +268,7 @@ while [ 1 ]
     esac
 
 
-    ### Part IV. 特殊设置 -- specificStr, 将 restStr[3:] 保存为 restStr
+    ## Part IV. 特殊设置 -- specificStr, 将 restStr[3:] 保存为 restStr
     endMark=`echo "123" | cut -c 4`
     if [ "$restStr" = "$endMark" ]
         then
