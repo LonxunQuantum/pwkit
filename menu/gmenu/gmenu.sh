@@ -15,7 +15,7 @@
 # 1.pflow 可以支持的结构文件类型
 file_formats_lst=([0]="pwmat" [1]="vasp" [2]="mcsqs" [3]="json" [4]="xsf" [5]="yaml" [6]="cssr" [7]="prismatic")
 # 2. 需要输入 KMesh 的任务类型
-tasks_need_kmesh=([0]="SC" [1]="CR" [2]="AR" [3]="NS" [4]="DS" [5]="OS" [6]="EP" [7]="MD" [8]="NA" [9]="TD" [10]="TC" [11]="TS")
+tasks_need_kmesh=([0]="SC" [1]="CR_" [2]="AR" [3]="NS" [4]="DS" [5]="OS" [6]="EP" [7]="MD" [8]="NA" [9]="TD" [10]="TC" [11]="TS")
 
 
 ### Driver code

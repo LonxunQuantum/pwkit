@@ -109,6 +109,11 @@ class EtotWriter(object):
             accuracy = "NORM"
             convergence = "EASY"
             precision = "AUTO"
+            
+        if self.task_name == "CR":
+            accuracy = "HIGH"
+            convergence = "EASY"
+            precision = "AUTO"
         
         with open(self.etot_path, "a") as f:
             f.write("ACCURACY = {0}\n".format(accuracy))
@@ -123,18 +128,31 @@ class EtotWriter(object):
             1. run in `4_write_scf.py` file
         '''
         # density of KMesh (unit: 2pi/Angstrom)
-        density = float(sys.argv[1])
-        kmesh = KMesh(file_format="pwmat",
-                      file_path=self.atom_config_path
-                      )
-        kmesh_lst = list(kmesh.get_kmesh(density=density))
-        kmesh_lst = [str(int(value)) for value in kmesh_lst]
-        kmesh_str = " ".join(kmesh_lst)
-        
-
+        mp_n123 = None
+        try:
+            density = float(sys.argv[1])
+            
+            kmesh = KMesh(file_format="pwmat",
+                          file_path=self.atom_config_path
+                        )
+            kmesh_lst = list(kmesh.get_kmesh(density=density))
+            kmesh_lst = [str(int(value)) for value in kmesh_lst]
+            kmesh_str = " ".join(kmesh_lst)
+            
+            mp_n123 = "{0} 0 0 0 0".format(kmesh_str)
+        except:
+            pass
+            
+            
         if self.task_name == "SC":
             ecut = 50
-            mp_n123 = "{0} 0 0 0 0".format(kmesh_str)
+            # mp_n123 = mp_n123
+            scf_iter0_1 = "6 4 3 0.0 0.0025 1"
+            scf_iter0_2 = "94 4 3 1.0 0.025 1"
+
+        if self.task_name == "CR":
+            ecut = 70
+            # mp_n123 = mp_n123
             scf_iter0_1 = "6 4 3 0.0 0.0025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
         
@@ -142,7 +160,8 @@ class EtotWriter(object):
             f.write("\n\n")
             f.write("#电子自洽设置\n")
             f.write("Ecut = {0}\n".format(ecut))
-            f.write("MP_N123 = {0}\n".format(mp_n123))
+            if mp_n123:
+                f.write("MP_N123 = {0}\n".format(mp_n123))
             f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
             f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
     
