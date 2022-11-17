@@ -13,11 +13,8 @@ def write_scf():
     
     Example
     -------
-    #电子自洽设置
-    Ecut = 50
-    MP_N123 = 12 12 1 0 0 0 0
-    SCF_ITER0_1 = 6 4 3 0.0 0.025 1
-    SCF_ITER0_2 = 94 4 3 1.0 0.025 1
+    #特殊设置
+
     '''
     try: 
         etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")

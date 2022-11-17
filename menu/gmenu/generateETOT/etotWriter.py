@@ -169,7 +169,7 @@ class EtotWriter(object):
                 f.write("#特殊设置\n")              
             # 1. 自旋极化
             if (specific_name == "SP"):
-                f.write("SPIN = 1\n")
+                f.write("SPIN = 2\n")
             # 2. 自旋轨道耦合
             # 3. 非共线磁矩+自旋轨道耦合
             # 4. 带电体系

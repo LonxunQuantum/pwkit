@@ -18,6 +18,7 @@ while [ 1 ]
         $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
         read -p " ------------>>
 " longStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
         read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>
 " density_in_2pi
