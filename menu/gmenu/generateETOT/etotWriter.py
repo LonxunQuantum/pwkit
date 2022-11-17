@@ -3,6 +3,7 @@ import os
 import sys
 
 from pflow.io.publicLayer.structure import DStructure
+from pflow.calculation.kpoints.kmesh import KMesh
 
 
 # `任务类型` 简写: PWmat任务类型
@@ -66,11 +67,7 @@ class EtotWriter(object):
                 atom_config_path:str=os.path.join(os.getcwd(), "atom.config")
                 ):
         self.etot_path = etot_path
-        self.dstructure = DStructure.from_file(
-                                    file_path=atom_config_path,
-                                    file_format="pwmat",
-                                    coords_are_cartesian=False,
-                                    )
+        self.atom_config_path = atom_config_path
         
         #if os.path.exists(self.etot_path):
         #    os.remove(self.etot_path)
@@ -125,9 +122,19 @@ class EtotWriter(object):
         -----------
             1. run in `4_write_scf.py` file
         '''
+        # density of KMesh (unit: 2pi/Angstrom)
+        density = float(sys.argv[1])
+        kmesh = KMesh(file_format="pwmat",
+                      file_path=self.atom_config_path
+                      )
+        kmesh_lst = list(kmesh.get_kmesh(density=density))
+        kmesh_lst = [str(int(value)) for value in kmesh_lst]
+        kmesh_str = " ".join(kmesh_lst)
+        
+
         if self.task_name == "SC":
             ecut = 50
-            mp_n123 = "12 12 1 0 0 0 0"
+            mp_n123 = "{0} 0 0 0 0".format(kmesh_str)
             scf_iter0_1 = "6 4 3 0.0 0.0025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
         
@@ -219,7 +226,11 @@ class EtotWriter(object):
                 f.write("IN.ATOM = atom.config\n")
                 
                 ## Note: 赝势部分
-                species_lst = [specie.symbol for specie in self.dstructure.species]
+                dstructure = DStructure.from_file(
+                                    file_format="pwmat",
+                                    file_path=self.atom_config_path,
+                                    )
+                species_lst = [specie.symbol for specie in dstructure.species]
                 species_lst = list(set(species_lst))
                 for idx, element in enumerate(species_lst):
                     f.write("IN.PSP{0} = {1}{2}\n".format(idx+1, element, pseudo_suffix))

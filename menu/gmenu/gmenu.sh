@@ -18,6 +18,9 @@ while [ 1 ]
         $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
         read -p " ------------>>
 " longStr
+        read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
+------------>>
+" density_in_2pi
 
 
     ### Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
@@ -180,7 +183,7 @@ while [ 1 ]
     ### 写入 ACCURACY 设置
     $PWKIT_ROOT/menu/gmenu/generateETOT/3_write_accuracy.py
     ### 写入 #电子自洽设置
-    $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py
+    $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py $density_in_2pi
 
 
     ### Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
