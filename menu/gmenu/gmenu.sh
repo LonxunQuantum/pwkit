@@ -6,7 +6,7 @@
 ### 生成 etot.input 步骤
 # Step 1. 读取结构: 各种格式的结构文件
 # Step 2. 判断任务类型, 部分任务需要输入 kmesh density
-# Step 3. 部分任务读取 KMesh: 不同方向的真空层
+# Step 3. 部分任务读取 KMesh
 # Step 4. 泛函设置、赝势设置
 # Step 5. 特殊设置
 
@@ -57,6 +57,8 @@ while [ 1 ]
         fi
         $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name
         break
+    else 
+        break   # atom.config 存在的话，直接跳出while循环
     fi
     done
 
@@ -75,62 +77,62 @@ while [ 1 ]
         menu
         ;;
     sc|SC)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     cr|CR)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ar|AR)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ns|NS)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ds|DS)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     os|OS)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ep|EP)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     md|MD)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     na|NA)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     td|TD)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;   
     tc|TC)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
     ts|TS)
-        echo "任务类型: " $taskStr
+        echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
         ;;
@@ -167,58 +169,58 @@ while [ 1 ]
         menu
         ;;
     pe|PE)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     91)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ps|PS)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ld|LD)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h6|H6)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h3|H3)
-        echo "任务类型: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     p0|P0)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStrr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     b3|B3)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     tp|TP)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     sc|SC)
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;   
     default)
         functionalStr="PE"
-        echo "泛函设置: " $functionalStr
+        echo "Part II. 泛函类型设置成功..." #$functionalStr
         $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         #restStr=$restStr
         ;;
@@ -247,24 +249,24 @@ while [ 1 ]
         menu
         ;;
     sg|SG)
-        echo "赝势设置: " $pseudoStr
+        echo "Part III. 赝势类型设置成功..." # $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     pd|PD)
-        echo "赝势设置: " $pseudoStr
+        echo "Part III. 赝势类型设置成功..." # $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     fh|FH)
-        echo "赝势设置: " $pseudoStr
+        echo "Part III. 赝势类型设置成功..." # $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     pw|PW)
-        echo "赝势设置: " $pseudoStr
+        echo "Part III. 赝势类型设置成功..." # $pseudoStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     default)        
         pseudoStr="SG"
-        echo "泛函设置: " $pseudoStr
+        echo "Part III. 赝势类型设置成功..." # $pseudoStr
         ;;
     *)
         echo -e "\033[35m赝势设置: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
@@ -277,7 +279,7 @@ while [ 1 ]
     endMark=`echo "123" | cut -c 4`
     if [ "$restStr" = "$endMark" ]
         then
-        echo "特殊设置: " "None"
+        echo "Part IV. 未输入特殊设置"
     fi
 
     until [ "$restStr" = "$endMark" ]
@@ -293,41 +295,41 @@ while [ 1 ]
         menu
         ;;
     sp|SP)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     so|SO)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     sn|SN)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     cs|CS)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     pu|PU)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     d3|D3)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     ff|FF)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     se|SE)
-        echo "特殊设置: " $specificStr
+        echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         ;;
     default)
         pseudoStr="默认"
-        echo "特殊设置: 无" 
+        echo "Part IV. 未输入特殊设置" # $specificStr
         #restStr=$restStr
         ;;
     *)

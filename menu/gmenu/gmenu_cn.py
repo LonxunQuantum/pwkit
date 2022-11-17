@@ -19,7 +19,7 @@ def mmenu_cn():
     ### Part II. 泛函设置
     print("{0:-^75}".format(" 泛函设置 "))
     print(
-''' PE) PBE       91) PW91     PS) PBEsol      LD) CA-PZ       H6) HSE06
+''' PE) PBE(默认)    91) PW91     PS) PBEsol      LD) CA-PZ       H6) HSE06
  H3) HSE03     P0) PBE0     B3) B3LYP       TP) TPSS        SC) SCAN
 '''
     )
@@ -27,7 +27,7 @@ def mmenu_cn():
     ### Part III. 赝势设置
     print("{0:-^75}".format(" 赝势设置 "))
     print(
-''' SG) SG15      PD) PD04      FH) FHI        PW) PWM         UD) 自定义
+''' SG) SG15(默认)   PD) PD04      FH) FHI        PW) PWM         UD) 自定义
 '''
     )
 
