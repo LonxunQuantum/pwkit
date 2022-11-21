@@ -4,6 +4,7 @@
 #source $PWKIT_ROOT/menu/menu.sh
 
 ### 生成 etot.input 步骤
+# Step 0. 预处理输入字符串: 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
 # Step 1. 读取结构: 各种格式的结构文件
 # Step 2. 判断任务类型, 部分任务需要输入 kmesh density
 # Step 3. 部分任务读取 KMesh
@@ -15,8 +16,10 @@
 # 1.pflow 可以支持的结构文件类型
 file_formats_lst=([0]="pwmat" [1]="vasp" [2]="mcsqs" [3]="json" [4]="xsf" [5]="yaml" [6]="cssr" [7]="prismatic")
 # 2. 需要输入 KMesh 的任务类型
-tasks_need_kmesh=([0]="SC" [1]="CR_" [2]="AR" [3]="NS" [4]="DS" [5]="OS" [6]="EP" [7]="MD" [8]="NA" [9]="TD" [10]="TC" [11]="TS")
-
+tasks_need_kmesh=([0]="SC" [1]="CR" [2]="AR" [3]="NS" [4]="DS" [5]="OS" [6]="EP" [7]="MD" [8]="NA" [9]="TD" [10]="TC" [11]="TS")
+# 3. 字典: 键 - 选项(数字)； 值 - 格式名(e.g. pwmat, vasp)
+declare -A file_format_mark2name
+file_format_mark2name=([1]="pwmat" [2]="vasp" [3]="mcsqs" [4]="json" [5]="xsf" [6]="yaml" [7]="cssr" [8]="prismatic")
 
 ### Driver code
 gmenu() {
@@ -32,7 +35,23 @@ while [ 1 ]
         read -p " ------------>>
 " longStr
 
+    # 在输入 `sgpe` 的输入栏中也可以退出
+    case $longStr in
+    q|Q)
+        exit
+        ;;
+    bb|BB)
+        menu
+        ;;
+    esac
     
+    
+    # Step 0. 准备工作
+    # 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
+    `$PWKIT_ROOT/menu/gmenu/partOfSteps/0_preprocess_input_str.py $longStr`
+    #echo "TaskName: $tmp"
+
+
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
     while [ 1 ]
     do  
@@ -41,7 +60,8 @@ while [ 1 ]
         
         read -p " 结构文件的格式 
 --------------->>
-" file_format
+" file_format_mark
+        file_format=${file_format_mark2name[$file_format_mark]}
         if ! echo "${file_formats_lst[@]}" | grep -w $file_format &>/dev/null;
         then
             echo -e "\033[35m(*_*) 检查输入的文件格式... (*_*)\033[0m"
@@ -329,7 +349,7 @@ while [ 1 ]
         ;;
     default)
         pseudoStr="默认"
-        echo "Part IV. 未输入特殊设置" # $specificStr
+        echo "Part IV. 未输入特殊设置..." # $specificStr
         #restStr=$restStr
         ;;
     *)
