@@ -31,6 +31,9 @@ fi
 
 while [ 1 ]
     do
+
+    while [ 1 ]
+    do
         $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
         read -p " ------------>>
 " longStr
@@ -45,11 +48,17 @@ while [ 1 ]
         ;;
     esac
     
-    
     # Step 0. 准备工作
     # 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
-    `$PWKIT_ROOT/menu/gmenu/partOfSteps/0_preprocess_input_str.py $longStr`
-    #echo "TaskName: $tmp"
+    preprocess_mark=`$PWKIT_ROOT/menu/gmenu/partOfSteps/0_preprocess_input_str.py $longStr`
+    #echo "preprocess_mark: $preprocess_mark" 
+    if [ "$preprocess_mark" = "1" ]; then
+        #echo "success"
+        break
+    fi
+    done
+    # 1. 提醒用户所设置的东西;
+    $PWKIT_ROOT/menu/gmenu/partOfSteps/0_preprocess_input_str.py $longStr "output_config_mark"
 
 
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config

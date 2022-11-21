@@ -2,6 +2,7 @@
 import os
 import re
 import sys
+import copy
 
 
 task_mark2name = {
@@ -66,7 +67,30 @@ class InputStrPreprocessor(object):
     
     
     @staticmethod
-    def output_config(input_str:str):
+    def output_content(
+                    task_name:str,
+                    functional_name:str,
+                    pseudo_name:str,
+                    specific_name:str,
+                    ):
+        print("{0:*^80}".format(" 输入设置 "))
+        print('''\n\t1. 任务类型: {0}
+\t2. 泛函设置: {1}
+\t3. 赝势设置: {2}
+\t4. 特殊设置: {3}\n'''.format(
+                        task_name,
+                        functional_name,
+                        pseudo_name,
+                        specific_name)
+        )
+        print("{0:*^84}".format(""))
+        print()
+    
+    
+    @staticmethod
+    def output_config(input_str:str,
+                    print_mark=True,
+                    ):
         '''
         Description
         -----------
@@ -80,7 +104,18 @@ class InputStrPreprocessor(object):
         ----------
             1. input_str: str
                 e.g. sgpe, ...
+        
+        Return
+        ------
+            1. preprocess_mark:
+                - 0: 失败
+                - 1: 成功
         '''
+        if input_str == None:
+            InputStrPreprocessor.abort_type_1()
+            return
+        
+        
         splited_strs_lst = re.findall(r'.{2}', input_str)
         
         # 如果输入的字符串长度为奇数，应该把最后一个单个字符加入 `splited_strs_lst`
@@ -89,22 +124,83 @@ class InputStrPreprocessor(object):
         # 令 splited_strs_lst 中的所有字符串(长度为 1/2) 均变为大写
         splited_strs_lst = [splited_str.upper() for splited_str in splited_strs_lst]
             
+            
         ### Part I. 任务类型
-        if splited_strs_lst[0] not in task_mark2name.keys():
+        try:
+            if splited_strs_lst[0] not in task_mark2name.keys():
+                InputStrPreprocessor.abort_type_1()
+                return task_name, functional_name, pseudo_name, specific_name
+            else:
+                task_mark = splited_strs_lst[0]
+                task_name = task_mark2name[task_mark]
+
+                rest_strs_lst = splited_strs_lst[1:]
+                #print(task_name) ### 修改
+        except IndexError:
             InputStrPreprocessor.abort_type_1()
-        else:
-            task_mark = splited_strs_lst[0]
-            task_name = task_mark2name[task_mark]
-            ### Python 中的 print 相当于 shell 中的 return 
-            print(task_name) ### 修改
                 
-        ### Part II. 赝势设置
-        
-        ### Part III. 泛函设置
+                
+        ### Part II. 泛函设置
+        try:
+            if rest_strs_lst[0] not in functional_mark2name.keys():
+                pass
+            else:
+                functional_mark = rest_strs_lst[0]
+                functional_name = functional_mark2name[functional_mark]
+                
+                rest_strs_lst = rest_strs_lst[1:]
+                #print(functional_name) ### 修改
+        except IndexError:  # 无泛函设置、赝势设置、特殊设置
+            functional_name = "PBE"
+            pseudo_name = "SG15"
+            specific_name = None
+            if print_mark:
+                print(1)    # 1 返回给 gmenu 中的 preprocess_mark，用于break输入循环
+            return task_name, functional_name, pseudo_name, specific_name
+
+        ### Part III. 赝势设置
+        try:
+            if rest_strs_lst[0] not in pseudo_mark2name.keys():
+                pass
+            else:
+                pseudo_mark = rest_strs_lst[0]
+                pseudo_name = pseudo_mark2name[pseudo_mark]
+                
+                rest_strs_lst = rest_strs_lst[1:]
+                #print(pseudo_name) ### 修改
+        except IndexError:  # 无赝势设置、特殊设置
+            pseudo_name = "SG15"
+            specific_name = None
+            if print_mark:
+                print(1)    # 1 返回给 gmenu 中的 preprocess_mark，用于break输入循环
+            return task_name, functional_name, pseudo_name, specific_name
         
         ### Part IV. 特殊设置
+        rest_strs_lst_copy = copy.deepcopy(rest_strs_lst)
+        try:
+            for _ in range(len(rest_strs_lst_copy)):
+                if rest_strs_lst[0] not in specific_mark2name.keys():
+                    InputStrPreprocessor.abort_type_2(input_str=input_str)
+                    return None
+                else:
+                    specific_mark = rest_strs_lst[0]
+                    specific_name = specific_mark2name[specific_mark]
+                    
+                    rest_strs_lst = rest_strs_lst[1:]
+                    #print(specific_name) ### 修改
+        except IndexError:  # 无特殊设置
+            specific_name = None
+            if print_mark:
+                print(1)    # 1 返回给 gmenu 中的 preprocess_mark，用于break输入循环
+            return task_name, functional_name, pseudo_name, specific_name
+    
+    
         
     
+        # 全部执行完毕，则返回 1。证明程序执行成功
+        print(1)    # 1 返回给 gmenu 中的 preprocess_mark，用于break输入循环
+        return 
+                
     
     @staticmethod
     def abort_type_1():
@@ -117,7 +213,7 @@ class InputStrPreprocessor(object):
     
     
     @staticmethod
-    def abort_type_2():
+    def abort_type_2(input_str:str):
         '''
         Description
         -----------
@@ -128,12 +224,41 @@ class InputStrPreprocessor(object):
             1. 由于泛函设置、赝势设置具有默认值，所以难以单独辨别，因此通通到`特殊设置`处处理
         '''
         os.system("echo -e \"\033[35m(*_*) Unsupported selection! Try Again... (*_*)\033[0m\"")
-        os.system("echo -e \"\033[35m(*_*) Check your input: $longStr! (*_*)\033[0m\"")
+        os.system("echo -e \"\033[35m(*_*) Check your input: {0}! (*_*)\033[0m\"".format(input_str))
         
 
+
+
 if __name__ == "__main__":
-    input_str = sys.argv[1]
-    
-    #InputStrPreprocessor.abort_type_1()
-    #InputStrPreprocessor.abort_type_2()
-    InputStrPreprocessor.output_config(input_str=input_str)
+    try:
+        if sys.argv[2] == "output_config_mark":
+            case_mark = 2
+    except IndexError:
+        case_mark = 1
+       
+    ### Case 1
+    if case_mark == 1:
+        try:
+            input_str = sys.argv[1]
+        except:
+            input_str = None    
+        task_name, functional_name, pseudo_name, specific_name = \
+                        InputStrPreprocessor.output_config(input_str=input_str,
+                                                        print_mark=True)
+
+    ### Case 2
+    if case_mark == 2:
+        try:
+            input_str = sys.argv[1]
+        except:
+            input_str = None    
+        task_name, functional_name, pseudo_name, specific_name = \
+                        InputStrPreprocessor.output_config(input_str=input_str,
+                                                        print_mark=False)
+        
+        InputStrPreprocessor.output_content(
+                                        task_name=task_name,
+                                        functional_name=functional_name,
+                                        pseudo_name=pseudo_name,
+                                        specific_name=specific_name
+                                        )
