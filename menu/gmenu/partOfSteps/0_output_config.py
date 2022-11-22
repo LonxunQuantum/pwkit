@@ -60,16 +60,6 @@ specific_mark2name = {
 
 
 
-def print_output_config_info(
-                    task_name:str,
-                    functional_name:str,
-                    pseudo_name:str,
-                    specific_name:str
-                    ):
-    print("{0:*^80}".format(" 任务设置 "))
-    print("{0:*^84}".format(""))
-
-
 
 def output_config(input_str):
     '''
