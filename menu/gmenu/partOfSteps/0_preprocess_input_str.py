@@ -87,6 +87,7 @@ class InputStrPreprocessor(object):
         print()
     
     
+    
     @staticmethod
     def output_config(input_str:str,
                     print_mark=True,
@@ -129,7 +130,7 @@ class InputStrPreprocessor(object):
         try:
             if splited_strs_lst[0] not in task_mark2name.keys():
                 InputStrPreprocessor.abort_type_1()
-                return task_name, functional_name, pseudo_name, specific_name
+                return 
             else:
                 task_mark = splited_strs_lst[0]
                 task_name = task_mark2name[task_mark]
@@ -243,8 +244,10 @@ if __name__ == "__main__":
         except:
             input_str = None    
         task_name, functional_name, pseudo_name, specific_name = \
-                        InputStrPreprocessor.output_config(input_str=input_str,
-                                                        print_mark=True)
+                        InputStrPreprocessor.output_config(
+                                                input_str=input_str,
+                                                print_mark=True,
+                                                )
 
     ### Case 2
     if case_mark == 2:
@@ -253,8 +256,10 @@ if __name__ == "__main__":
         except:
             input_str = None    
         task_name, functional_name, pseudo_name, specific_name = \
-                        InputStrPreprocessor.output_config(input_str=input_str,
-                                                        print_mark=False)
+                        InputStrPreprocessor.output_config(
+                                                input_str=input_str,
+                                                print_mark=False,
+                                                )
         
         InputStrPreprocessor.output_content(
                                         task_name=task_name,
