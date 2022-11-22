@@ -25,7 +25,7 @@ task_short2name = {
 functional_short2name = {
     "PE": "PBE",
     "91": "PW91",
-    "PS": "PBEsol",
+    "PS": "PBESOL",
     "LD": "CA-PZ",
     "H6": "HSE06",
     "H3": "HSE03",
@@ -125,7 +125,23 @@ class EtotWriter(object):
             convergence = "EASY"
             precision = "AUTO"
         
+        if self.task_name == "DS":
+            #dos_detail = "0 {0}".format()
+            dos_gaussian_broadening = "0.05"
+            num_dos_grid = 4000
+            accuracy = "NORMAL"
+            convergence = "EASY"
+            precision = "AUTO"
+        
         with open(self.etot_path, "a") as f:
+            # dos writing
+            if dos_gaussian_broadening:
+                f.write("DOS_GAUSSIAN_BROADENING = {0}\n".format(dos_gaussian_broadening))
+            if num_dos_grid:
+                f.write("NUM_DOS_GRID = {0}\n".format(num_dos_grid))
+            
+            
+            # common writing
             f.write("ACCURACY = {0}\n".format(accuracy))
             f.write("CONVERGENCE = {0}\n".format(convergence))
             f.write("PRECISION = {0}\n".format(precision))
@@ -159,6 +175,7 @@ class EtotWriter(object):
             # mp_n123 = mp_n123
             scf_iter0_1 = "6 4 3 0.0 0.0025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
+            scf_iter1_1 = None
 
         if self.task_name == "CR":
             ecut = 70
@@ -175,6 +192,14 @@ class EtotWriter(object):
         if self.task_name == "NS":
             ecut = 50
             scf_iter0_1 = "50 4 3 0.0 0.025 1"
+            scf_iter0_2 = None
+            scf_iter1_1 = None
+        
+        if self.task_name == "DS":
+            ecut = 50
+            scf_iter0_1 = None
+            scf_iter0_2 = None
+            scf_iter1_1 = None
         
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
@@ -293,6 +318,17 @@ class EtotWriter(object):
             in_vr = "T"
             in_kpt = "T"
             out_wg = "T"
+            out_rho = "F"
+            out_vr = "F"
+            out_vatom = "F"
+
+        # 5. task_name == DS
+        if self.task_name == "DS":
+            in_wg = "T"
+            in_rho = "F"
+            in_vr = "F"
+            in_kpt = "F"
+            out_wg = "F"
             out_rho = "F"
             out_vr = "F"
             out_vatom = "F"
