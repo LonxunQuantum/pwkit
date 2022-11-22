@@ -26,11 +26,11 @@ functional_short2name = {
     "PE": "PBE",
     "91": "PW91",
     "PS": "PBESOL",
-    "LD": "CA-PZ",
-    "H6": "HSE06",
+    "LD": "LDA",
+    "H6": "HSE",
     "H3": "HSE03",
-    "P0": "PBE0",
-    "B3": "B3LYP",
+    "P0": "HSE",
+    "B3": "XC_HYB_GGA_XC_B3LYP",
     "TP": "TPSS",
     "SC": "SCAN",
 }
@@ -95,8 +95,30 @@ class EtotWriter(object):
         '''
         setattr(self, "functional_name", sys.argv[1])
         
+        # 1. self.functional_name == H6
+        if self.functional_name == "H6":
+            hse_alpha = 0.25
+            hse_beta = 0.0
+            hse_omega = 0.2
+        
+        # 2. self.functional_name == H3
+        if self.functional_name == "H3":
+            hse_alpha = 0.25
+            hse_beta = 0.0
+            hse_omega = 0.3
+        # 3. self.functional_name == P0
+        if self.functional_name == "P0":
+            hse_alpha = 0.25
+            hse_beta = 0.0
+            hse_omega = 0.0
+        
         with open(self.etot_path, "a") as f:
             f.write("XCFUNCTIONAL = {0}\n".format(functional_short2name[self.functional_name]))
+
+            if self.functional_name in ["H6", "H3", "P0"]:
+                f.write("HSE_ALPHA = {0}\n".format(hse_alpha))
+                f.write("HSE_BETA = {0}\n".format(hse_beta))
+                f.write("HSE_OMEGA = {0}\n".format(hse_omega))
     
     
     def write_accuracy(self):
