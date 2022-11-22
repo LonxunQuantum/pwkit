@@ -21,7 +21,7 @@ def write_accuracy():
     CONVERGENCE = EASY
     PRECISION = AUTO
     '''
-    try: 
+    try:
         etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
         etot_writer = joblib.load(etot_writer_path)
     except:

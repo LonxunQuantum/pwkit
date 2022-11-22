@@ -261,24 +261,30 @@ class EtotWriter(object):
         specific_name = sys.argv[1]
         
         # 首次写入 "#特殊设置\n" 
-        mark = False
+        mark_first = False
         with open(self.etot_path, "r") as f:
             rows_content = f.readlines()
             if "#特殊设置\n" not in rows_content:
-                mark = True
+                mark_first = True
         
         # 写入 PWmat 的选项
         with open(self.etot_path, "a") as f:    
-            if mark == True:
+            if mark_first == True:
                 f.write("\n\n")
                 f.write("#特殊设置\n")              
             # 1. 自旋极化
             if (specific_name == "SP"):
                 f.write("SPIN = 2\n")
             # 2. 自旋轨道耦合
+            if (specific_name == "SO"):
+                f.write("SPIN = 22\n")
             # 3. 非共线磁矩+自旋轨道耦合
+            if (specific_name == "SN"):
+                f.write("SPIN = 222\n")
             # 4. 带电体系
+            
             # 5. DFT+U
+            
             # 6. DFT+D3
             # 7. 固定电势计算
             # 8. 溶剂效应
