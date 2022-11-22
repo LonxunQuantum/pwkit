@@ -19,7 +19,7 @@ task_short2name = {
     "NA": None,
     "TD": None, 
     "TC": None,
-    "TS": None
+    "TS": None,
 }
 # `泛函设置` 简写: PWmat泛函类型
 functional_short2name = {
@@ -41,7 +41,7 @@ pseudo_short2name = {
     "PD": "PD04",
     "FH": "FHI",
     "PW": "PWM",
-    "UD": "自定义"
+    "UD": "自定义",
 }
 
 # `特殊设置` 简写: PWmat特殊设置
@@ -126,18 +126,33 @@ class EtotWriter(object):
             precision = "AUTO"
         
         if self.task_name == "DS":
-            #dos_detail = "0 {0}".format()
+            # DOS_DETAIL
             dos_gaussian_broadening = "0.05"
             num_dos_grid = 4000
             accuracy = "NORMAL"
             convergence = "EASY"
             precision = "AUTO"
+            
+            # DOS_DETAIL      
+            try:
+                density = float(sys.argv[1])
+                
+                kmesh = KMesh(file_format="pwmat",
+                            file_path=self.atom_config_path
+                            )
+                kmesh_lst = list(kmesh.get_kmesh(density=density))
+                kmesh_lst = [str(int(value)) for value in kmesh_lst]
+                kmesh_str = " ".join(kmesh_lst)
+                
+                dos_detail = "0 {0}".format(kmesh_str)
+            except:
+                pass
         
         with open(self.etot_path, "a") as f:
-            # dos writing
-            if dos_gaussian_broadening:
+            # self.task_name == DS : dos writing
+            if self.task_name == "DS":
+                f.write("DOS_DETAIL = {0}\n".format(dos_detail))
                 f.write("DOS_GAUSSIAN_BROADENING = {0}\n".format(dos_gaussian_broadening))
-            if num_dos_grid:
                 f.write("NUM_DOS_GRID = {0}\n".format(num_dos_grid))
             
             

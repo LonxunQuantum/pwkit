@@ -1,8 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
 import joblib
-from etotWriter import EtotWriter
-
 
 
 def write_scf():
