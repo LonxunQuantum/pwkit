@@ -181,7 +181,7 @@ while [ 1 ]
     esac
 
     ## 对于部分任务 (在$tasks_need_kmesh数组中的任务)，输入density (为了后面得到 KMesh)
-    if echo "$tasks_need_kmesh[@]" | grep -w $taskStr &> /dev/null; then 
+    if echo "${tasks_need_kmesh[@]}" | grep -w $taskStr &> /dev/null; then 
         $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
         read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>

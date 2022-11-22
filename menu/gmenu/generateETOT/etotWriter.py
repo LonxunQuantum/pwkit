@@ -24,15 +24,15 @@ task_short2name = {
 # `泛函设置` 简写: PWmat泛函类型
 functional_short2name = {
     "PE": "PBE",
-    "91": None,
-    "PS": None,
-    "LD": None,
-    "H6": None,
-    "H3": None,
-    "P0": None,
-    "B3": None,
-    "TP": None,
-    "SC": None
+    "91": "PW91",
+    "PS": "PBEsol",
+    "LD": "CA-PZ",
+    "H6": "HSE06",
+    "H3": "HSE03",
+    "P0": "PBE0",
+    "B3": "B3LYP",
+    "TP": "TPSS",
+    "SC": "SCAN",
 }
 
 # `赝势设置` 简写: PWmat赝势类型
@@ -82,7 +82,7 @@ class EtotWriter(object):
         setattr(self, "task_name", sys.argv[1])
         
         with open(self.etot_path, "a") as f:
-            f.write("1  4\n\n")
+            f.write("1  4   # 并行设置\n\n")
             f.write("#基础设置\n")
             f.write("JOB = {0}\n".format(task_short2name[self.task_name]))
     
@@ -106,12 +106,22 @@ class EtotWriter(object):
             1. run in `3_write_accuracy.py` file
         '''
         if self.task_name == "SC":
-            accuracy = "NORM"
+            accuracy = "NORMAL"
             convergence = "EASY"
             precision = "AUTO"
             
         if self.task_name == "CR":
             accuracy = "HIGH"
+            convergence = "EASY"
+            precision = "AUTO"
+            
+        if self.task_name == "AR":
+            accuracy = "HIGH"
+            convergence = "EASY"
+            precision = "AUTO"
+        
+        if self.task_name == "NS":
+            accuracy = "NORMAL"
             convergence = "EASY"
             precision = "AUTO"
         
@@ -152,9 +162,19 @@ class EtotWriter(object):
 
         if self.task_name == "CR":
             ecut = 70
-            # mp_n123 = mp_n123
             scf_iter0_1 = "6 4 3 0.0 0.0025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
+            scf_iter1_1 = "40 4 3 1.0 0.025 1"
+        
+        if self.task_name == "AR":
+            ecut = 50
+            scf_iter0_1 = "6 4 3 0.0 0.0025 1"
+            scf_iter0_2 = "94 4 3 1.0 0.025 1"
+            scf_iter1_1 = "40 4 3 1.0 0.025 1"
+        
+        if self.task_name == "NS":
+            ecut = 50
+            scf_iter0_1 = "50 4 3 0.0 0.025 1"
         
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
@@ -162,8 +182,12 @@ class EtotWriter(object):
             f.write("Ecut = {0}\n".format(ecut))
             if mp_n123:
                 f.write("MP_N123 = {0}\n".format(mp_n123))
-            f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
-            f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
+            if scf_iter0_1:
+                f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
+            if scf_iter0_2:
+                f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
+            if scf_iter1_1:
+                f.write("SCF_ITER1_1 = {0}\n".format(scf_iter1_1))
     
     
     def write_specific(self):
@@ -218,7 +242,7 @@ class EtotWriter(object):
         if pseudo_name == "PD":
             pseudo_suffix = None
         # 3. FHI
-        if pseudo_name == "Fh":
+        if pseudo_name == "FH":
             pseudo_suffix = None
         # 4. PWM
         if pseudo_name == "PW":
@@ -234,33 +258,68 @@ class EtotWriter(object):
             in_wg = "F"
             in_rho = "F"
             in_vr = "F"
+            in_kpt = "F"
             out_wg = "T"
             out_rho = "T"
             out_vr = "T"
             out_vatom = "T"
+        
+        # 2. task_name == CR
+        if self.task_name == "CR":
+            in_wg = "F"
+            in_rho = "F"
+            in_vr = "F"
+            in_kpt = "F"
+            out_wg = "T"
+            out_rho = "T"
+            out_vr = "T"
+            out_vatom = "F"
             
-            with open(self.etot_path, "a") as f:
-                f.write("\n\n")
-                f.write("#输入输出设置\n")
-                f.write("IN.ATOM = atom.config\n")
-                
-                ## Note: 赝势部分
-                dstructure = DStructure.from_file(
-                                    file_format="pwmat",
-                                    file_path=self.atom_config_path,
-                                    )
-                species_lst = [specie.symbol for specie in dstructure.species]
-                species_lst = list(set(species_lst))
-                for idx, element in enumerate(species_lst):
-                    f.write("IN.PSP{0} = {1}{2}\n".format(idx+1, element, pseudo_suffix))
-                
-                f.write("IN.WG = {0}\n".format(in_wg))
-                f.write("IN.RHO = {0}\n".format(in_rho))
-                f.write("IN.VR = {0}\n".format(in_vr))
-                f.write("OUT.WG = {0}\n".format(out_wg))
-                f.write("OUT.RHO = {0}\n".format(out_rho))
-                f.write("OUT.VR = {0}\n".format(out_vr))
-                f.write("OUT.VATOM = {0}\n".format(out_vatom))
+        # 3. task_name = AR
+        if self.task_name == "AR":
+            in_wg = "F"
+            in_rho = "F"
+            in_vr = "F"
+            in_kpt = "F"
+            out_wg = "T"
+            out_rho = "T"
+            out_vr = "T"
+            out_vatom = "F"
+            
+        # 4. task_name == NS
+        if self.task_name == "NS":
+            in_wg = "F"
+            in_rho = "F"
+            in_vr = "T"
+            in_kpt = "T"
+            out_wg = "T"
+            out_rho = "F"
+            out_vr = "F"
+            out_vatom = "F"
+            
+        with open(self.etot_path, "a") as f:
+            f.write("\n\n")
+            f.write("#输入输出设置\n")
+            f.write("IN.ATOM = atom.config\n")
+            
+            ## Note: 赝势部分
+            dstructure = DStructure.from_file(
+                                file_format="pwmat",
+                                file_path=self.atom_config_path,
+                                )
+            species_lst = [specie.symbol for specie in dstructure.species]
+            species_lst = list(set(species_lst))
+            for idx, element in enumerate(species_lst):
+                f.write("IN.PSP{0} = {1}{2}\n".format(idx+1, element, pseudo_suffix))
+            
+            f.write("IN.WG = {0}\n".format(in_wg))
+            f.write("IN.RHO = {0}\n".format(in_rho))
+            f.write("IN.VR = {0}\n".format(in_vr))
+            f.write("IN.KPT = {0}\n".format(in_kpt))
+            f.write("OUT.WG = {0}\n".format(out_wg))
+            f.write("OUT.RHO = {0}\n".format(out_rho))
+            f.write("OUT.VR = {0}\n".format(out_vr))
+            f.write("OUT.VATOM = {0}\n".format(out_vatom))
     
     
     def write_pseudo(self):
