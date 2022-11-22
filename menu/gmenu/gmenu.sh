@@ -51,8 +51,17 @@ while [ 1 ]
     
     # Step 0. 准备工作
     # 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
-    tmp=`$PWKIT_ROOT/menu/gmenu/partOfSteps/0_output_config.py $longStr`
-    echo $tmp
+    configStr=`$PWKIT_ROOT/menu/gmenu/partOfSteps/0_output_config.py $longStr`
+    echo $configStr
+    mark_AbortOrOutputConfig=`echo $configStr | cut -d';' -f 1`
+    if [ "$mark_AbortOrOutputConfig" = "abort_task" ]; then
+        echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+    elif [ "$mark_AbortOrOutputConfig" = "abort_input" ]; then
+        echo -e "\033[35m(*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        echo -e "\033[35m(*_*) Check your input: $longStr! (*_*)\033[0m"
+    else # [ "$mark_AbortOrOutputConfig" = "output_config" ]
+        continue
+    fi
     done
 
 

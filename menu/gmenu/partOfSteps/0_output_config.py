@@ -2,8 +2,6 @@
 import os
 import re
 import sys
-import copy
-import click
 
 
 task_mark2name = {
@@ -26,7 +24,7 @@ task_mark2name = {
 
 
 functional_mark2name = {
-                    "PE": "PBE (默认)",
+                    "PE": "PBE",
                     "91": "PW91",
                     "PS": "PBEsol",
                     "LD": "CA-PZ",
@@ -62,16 +60,27 @@ specific_mark2name = {
 
 
 
+def print_output_config_info(
+                    task_name:str,
+                    functional_name:str,
+                    pseudo_name:str,
+                    specific_name:str
+                    ):
+    print("{0:*^80}".format(" 任务设置 "))
+    print("{0:*^84}".format(""))
+
+
+
 def output_config(input_str):
     '''
     Return
     ------
         1. Return 分为 3 种类型：
-            1. 
-            2. 
-            3. 
+            1. "abort_task"
+            2. "abort_input";`input_str`
+            3. "output_config";自洽计算;PBE;...
+        2. Note: 所有返回的字符串，各个部分用 ";" 分离
             
-
     Note
     ----
         1. `print(result)`: 会把 result 返回给 shell 脚本
@@ -80,7 +89,8 @@ def output_config(input_str):
     # 如果输入的字符串长度为奇数，应该把最后一个单个字符加入 `splited_strs_lst`
     if len(input_str) % 2 != 0:
         # Abort: Check your input!
-        return input_str
+        print( ";".join(["abort_input", input_str]) )
+        return
     splited_strs_lst = re.findall(r'.{2}', input_str)
     splited_strs_lst = [splited_str.upper() for splited_str in splited_strs_lst]
     
@@ -89,7 +99,8 @@ def output_config(input_str):
     task_mark = splited_strs_lst[0]
     if ( task_mark not in task_mark2name.keys() ):
         # Abort: 任务类型
-        return "abort_task"
+        print("abort_task")
+        return
     task_name = task_mark2name[task_mark]
     splited_strs_lst.pop(0)
     rest_strs_lst = splited_strs_lst
@@ -98,8 +109,9 @@ def output_config(input_str):
         functional_name = "PBE"
         pseudo_name = "SG15"
         specific_name = "*!*"
+        # print
         print(";".join([task_name, functional_name, pseudo_name, specific_name]))
-        return 
+        return    
     
     
     ### Part II. 泛函设置
@@ -113,7 +125,8 @@ def output_config(input_str):
     if len(rest_strs_lst) == 0:
         pseudo_name = "SG15"
         specific_name = "*!*"
-        return task_name, functional_name, pseudo_name, specific_name
+        print(";".join([task_name, functional_name, pseudo_name, specific_name]))
+        return    
         
         
     ### Part III. 赝势设置
@@ -133,17 +146,29 @@ def output_config(input_str):
     specific_names_lst = []
     specific_length = len(rest_strs_lst)
 
+
     for _ in range(specific_length):
         specific_mark = rest_strs_lst[0]
         
         if specific_mark not in specific_mark2name.keys():
             ### Abort: Check your input
-            return input_str
+            print( ";".join(["abort_input", input_str]) )
+            return 
         specific_name = specific_mark2name[specific_mark]
         specific_names_lst.append(specific_name)
+        rest_strs_lst.pop(0)
     
-    return task_name, functional_name, pseudo_name, specific_names_lst
+    # 删除重复的specific_name
+    specific_names_lst = list(set(specific_names_lst))
+    
+    # return    
+    print(";".join([task_name, functional_name, pseudo_name] + specific_names_lst))
+    return    
 
 
 if __name__ == "__main__":
-    output_config(input_str=sys.argv[1])
+    try:
+        output_config(input_str=sys.argv[1])
+    except:
+        # Abort: 任务类型 -- 对应于无输入的时候
+        print("abort_task")
