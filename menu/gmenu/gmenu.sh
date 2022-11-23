@@ -393,7 +393,7 @@ while [ 1 ]
     if [ "$restStr" = "$endMark" ]
     then
         ### 写入 `输入输出设置` 到 `etot.input`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $SG15_DIR_PATH
         exit 0
     fi
 

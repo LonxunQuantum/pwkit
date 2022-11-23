@@ -1,6 +1,7 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os 
 import sys
+import shutil
 
 from pflow.io.publicLayer.structure import DStructure
 from pflow.calculation.kpoints.kmesh import KMesh
@@ -374,7 +375,6 @@ class EtotWriter(object):
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
             
-            
     
     
     def write_input_output(self):
@@ -387,14 +387,15 @@ class EtotWriter(object):
         ---- 
             1. 内部包含写入赝势文件 `IN.PSP1`, `IN.PSP2`, ...
         '''
-        ### Part I. 根据赝势类型确定赝势文件后缀
+        ### Part I. 根据赝势类型确定赝势文件后缀、赝势所在的文件夹路径
         pseudo_name = sys.argv[1]
+        pseudo_dir_path = sys.argv[2]
         # 1. SG15
         if pseudo_name == "SG":
             pseudo_suffix = ".SG15.PBE.UPF"
         # 2. PD04
         if pseudo_name == "PD":
-            pseudo_suffix = None
+            pseudo_suffix = ".PD04.PBE.UPF"
         # 3. FHI
         if pseudo_name == "FH":
             pseudo_suffix = None
@@ -476,6 +477,12 @@ class EtotWriter(object):
             species_lst = list(set(species_lst))
             for idx, element in enumerate(species_lst):
                 f.write("IN.PSP{0} = {1}{2}\n".format(idx+1, element, pseudo_suffix))
+                
+                # 把对应的赝势文件拷贝到当前工作目录
+                pseudo_name = "{0}{1}".format(element, pseudo_suffix)
+                src_path = os.path.join(pseudo_dir_path, pseudo_name)
+                dst_path = os.path.join(os.getcwd(), pseudo_name)
+                shutil.copy(src=src_path, dst=dst_path)
             
             f.write("IN.WG = {0}\n".format(in_wg))
             f.write("IN.RHO = {0}\n".format(in_rho))
