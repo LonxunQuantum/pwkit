@@ -294,27 +294,36 @@ class EtotWriter(object):
                 f.write("### 特殊设置\n")              
             # 1. 自旋极化
             if (self.specific_name == "SP"):
-                f.write("SPIN = 2\n")
+                f.write("SPIN = 2   # 自旋极化\n")
             # 2. 自旋轨道耦合
             if (self.specific_name == "SO"):
-                f.write("SPIN = 22\n")
+                f.write("SPIN = 22  # 自旋轨道耦合\n")
             # 3. 非共线磁矩+自旋轨道耦合
             if (self.specific_name == "SN"):
-                f.write("SPIN = 222\n")
+                f.write("SPIN = 222 # 非共线磁矩+自旋轨道耦合\n")
             # 4. 带电体系
             
             # 5. DFT+U
+            if (self.specific_name == "PU"):
+                dstructure = DStructure.from_file(
+                                    file_format="pwmat",
+                                    file_path=self.atom_config_path,
+                                    )
+                species_lst = [specie.symbol for specie in dstructure.species]
+                species_lst = list(set(species_lst))
+                for idx, element in enumerate(species_lst):
+                    f.write("LDAU_PSP{0} = -1 0.0   # DFT+U\n".format(idx+1))
             
             # 6. DFT+D3
             if (self.specific_name == "D3"):
-                f.write("VDW = DFT-D3\n")
+                f.write("VDW = DFT-D3   # DFT-D3修正\n")
             
             # 7. 固定电势计算
             
             
             # 8. 溶剂效应
             # etot.input输入输出设置添加
-            #       IN.SOLVENT = T；
+            #       IN.SOLVENT = T
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
             

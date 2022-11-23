@@ -349,10 +349,12 @@ while [ 1 ]
     pu|PU)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     d3|D3)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     ff|FF)
         echo "Part IV. 特殊设置成功..." # $specificStr
