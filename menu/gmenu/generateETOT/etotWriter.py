@@ -2,6 +2,7 @@
 import os 
 import sys
 import shutil
+import numpy as np
 
 from pflow.io.publicLayer.structure import DStructure
 from pflow.calculation.kpoints.kmesh import KMesh
@@ -518,10 +519,19 @@ class EtotWriter(object):
         -----------
             1. Run in `6_write_input_output.py` file 
         '''
+        # 偶极矩修正
+        dstructure = DStructure.from_file(
+                                file_format="pwmat",
+                                file_path=self.atom_config_path,
+                                )
+        edge_x3 = round( np.mean(dstructure.frac_coords[:, 2]) - 0.5, 3)
+        if (edge_x3 < 0):
+            edge_x3 = 1 - edge_x3
+        
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
             f.write("### 其他设置\n")
-            #f.write("#COULOMB = 13  {0}  # 偶极矩修正\n".format(location))
+            f.write("#COULOMB = 13  {0}  # 偶极矩修正\n".format(edge_x3))
             f.write("#CHARGE_DECOMP = T\n")
             f.write("#NUM_BAND = XX\n")
             f.write("#SYMM_PREC = 1E-5\n")
