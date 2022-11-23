@@ -303,8 +303,39 @@ class EtotWriter(object):
                 f.write("SPIN = 222 # 非共线磁矩+自旋轨道耦合\n")
             # 4. 带电体系
             if (self.specific_name == "CS"):
-                charge_capacity = sys.argv[2]
-                #num_electron = num_electron_pseudo - charge_capacity
+                charge_capacity = float(sys.argv[2])
+                sg15_dir_path = sys.argv[3]
+                
+                # 4.1. 从 `赝势SG15` 中得到体系的 `中性电子数`
+                num_electron_pseudo = 0
+                dstructure = DStructure.from_file(
+                                file_format="pwmat",
+                                file_path=self.atom_config_path,
+                                )
+                species_lst = [specie.symbol for specie in dstructure.species]
+                species_lst = list(set(species_lst))
+                
+                specie2valence = {} # 键：元素种类； 值：价电子数
+                for tmp_specie in species_lst:  # 循环得到 tmp_specie 的价电子数
+                    element_sg15_path = os.path.join(sg15_dir_path, "{0}.SG15.PBE.UPF".format(tmp_specie))
+                    with open(element_sg15_path, "r") as f_pseudo:
+                        content = f_pseudo.readlines()
+                    for row in content:
+                        if "z_valence" in row:
+                            valence_tmp_specie = float( row.split('"')[-2] )
+                    specie2valence.update({tmp_specie: valence_tmp_specie})
+                
+                specie2num = {} # 键：元素种类； 值：元素原子的数目
+                for tmp_specie in species_lst:  # 循环得到 tmp_specie 的原子数目
+                    num_tmp_specie = species_lst.count(tmp_specie)
+                    specie2num.update({tmp_specie: num_tmp_specie})
+                    
+                for tmp_specie in species_lst:
+                    num_electron_pseudo += specie2num[tmp_specie] * specie2valence[tmp_specie]
+
+                # 4.2. 电子数计算公式：num_electron = num_electron_pseudo - charge_capacity
+                num_electron = num_electron_pseudo - charge_capacity
+                
                 f.write("NUM_ELECTRON = {0} # 带电体系: 电子数=中性电子数(通过赝势计算所得)-带电量\n".format(num_electron))
             
             # 5. DFT+U

@@ -349,7 +349,7 @@ while [ 1 ]
         $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
         read -p " ------------>>
 " charge_capacity
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $charge_capacity
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $charge_capacity $SG15_DIR_PATH
         ;;
     pu|PU)
         echo "Part IV. 特殊设置成功..." # $specificStr
