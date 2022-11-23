@@ -288,10 +288,10 @@ class EtotWriter(object):
                 mark_first = True
         
         # 写入 PWmat 的选项
-        with open(self.etot_path, "a") as f:    
+        with open(self.etot_path, "a") as f:
             if mark_first == True:
                 f.write("\n\n")
-                f.write("### 特殊设置\n")              
+                f.write("### 特殊设置\n")           
             # 1. 自旋极化
             if (self.specific_name == "SP"):
                 f.write("SPIN = 2   # 自旋极化\n")
@@ -302,6 +302,10 @@ class EtotWriter(object):
             if (self.specific_name == "SN"):
                 f.write("SPIN = 222 # 非共线磁矩+自旋轨道耦合\n")
             # 4. 带电体系
+            if (self.specific_name == "CS"):
+                charge_capacity = sys.argv[2]
+                #num_electron = num_electron_pseudo - charge_capacity
+                f.write("NUM_ELECTRON = {0} # 带电体系: 电子数=中性电子数(通过赝势计算所得)-带电量\n".format(num_electron))
             
             # 5. DFT+U
             if (self.specific_name == "PU"):

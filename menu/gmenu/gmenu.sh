@@ -345,6 +345,11 @@ while [ 1 ]
     cs|CS)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        # 提示
+        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
+        read -p " ------------>>
+" charge_capacity
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $charge_capacity
         ;;
     pu|PU)
         echo "Part IV. 特殊设置成功..." # $specificStr
