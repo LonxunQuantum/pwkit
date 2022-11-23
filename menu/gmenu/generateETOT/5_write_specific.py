@@ -22,6 +22,7 @@ def write_scf():
     except:
         print("Error!!! check your input.")
     etot_writer.write_specific()
+    joblib.dump(etot_writer, etot_writer_path)
 
 
 if __name__ == "__main__":

@@ -82,8 +82,9 @@ class EtotWriter(object):
         setattr(self, "task_name", sys.argv[1])
         
         with open(self.etot_path, "a") as f:
-            f.write("1  4   # 并行设置\n\n")
-            f.write("#基础设置\n")
+            f.write("### 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数\n")
+            f.write("1  4\n\n")
+            f.write("### 基础设置\n")
             f.write("JOB = {0}\n".format(task_short2name[self.task_name]))
     
     
@@ -116,9 +117,28 @@ class EtotWriter(object):
             f.write("XCFUNCTIONAL = {0}\n".format(functional_short2name[self.functional_name]))
 
             if self.functional_name in ["H6", "H3", "P0"]:
-                f.write("HSE_ALPHA = {0}\n".format(hse_alpha))
-                f.write("HSE_BETA = {0}\n".format(hse_beta))
-                f.write("HSE_OMEGA = {0}\n".format(hse_omega))
+                if ( self.functional_name == "H6" ):
+                    note_hse = "HSE06"
+                if ( self.functional_name == "H3" ):
+                    note_hse = "HSE03"
+                if ( self.functional_name ==  "P0"):
+                    note_hse = "PBE0"
+                    
+                f.write("HSE_ALPHA = {0}    # {1}\n".format(
+                                            hse_alpha, 
+                                            note_hse,
+                                            )
+                        )
+                f.write("HSE_BETA = {0}     # {1}\n".format(
+                                            hse_beta, 
+                                            note_hse,
+                                            )
+                        )
+                f.write("HSE_OMEGA = {0}    # {1}\n".format(
+                                            hse_omega, 
+                                            note_hse,
+                                            )
+                        )
     
     
     def write_accuracy(self):
@@ -240,7 +260,7 @@ class EtotWriter(object):
         
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
-            f.write("#电子自洽设置\n")
+            f.write("### 电子自洽设置\n")
             f.write("Ecut = {0}\n".format(ecut))
             if mp_n123:
                 f.write("MP_N123 = {0}\n".format(mp_n123))
@@ -258,36 +278,46 @@ class EtotWriter(object):
         -----------
             1. run in `5_write_specific.py` file
         '''
-        specific_name = sys.argv[1]
+        setattr(self, "specific_name", sys.argv[1])
         
         # 首次写入 "#特殊设置\n" 
         mark_first = False
         with open(self.etot_path, "r") as f:
             rows_content = f.readlines()
-            if "#特殊设置\n" not in rows_content:
+            if "### 特殊设置\n" not in rows_content:
                 mark_first = True
         
         # 写入 PWmat 的选项
         with open(self.etot_path, "a") as f:    
             if mark_first == True:
                 f.write("\n\n")
-                f.write("#特殊设置\n")              
+                f.write("### 特殊设置\n")              
             # 1. 自旋极化
-            if (specific_name == "SP"):
+            if (self.specific_name == "SP"):
                 f.write("SPIN = 2\n")
             # 2. 自旋轨道耦合
-            if (specific_name == "SO"):
+            if (self.specific_name == "SO"):
                 f.write("SPIN = 22\n")
             # 3. 非共线磁矩+自旋轨道耦合
-            if (specific_name == "SN"):
+            if (self.specific_name == "SN"):
                 f.write("SPIN = 222\n")
             # 4. 带电体系
             
             # 5. DFT+U
             
             # 6. DFT+D3
+            if (self.specific_name == "D3"):
+                f.write("VDW = DFT-D3\n")
+            
             # 7. 固定电势计算
+            
+            
             # 8. 溶剂效应
+            # etot.input输入输出设置添加
+            #       IN.SOLVENT = T；
+            #       OUT.SOLVENT_CHARGE = T
+            #       额外需要输出文件 IN.SOLVENT
+            
             
     
     
@@ -378,7 +408,7 @@ class EtotWriter(object):
             
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
-            f.write("#输入输出设置\n")
+            f.write("### 输入输出设置\n")
             f.write("IN.ATOM = atom.config\n")
             
             ## Note: 赝势部分
@@ -399,7 +429,15 @@ class EtotWriter(object):
             f.write("OUT.RHO = {0}\n".format(out_rho))
             f.write("OUT.VR = {0}\n".format(out_vr))
             f.write("OUT.VATOM = {0}\n".format(out_vatom))
-    
+            
+            
+            ### 某些 `特殊设置` 需要添加输入输出
+            try:    # 当没有 `特殊设置` 时，没有 `self.specific_name` 属性
+                if (self.specific_name == "SE"):
+                    f.write("IN.SOLVENT = T     # 溶剂效应\n")
+                    f.write("OUT.SOLVENT_CHARGE = T     # 溶剂效应\n")
+            except AttributeError:
+                pass
     
     def write_pseudo(self):
         pass

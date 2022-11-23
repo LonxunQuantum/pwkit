@@ -335,10 +335,12 @@ while [ 1 ]
     so|SO)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     sn|SN)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     cs|CS)
         echo "Part IV. 特殊设置成功..." # $specificStr
@@ -359,6 +361,7 @@ while [ 1 ]
     se|SE)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
+        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     default)
         pseudoStr="默认"
