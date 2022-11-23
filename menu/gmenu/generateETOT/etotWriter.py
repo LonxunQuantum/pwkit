@@ -335,6 +335,8 @@ class EtotWriter(object):
 
                 # 4.2. 电子数计算公式：num_electron = num_electron_pseudo - charge_capacity
                 num_electron = num_electron_pseudo - charge_capacity
+                # 保留三位小数
+                num_electron = round(num_electron, 3)
                 
                 f.write("NUM_ELECTRON = {0} # 带电体系: 电子数=中性电子数(通过赝势计算所得)-带电量\n".format(num_electron))
             
@@ -354,7 +356,17 @@ class EtotWriter(object):
                 f.write("VDW = DFT-D3   # DFT-D3修正\n")
             
             # 7. 固定电势计算
-            
+            # etot.input输入输出设置添加
+            #       IN.SOLVENT = T
+            #       OUT.SOLVENT_CHARGE = T
+            #       额外需要输出文件 IN.SOLVENT
+            if (self.specific_name == "FF"):
+                electrode_potential = float( sys.argv[2] )
+                # Ef计算公式: Ef = -4.42 - 电极电势值
+                e_f = -4.42 - electrode_potential
+                # 保留两位小数
+                e_f = round(e_f, 2)
+                f.write("FIX_FERMI = {0}  0.1  0.06 # 固定电势计算\n".format(e_f))
             
             # 8. 溶剂效应
             # etot.input输入输出设置添加
@@ -477,9 +489,14 @@ class EtotWriter(object):
             
             ### 某些 `特殊设置` 需要添加输入输出
             try:    # 当没有 `特殊设置` 时，没有 `self.specific_name` 属性
+                # 1. `特殊设置` == 溶剂效应
                 if (self.specific_name == "SE"):
                     f.write("IN.SOLVENT = T     # 溶剂效应\n")
                     f.write("OUT.SOLVENT_CHARGE = T     # 溶剂效应\n")
+                # 2. `特殊设置` == 固定电势
+                if (self.specific_name == "FF"):
+                    f.write("IN.SOLVENT = T     # 固定电势计算\n")
+                    f.write("OUT.SOLVENT_CHARGE = T     # 固定电势计算\n")    
             except AttributeError:
                 pass
     
