@@ -273,11 +273,14 @@ class EtotWriter(object):
                 f.write("SCF_ITER1_1 = {0}\n".format(scf_iter1_1))
     
     
+    
+    
+    
     def write_specific(self):
         '''
         Description
         -----------
-            1. run in `5_write_specific.py` file
+            1. run in `6_write_specific.py` file
         '''
         setattr(self, "specific_name", sys.argv[1])
         
@@ -506,6 +509,24 @@ class EtotWriter(object):
                     f.write("OUT.SOLVENT_CHARGE = T     # 固定电势计算\n")    
             except AttributeError:
                 pass
+    
+    
+    
+    def write_other(self):
+        '''
+        Description
+        -----------
+            1. Run in `6_write_input_output.py` file 
+        '''
+        with open(self.etot_path, "a") as f:
+            f.write("\n\n")
+            f.write("### 其他设置\n")
+            #f.write("#COULOMB = 13  {0}  # 偶极矩修正\n".format(location))
+            f.write("#CHARGE_DECOMP = T\n")
+            f.write("#NUM_BAND = XX\n")
+            f.write("#SYMM_PREC = 1E-5\n")
+    
+    
     
     def write_pseudo(self):
         pass

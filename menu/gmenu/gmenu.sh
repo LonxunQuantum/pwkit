@@ -389,6 +389,8 @@ while [ 1 ]
     done
 
 
+    $PWKIT_ROOT/menu/gmenu/generateETOT/7_write_other.py
+
     # 当 restStr 等于 ""，写入输入输出设置后，退出程序
     if [ "$restStr" = "$endMark" ]
     then
