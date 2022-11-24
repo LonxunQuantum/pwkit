@@ -518,19 +518,30 @@ class EtotWriter(object):
         -----------
             1. Run in `6_write_input_output.py` file 
         '''
-        # 偶极矩修正
         dstructure = DStructure.from_file(
                                 file_format="pwmat",
                                 file_path=self.atom_config_path,
                                 )
+        
+        # 1. 判断是否需要添加偶极矩修正: 真空>8，添加偶极修正
+        dipole_moment_mark = False
+        z_coordination_min = np.min(dstructure.cart_coords[:, 2])
+        z_coordination_max = np.max(dstructure.cart_coords[:, 2])
+        z_coordination_space = z_coordination_max - z_coordination_min
+        lattice_z_space = dstructure.lattice.matrix[2, 2]
+        if ( (lattice_z_space - z_coordination_space) > 8):
+            dipole_moment_mark = True
+        
+        # 2. 偶极矩修正: 计算 X3
         edge_x3 = round( np.mean(dstructure.frac_coords[:, 2]) - 0.5, 3)
         if (edge_x3 < 0):
-            edge_x3 = 1 - edge_x3
+            edge_x3 = 1 + edge_x3
         
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
             f.write("### 其他设置\n")
-            f.write("#COULOMB = 13  {0}  # 偶极矩修正\n".format(edge_x3))
+            if dipole_moment_mark:
+                f.write("#COULOMB = 13  {0}  # 偶极矩修正\n".format(edge_x3))
             f.write("#CHARGE_DECOMP = T\n")
             f.write("#NUM_BAND = XX\n")
             f.write("#SYMM_PREC = 1E-5\n")
