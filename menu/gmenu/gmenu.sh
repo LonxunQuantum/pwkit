@@ -403,6 +403,9 @@ while [ 1 ]
         $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $PD04_DIR_PATH
         ;;
         esac
+
+        rm -r etot_writer.pkl
+
         exit 0
     fi
 

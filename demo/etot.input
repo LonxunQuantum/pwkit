@@ -1,5 +1,4 @@
-### 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数
-1  4
+1  4   # 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数
 
 ### 基础设置
 JOB = SCF
@@ -11,13 +10,13 @@ PRECISION = AUTO
 
 ### 电子自洽设置
 Ecut = 50
-MP_N123 = 2 7 1 0 0 0 0
+MP_N123 = 2 5 1 0 0 0 0
 SCF_ITER0_1 = 6 4 3 0.0 0.0025 1
 SCF_ITER0_2 = 94 4 3 1.0 0.025 1
 
 
 ### 其他设置
-#COULOMB = 13  0.9791506291666667  # 偶极矩修正
+#COULOMB = 13  1.021  # 偶极矩修正
 #CHARGE_DECOMP = T
 #NUM_BAND = XX
 #SYMM_PREC = 1E-5
@@ -25,12 +24,12 @@ SCF_ITER0_2 = 94 4 3 1.0 0.025 1
 
 ### 输入输出设置
 IN.ATOM = atom.config
-IN.PSP1 = Mn.SG15.PBE.UPF
+IN.PSP1 = Ni.SG15.PBE.UPF
 IN.PSP2 = Zn.SG15.PBE.UPF
-IN.PSP3 = Ni.SG15.PBE.UPF
-IN.PSP4 = O.SG15.PBE.UPF
-IN.PSP5 = Fe.SG15.PBE.UPF
-IN.PSP6 = Na.SG15.PBE.UPF
+IN.PSP3 = Fe.SG15.PBE.UPF
+IN.PSP4 = Na.SG15.PBE.UPF
+IN.PSP5 = Mn.SG15.PBE.UPF
+IN.PSP6 = O.SG15.PBE.UPF
 IN.WG = F
 IN.RHO = F
 IN.VR = F

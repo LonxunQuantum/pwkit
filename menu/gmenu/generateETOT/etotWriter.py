@@ -84,8 +84,7 @@ class EtotWriter(object):
         setattr(self, "task_name", sys.argv[1])
         
         with open(self.etot_path, "a") as f:
-            f.write("### 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数\n")
-            f.write("1  4\n\n")
+            f.write("1  4   # 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数\n\n")
             f.write("### 基础设置\n")
             f.write("JOB = {0}\n".format(task_short2name[self.task_name]))
     
