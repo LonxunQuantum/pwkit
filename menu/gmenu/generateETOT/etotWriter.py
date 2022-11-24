@@ -30,7 +30,7 @@ functional_short2name = {
     "PS": "PBESOL",
     "LD": "LDA",
     "H6": "HSE",
-    "H3": "HSE03",
+    "H3": "HSE",
     "P0": "HSE",
     "B3": "XC_HYB_GGA_XC_B3LYP",
     "TP": "TPSS",
@@ -231,19 +231,19 @@ class EtotWriter(object):
         if self.task_name == "SC":
             ecut = 50
             # mp_n123 = mp_n123
-            scf_iter0_1 = "6 4 3 0.0 0.0025 1"
+            scf_iter0_1 = "6 4 3 0.0 0.025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
             scf_iter1_1 = None
 
         if self.task_name == "CR":
             ecut = 70
-            scf_iter0_1 = "6 4 3 0.0 0.0025 1"
+            scf_iter0_1 = "6 4 3 0.0 0.025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
             scf_iter1_1 = "40 4 3 1.0 0.025 1"
         
         if self.task_name == "AR":
             ecut = 50
-            scf_iter0_1 = "6 4 3 0.0 0.0025 1"
+            scf_iter0_1 = "6 4 3 0.0 0.025 1"
             scf_iter0_2 = "94 4 3 1.0 0.025 1"
             scf_iter1_1 = "40 4 3 1.0 0.025 1"
         

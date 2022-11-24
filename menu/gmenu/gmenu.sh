@@ -371,6 +371,7 @@ while [ 1 ]
         echo "Part IV. 特殊设置成功..." # $specificStr
         ;;
     se|SE)
+        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
         $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
