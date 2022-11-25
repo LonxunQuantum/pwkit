@@ -6,7 +6,7 @@ from etotWriter import EtotWriter
 
 
 
-def write_scf():
+def write_specific():
     '''
     Description
     -----------
@@ -22,11 +22,11 @@ def write_scf():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_specific(
-                    specific_name=sys.argv[1],
-                    electrode_potential=float( sys.argv[2] ))
+    # 1. 特殊设置选择 `恒电势计算` 时，才会输入 sys.argv[2], sys.argv[3]
+    # 2. 特殊设置选择 `恒电势计算` 时，才会输入 sys.argv[2]
+    etot_writer.write_specific()
     joblib.dump(etot_writer, etot_writer_path)
 
 
 if __name__ == "__main__":
-    write_scf()
+    write_specific()

@@ -77,6 +77,8 @@ class EtotWriter(object):
         self.etot_path = os.path.join(os.getcwd(), "etot.input")
         self.atom_config_path = os.path.join(os.getcwd(), atom_config_name)
         
+        # 特殊设置选择 `溶剂效应` 和 `固定电势` 的时候需要生成此文件
+        self.in_solvent_path = os.path.join(os.getcwd(), "IN.SOLVENT")
         #if os.path.exists(self.etot_path):
         #    os.remove(self.etot_path)
     
@@ -291,14 +293,17 @@ class EtotWriter(object):
     
     
     
-    
-    def write_specific(self, specific_name:str, electrode_potential:float):
+    def write_specific(self):
         '''
         Description
         -----------
             1. run in `6_write_specific.py` file
+        
+        Note
+        ----
+            1. 选择`溶剂效应`和`固定电势`的时候，需要添加 `IN.SOLVENT` 文件
         '''
-        setattr(self, "specific_name", specific_name)
+        setattr(self, "specific_name", sys.argv[1])
         
         # 首次写入 "#特殊设置\n" 
         mark_first = False
@@ -381,18 +386,67 @@ class EtotWriter(object):
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
             if (self.specific_name == "FF"):
-                electrode_potential = electrode_potential
+                electrode_potential = float( sys.argv[2] )
                 # Ef计算公式: Ef = -4.42 - 电极电势值
                 e_f = -4.42 - electrode_potential
                 # 保留两位小数
                 e_f = round(e_f, 2)
                 f.write("FIX_FERMI = {0}  0.1  0.06 # 固定电势计算\n".format(e_f))
+
+                # 7.1. 编写 IN.SOLVENT 文件
+                dstructure = DStructure.from_file(
+                        file_format="pwmat",
+                        file_path=self.atom_config_path,
+                        )
+                species_lst = [specie.symbol for specie in dstructure.species]
+                species_lst = list(set(species_lst))
+                num_species = len(species_lst)
+                with open(self.in_solvent_path, "a") as f_in_solvent:
+                    for idx_specie in range(num_species):
+                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 #内容均为1 1 1。有{1}种元素，就是{2}行，这里是第{3}个元素\n".format(idx_specie+1, num_species, num_species, idx_specie+1))
+                    f_in_solvent.write("DIELECTRIC_MODEL = ATOM_CHARGE\n")
+                    f_in_solvent.write("DIELECTRIC_CONST = 78\n")
+                    f_in_solvent.write("RHOMIN_DIELECTRIC = 0.0001\n")
+                    f_in_solvent.write("RHOMAX_DIELECTRIC = 0.005\n")
+                    f_in_solvent.write("SURFACE_TENSION = 50\n")
+                    f_in_solvent.write("PRESSURE = -0.35\n")
+                    f_in_solvent.write("RHOMAX_CAVITY = 0.005\n")
+                    f_in_solvent.write("RHOMIN_CAVITY = 0.0001\n")
+                    f_in_solvent.write("POISSON_BOLTZMANN = T\n")
+                    f_in_solvent.write("AKK0_DEBY = 0.036\n")
+                    f_in_solvent.write("RHOMIN_DEBY = 0.0001\n")
+                    f_in_solvent.write("RHOMAX_DEBY = 0.005\n")
             
             # 8. 溶剂效应
             # etot.input输入输出设置添加
             #       IN.SOLVENT = T
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
+            if (self.specific_name == "SE"):
+                # 8.1. 编写 IN.SOLVENT 文件
+                dstructure = DStructure.from_file(
+                        file_format="pwmat",
+                        file_path=self.atom_config_path,
+                        )
+                species_lst = [specie.symbol for specie in dstructure.species]
+                species_lst = list(set(species_lst))
+                num_species = len(species_lst)
+                with open(self.in_solvent_path, "a") as f_in_solvent:
+                    for idx_specie in range(num_species):
+                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 #内容均为1 1 1。有{1}种元素，就是{2}行，这里是第{3}个元素\n".format(idx_specie+1, num_species, num_species, idx_specie+1))
+                    f_in_solvent.write("DIELECTRIC_MODEL = ATOM_CHARGE\n")
+                    f_in_solvent.write("DIELECTRIC_CONST = 78\n")
+                    f_in_solvent.write("RHOMIN_DIELECTRIC = 0.0001\n")
+                    f_in_solvent.write("RHOMAX_DIELECTRIC = 0.005\n")
+                    f_in_solvent.write("SURFACE_TENSION = 50\n")
+                    f_in_solvent.write("PRESSURE = -0.35\n")
+                    f_in_solvent.write("RHOMAX_CAVITY = 0.005\n")
+                    f_in_solvent.write("RHOMIN_CAVITY = 0.0001\n")
+                    f_in_solvent.write("POISSON_BOLTZMANN = F\n")
+                    f_in_solvent.write("AKK0_DEBY = 0.036\n")
+                    f_in_solvent.write("RHOMIN_DEBY = 0.0001\n")
+                    f_in_solvent.write("RHOMAX_DEBY = 0.005\n")
+                
             
     
     

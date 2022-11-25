@@ -28,6 +28,10 @@ if [ -f "etot.input" ]; then
     rm "etot.input"
 fi
 
+if [ -f "IN.SOLVENT" ]; then 
+    rm "IN.SOLVENT"
+fi
+
 
 while [ 1 ]
     do
