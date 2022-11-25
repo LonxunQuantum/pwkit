@@ -128,62 +128,62 @@ while [ 1 ]
     sc|SC)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     cr|CR)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ar|AR)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ns|NS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ds|DS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     os|OS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ep|EP)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     md|MD)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     na|NA)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     td|TD)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;   
     tc|TC)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ts|TS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr
+        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     default)
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 

@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 from etotWriter import EtotWriter
 
@@ -26,7 +27,7 @@ def write_accuracy():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_accuracy()
+    etot_writer.write_accuracy(density=float( sys.argv[1] ))
 
 
 if __name__ == "__main__":

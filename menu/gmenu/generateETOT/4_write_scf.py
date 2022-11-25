@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 
 
@@ -22,7 +23,7 @@ def write_scf():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_scf()
+    etot_writer.write_scf(density=float( sys.argv[1] ))
 
 
 if __name__ == "__main__":

@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 from etotWriter import EtotWriter
 
@@ -21,7 +22,9 @@ def write_scf():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_specific()
+    etot_writer.write_specific(
+                    specific_name=sys.argv[1],
+                    electrode_potential=float( sys.argv[2] ))
     joblib.dump(etot_writer, etot_writer_path)
 
 

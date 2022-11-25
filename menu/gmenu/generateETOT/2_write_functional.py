@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 from etotWriter import EtotWriter
 
@@ -26,7 +27,7 @@ def write_functional():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_functional()
+    etot_writer.write_functional(functional_name=sys.argv[1])
     joblib.dump(etot_writer, etot_writer_path)
 
 

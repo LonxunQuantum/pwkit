@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 from etotWriter import EtotWriter
 
@@ -20,7 +21,10 @@ def write_input_output():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_input_output()
+    etot_writer.write_input_output(
+                        pseudo_name = sys.argv[1],
+                        pseudo_dir_path = sys.argv[2],
+                        )
 
 
 if __name__ == "__main__":

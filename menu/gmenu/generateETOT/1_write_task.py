@@ -1,5 +1,6 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
 import os
+import sys
 import joblib
 from etotWriter import EtotWriter
 
@@ -20,8 +21,8 @@ def write_task():
     CONVERGENCE = EASY
     PRECISION = AUTO
     '''
-    etot_writer = EtotWriter()
-    etot_writer.write_task()
+    etot_writer = EtotWriter(atom_config_name=sys.argv[2])
+    etot_writer.write_task(task_name=sys.argv[1])
     
     etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
     if os.path.exists(etot_writer_path):

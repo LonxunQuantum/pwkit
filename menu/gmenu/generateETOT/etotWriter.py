@@ -65,23 +65,29 @@ class EtotWriter(object):
         4. `self.write_specific()`: 写入 `特殊设置`
     '''
     def __init__(self,
-                etot_path:str=os.path.join(os.getcwd(), "etot.input"),
-                atom_config_path:str=os.path.join(os.getcwd(), "atom.config")
+                atom_config_name:str,
                 ):
-        self.etot_path = etot_path
-        self.atom_config_path = atom_config_path
+        '''
+        Parameters
+        ----------
+            1. atom_config_name: str
+                具有 atom_config 格式的文件的名字
+                -e.g. atom.pwamt, final.config, ...
+        '''
+        self.etot_path = os.path.join(os.getcwd(), "etot.input")
+        self.atom_config_path = os.path.join(os.getcwd(), atom_config_name)
         
         #if os.path.exists(self.etot_path):
         #    os.remove(self.etot_path)
     
     
-    def write_task(self):
+    def write_task(self, task_name:str):
         '''
         Description
         -----------
             1. run in `1_write_task.py` file
         '''
-        setattr(self, "task_name", sys.argv[1])
+        setattr(self, "task_name", task_name)
         
         with open(self.etot_path, "a") as f:
             f.write("1  4   # 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数\n\n")
@@ -89,13 +95,13 @@ class EtotWriter(object):
             f.write("JOB = {0}\n".format(task_short2name[self.task_name]))
     
     
-    def write_functional(self):
+    def write_functional(self, functional_name:str):
         '''
         Description
         -----------
             1. run in `2_write_functional.py` file
         '''
-        setattr(self, "functional_name", sys.argv[1])
+        setattr(self, "functional_name", functional_name)
         
         # 1. self.functional_name == H6
         if self.functional_name == "H6":
@@ -142,11 +148,16 @@ class EtotWriter(object):
                         )
     
     
-    def write_accuracy(self):
+    def write_accuracy(self, density:float):
         '''
         Description
         -----------
             1. run in `3_write_accuracy.py` file
+        
+        Parameters
+        ----------
+            1. density: float
+                K-Mesh density in 2pi/A.
         '''
         if self.task_name == "SC":
             accuracy = "NORMAL"
@@ -178,7 +189,7 @@ class EtotWriter(object):
             
             # DOS_DETAIL      
             try:
-                density = float(sys.argv[1])
+                density = density
                 
                 kmesh = KMesh(file_format="pwmat",
                             file_path=self.atom_config_path
@@ -205,16 +216,21 @@ class EtotWriter(object):
             f.write("PRECISION = {0}\n".format(precision))
     
     
-    def write_scf(self):
+    def write_scf(self, density:float):
         '''
         Description
         -----------
             1. run in `4_write_scf.py` file
+            
+        Parameters
+        ----------
+            1. density: float
+                K-Mesh density in 2pi/A
         '''
         # density of KMesh (unit: 2pi/Angstrom)
         mp_n123 = None
         try:
-            density = float(sys.argv[1])
+            density = density
             
             kmesh = KMesh(file_format="pwmat",
                           file_path=self.atom_config_path
@@ -276,13 +292,13 @@ class EtotWriter(object):
     
     
     
-    def write_specific(self):
+    def write_specific(self, specific_name:str, electrode_potential:float):
         '''
         Description
         -----------
             1. run in `6_write_specific.py` file
         '''
-        setattr(self, "specific_name", sys.argv[1])
+        setattr(self, "specific_name", specific_name)
         
         # 首次写入 "#特殊设置\n" 
         mark_first = False
@@ -365,7 +381,7 @@ class EtotWriter(object):
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
             if (self.specific_name == "FF"):
-                electrode_potential = float( sys.argv[2] )
+                electrode_potential = electrode_potential
                 # Ef计算公式: Ef = -4.42 - 电极电势值
                 e_f = -4.42 - electrode_potential
                 # 保留两位小数
@@ -380,7 +396,10 @@ class EtotWriter(object):
             
     
     
-    def write_input_output(self):
+    def write_input_output(self,
+                        pseudo_name:str,
+                        pseudo_dir_path:str,
+                        ):
         '''
         Description
         -----------
@@ -391,8 +410,8 @@ class EtotWriter(object):
             1. 内部包含写入赝势文件 `IN.PSP1`, `IN.PSP2`, ...
         '''
         ### Part I. 根据赝势类型确定赝势文件后缀、赝势所在的文件夹路径
-        pseudo_name = sys.argv[1]
-        pseudo_dir_path = sys.argv[2]
+        pseudo_name = pseudo_name
+        pseudo_dir_path = pseudo_dir_path
         # 1. SG15
         if pseudo_name == "SG":
             pseudo_suffix = ".SG15.PBE.UPF"
