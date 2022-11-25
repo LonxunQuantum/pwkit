@@ -1,4 +1,5 @@
 #!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
+import os
 import sys
 from pflow.io.publicLayer.structure import DStructure
 
@@ -15,11 +16,53 @@ class AtomConfigGenerator(object):
         print("\t\t1.pwmat  2.vasp  3.mcsqs  4.json")
         print("\t\t5.xsf    6.yaml  7.cssr   8.prismatic")
         print("+{0:-^58}+".format("---------"))
+        
+        
+    @staticmethod
+    def judge_atom_config_exist():
+        '''
+        Description
+        -----------
+            1. 判断当前文件夹下是否存在 atom.config 格式的文件
+                1.1. 第一行有 "atoms"
+                1.2. 第二行有 "Lattice vector (Angstrom)"
+                1.3. 第三行有 "Position"
+        
+        Return
+        ------
+            1. exist_mark: bool
+                - True: 存在
+                - False: 不存在
+        '''
+        # atom.config 格式的文件名
+        atom_config_name = None
+        
+        current_dir_path = os.getcwd()
+        for tmp_file_name in os.listdir(current_dir_path):
+            tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
+
+            with open(tmp_file_path, "r") as f:
+                tmp_rows_lst = f.readlines()
+                
+            if ("Lattice vector" in tmp_rows_lst[1] and \
+                "Position" in tmp_rows_lst[5]
+                ):
+                atom_config_name = tmp_file_name
+        
+        print(atom_config_name)
     
     
-    def generate_atom_config(self):
-        input_file_format = sys.argv[1]
-        input_file_path = sys.argv[2]
+    def generate_atom_config(self,
+                            input_file_format,
+                            input_file_path,
+                            ):
+        '''
+        Description
+        -----------
+            1. 如果没有 atom.config 格式的结构文件，则需要转换当前结构文件的路径。
+        '''
+        input_file_format = input_file_format
+        input_file_path = input_file_path
         output_file_format = "pwmat"
         output_file_path = "atom.config"
         
@@ -33,10 +76,19 @@ class AtomConfigGenerator(object):
                     output_file_format=output_file_format,
                     output_file_path=output_file_path,
                     )
+        
 
 if __name__ == "__main__":
-    if sys.argv[1] == "structure_convert_warning":
+    if sys.argv[1] == "judge_atom_config_exist":
+        AtomConfigGenerator.judge_atom_config_exist()
+        
+    elif sys.argv[1] == "structure_convert_warning":
         AtomConfigGenerator.structure_convert_warning()
+        
     else:
         atom_config_generator = AtomConfigGenerator()
-        atom_config_generator.generate_atom_config()
+        atom_config_generator.generate_atom_config(
+                                input_file_format=sys.argv[1],
+                                input_file_path=sys.argv[2],
+                                )
+        

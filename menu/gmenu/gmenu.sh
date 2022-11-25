@@ -69,9 +69,14 @@ while [ 1 ]
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
     while [ 1 ]
     do  
-    if [ ! -f "atom.config" ]; then
+    ## Step 1.1. 判断是否存在 atom.config 格式的结构文件
+    # atom_config_format_file_name: atom.config 格式的文件的名字
+    atom_config_format_file_name=`$PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
+    echo $atom_config_format_file_name
+
+    if [ ! -f $atom_config_format_file_name ]; then
         $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "structure_convert_warning"
-        
+        ## Step 1.2.1. 判断输入的文件格式是否存在
         read -p " 结构文件的格式 
 --------------->>
 " file_format_mark
@@ -81,10 +86,11 @@ while [ 1 ]
             echo -e "\033[35m(*_*) 检查输入的文件格式... (*_*)\033[0m"
             continue
         fi
+        ## Step 1.2.2. 判断输入的文件名是否存在
         read -p " 结构文件的名字
 --------------->>
 " file_name
-        if [ ! -e $file_name ];
+        if [ ! -f $file_name ];
         then
             echo "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
             continue
