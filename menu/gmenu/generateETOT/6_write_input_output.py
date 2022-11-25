@@ -23,7 +23,8 @@ def write_input_output():
         print("Error!!! check your input.")
     etot_writer.write_input_output(
                         pseudo_name = sys.argv[1],
-                        pseudo_dir_path = sys.argv[2],
+                        atom_config_format_file_name = sys.argv[2],
+                        pseudo_dir_path = sys.argv[3],
                         )
 
 

@@ -398,6 +398,7 @@ class EtotWriter(object):
     
     def write_input_output(self,
                         pseudo_name:str,
+                        atom_config_format_file_name:str,
                         pseudo_dir_path:str,
                         ):
         '''
@@ -488,7 +489,7 @@ class EtotWriter(object):
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
             f.write("### 输入输出设置\n")
-            f.write("IN.ATOM = atom.config\n")
+            f.write("IN.ATOM = {0}\n".format(atom_config_format_file_name))
             
             ## Note: 赝势部分
             dstructure = DStructure.from_file(

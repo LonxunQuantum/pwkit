@@ -24,9 +24,9 @@ class AtomConfigGenerator(object):
         Description
         -----------
             1. 判断当前文件夹下是否存在 atom.config 格式的文件
-                1.1. 第一行有 "atoms"
-                1.2. 第二行有 "Lattice vector (Angstrom)"
-                1.3. 第三行有 "Position"
+                1.1. 第二行有 "Lattice"     (大小写无所谓)
+                1.2. 第二行有 "vector"      (大小写无所谓)
+                1.3. 第三行有 "Position"    (大小写无所谓)
         
         Return
         ------
@@ -43,9 +43,17 @@ class AtomConfigGenerator(object):
 
             with open(tmp_file_path, "r") as f:
                 tmp_rows_lst = f.readlines()
-                
-            if ("Lattice vector" in tmp_rows_lst[1] and \
-                "Position" in tmp_rows_lst[5]
+            
+            # 将 第2行 和 第6行 的所有字符串变成大写形式
+            # tmp_rows_lst[1].split(): ['Lattice', 'vector']
+            # tmp_rows_lst[5].split(): ['Position,', 'move_x,', 'move_y,', 'move_z']
+            tmp_rows_lst_1_upper = [string.upper() for string in tmp_rows_lst[1].split()]
+            tmp_rows_lst_5_upper = [string.upper().replace(',','') for string in tmp_rows_lst[5].split()]
+            # tmp_rows_lst_1_upper: ['LATTICE', 'VECTOR']
+            # tmp_rows_lst_5_upper: ['POSITION,', 'MOVE_X,', 'MOVE_Y,', 'MOVE_Z']
+            if ("LATTICE" in tmp_rows_lst_1_upper and \
+                "VECTOR" in tmp_rows_lst_1_upper and \
+                "POSITION" in tmp_rows_lst_5_upper
                 ):
                 atom_config_name = tmp_file_name
         

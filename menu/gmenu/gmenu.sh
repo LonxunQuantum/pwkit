@@ -404,10 +404,10 @@ while [ 1 ]
         ### 写入 `输入输出设置` 到 `etot.input`
         case $pseudoStr in 
         sg|SG)
-        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $SG15_DIR_PATH
+        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $SG15_DIR_PATH
         ;;
         pd|PD)
-        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $PD04_DIR_PATH
+        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $PD04_DIR_PATH
         ;;
         esac
 
