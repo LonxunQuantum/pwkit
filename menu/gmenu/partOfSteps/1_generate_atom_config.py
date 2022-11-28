@@ -1,6 +1,7 @@
 #!/data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
 import os
 import sys
+import linecache
 from pflow.io.publicLayer.structure import DStructure
 
 
@@ -55,8 +56,8 @@ class AtomConfigGenerator(object):
             # 将 第2行 和 第6行 的所有字符串变成大写形式
             # tmp_rows_lst[1].split(): ['Lattice', 'vector']
             # tmp_rows_lst[5].split(): ['Position,', 'move_x,', 'move_y,', 'move_z']
-            tmp_rows_lst_1_upper = [string.upper() for string in tmp_rows_lst[1].split()]
-            tmp_rows_lst_5_upper = [string.upper().replace(',','') for string in tmp_rows_lst[5].split()]
+            tmp_rows_lst_1_upper = [string.upper() for string in linecache.getline(tmp_file_path, 2).split()]
+            tmp_rows_lst_5_upper = [string.upper().replace(',','') for string in linecache.getline(tmp_file_path, 6).split()]
             # tmp_rows_lst_1_upper: ['LATTICE', 'VECTOR']
             # tmp_rows_lst_5_upper: ['POSITION,', 'MOVE_X,', 'MOVE_Y,', 'MOVE_Z']
             if ("LATTICE" in tmp_rows_lst_1_upper and \

@@ -25,7 +25,12 @@ def write_specific():
     # 1. 特殊设置选择 `恒电势计算` 时，才会输入 sys.argv[2], sys.argv[3]
     # 2. 特殊设置选择 `恒电势计算` 时，才会输入 sys.argv[2]
     etot_writer.write_specific()
-    joblib.dump(etot_writer, etot_writer_path)
+    etot_writer.dump_to_json()
+    
+    
+    
+    
+    #joblib.dump(etot_writer, etot_writer_path)
 
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 import os 
 import sys
 import shutil
+import json
 import numpy as np
 
 from pflow.io.publicLayer.structure import DStructure
@@ -66,6 +67,7 @@ class EtotWriter(object):
     '''
     def __init__(self,
                 atom_config_name:str,
+                load_from_json_mark:bool=False,
                 ):
         '''
         Parameters
@@ -73,6 +75,9 @@ class EtotWriter(object):
             1. atom_config_name: str
                 具有 atom_config 格式的文件的名字
                 -e.g. atom.pwamt, final.config, ...
+            2. load_from_json_mark: bool
+                是否从 json 文件中载入一些 EtotWriter 的性质
+
         '''
         self.etot_path = os.path.join(os.getcwd(), "etot.input")
         self.atom_config_path = os.path.join(os.getcwd(), atom_config_name)
@@ -81,6 +86,56 @@ class EtotWriter(object):
         self.in_solvent_path = os.path.join(os.getcwd(), "IN.SOLVENT")
         #if os.path.exists(self.etot_path):
         #    os.remove(self.etot_path)
+        
+        if load_from_json_mark:
+            try:
+                key2value = self.load_from_json()
+                for tmp_key, tmp_value in key2value.items():
+                    setattr(self, tmp_key, tmp_value)
+            except:
+                pass
+    
+    
+    def load_from_json(
+                self,
+                json_file_path:str=os.path.join(os.getcwd(), "etot_writer.json"),
+                ):
+        '''
+        Description
+        -----------
+            1. 从 json 文件中获取一些 EtotWriter 的性质
+
+        Parameters
+        ----------
+            1. json_file_path: str
+        '''
+        with open(json_file_path, "r") as f:
+            key2value = json.load(fp=f)
+            
+        return key2value
+    
+
+    def dump_to_json(
+                self,
+                json_file_path:str=os.path.join(os.getcwd(), "etot_writer.json"),
+                ):
+        '''
+        Description
+        -----------
+            1. 将一些 EtotWriter 的性质存储到 json 中
+        '''
+        keys_lst = ["task_name", "functional_name", "specific_name"]
+        key2value = {}
+        
+        for tmp_key in keys_lst:
+            try:
+                key2value.update({tmp_key: getattr(self, tmp_key)})
+            except:
+                pass
+        
+        with open(json_file_path, "w") as f:
+            json.dump(obj=key2value, fp=f)
+    
     
     
     def write_task(self, task_name:str):
