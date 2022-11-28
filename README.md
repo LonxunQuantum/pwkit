@@ -3,45 +3,43 @@ kits for pwmat
 
 
 # 1. Installation
-## 1.1. Python 环境打包与安装
+# 1.0. 需要准备的文件
+1. `pwkit_env.tar.gz`: pwkit 的环境
+2. `pwkit.tar.gz`: pwkit 软件包
+3. `pflow.tar.gz`: pflow package 的软件包
+
+## 1.1. Python 的 conda 环境配置
 ```shell
-### Part I. 打包 pwkit 的conda环境
-$ conda pack -n pwkit -o pwkit.tar.gz --ignore-editable-packages
-
-### Part II. 到新服务器下解压
-# Unpack environment into directory `pwkit`
-$ mkdir -p pwkit
-$ tar -xzf pwkit.tar.gz -C pwkit
-
-## Way 1.
-# Use Python without activating or fixing the prefixes. Most Python
-# libraries will work fine, but things that require prefix cleanups
-# will fail.
-$ ./pwkit/bin/python
-
-## Way 2. The most common way
-# Activate the environment. This adds `my_env/bin` to your path
-$ source my_env/bin/activate
-# Run Python from in the environment
-(my_env) $ python
-
-## Way 3.
-# Cleanup prefixes from in the active environment.
-# Note that this command can also be run without activating the environment
-# as long as some version of Python is already installed on the machine.
-(my_env) $ conda-unpack
+### Part I. 到新服务器下解压
+# 1. 将 `pwkit_env` 环境解压到 `pwkit_env` 文件夹下
+$ mkdir -p pwkit_env
+$ tar -xzf pwkit_env.tar.gz -C pwkit_env
+# 2. 激活 `pwkit_env` 环境
+$ source pwkit_env/bin/activate
+# 3. 安装 pflow 环境
+(pwkit_env) $ cd pflow; pip install -e .
+# 4. Run Python from in the environment
+(pwkit_env) $ python
 ```
 
 ## 1.2. pwkit 环境变量设置
 ```shell
-# Step 1. 设置环境变量
-$ export PWKIT_ROOT=/data/home/liuhanyu/hyliu/code/pwkit
-$ cp $PWKIT_ROOT/pwkit.cfg ~/.local/pwkit
-$ source ~/.local/pwkit
-
-# Step 2. 设置 python 解释器的路径
-$ find . -name "*.py" | xargs grep "#!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3"
-$ find . -name "*.py" | xargs sed -i 's:#!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3:#!<your_python_path>:g'
+# Step 1. 解压赝势: SG15, PD04
+(pwkit_env) $ cd pwkit/PseudoPotential
+(pwkit_env) $ tar -zxvf NCPP-SG15-PBE.tar.gz
+(pwkit_env) $ tar -zxvf NCPP-PD04-PBE.tar.gz
+# Step 2. 设置环境变量
+(pwkit_env) $ export PWKIT_ROOT=/data/home/liuhanyu/hyliu/code/pwkit
+#(pwkit_env) $ cp $PWKIT_ROOT/pwkit.cfg ~/.local/pwkit
+#(pwkit_env) $ source ~/.local/pwkit
+# Step 3. 找到 pwkit_env 环境的解释器的路径
+(pwkit_env) $ old_python_path=`head -n 1 $PWKIT_ROOT/menu/gmenu/gmenu_cn.py`
+(pwkit_env) $ new_python_path='#!'`python -c "import sys;print(sys.executable)"`
+# Step 4. 设置 python 解释器的路径
+# /data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
+# pymatgen, click, prettytable, joblib, conda-pack
+/data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
+$ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
 ## 1.3. 卸载

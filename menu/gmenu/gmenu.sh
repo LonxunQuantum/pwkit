@@ -76,7 +76,7 @@ while [ 1 ]
     ## Step 1.1. 判断是否存在 atom.config 格式的结构文件
     # atom_config_format_file_name: atom.config 格式的文件的名字
     atom_config_format_file_name=`$PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
-    echo $atom_config_format_file_name
+    #echo $atom_config_format_file_name
 
     if [ ! -f $atom_config_format_file_name ]; then
         $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "structure_convert_warning"

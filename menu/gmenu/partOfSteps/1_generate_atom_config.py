@@ -1,4 +1,4 @@
-#!/data/home/liuhanyu/anaconda3/envs/workdir/bin/python3
+#!/data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
 import os
 import sys
 from pflow.io.publicLayer.structure import DStructure
@@ -41,6 +41,9 @@ class AtomConfigGenerator(object):
         for tmp_file_name in os.listdir(current_dir_path):
             tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
 
+            if not os.path.isfile(tmp_file_path):
+                continue
+            
             with open(tmp_file_path, "r") as f:
                 tmp_rows_lst = f.readlines()
             
