@@ -1,7 +1,6 @@
-S = 'http://c.biancheng.net/python/'  
+import linecache
 
-print(S.ljust(35))
 
-print(S.center(35))
-
-print(S.rjust(35))
+file_path = "/data/home/liuhanyu/hyliu/code/pwkit/demo/atom.pwmat"
+line1 = linecache.getline(file_path, 1)
+print(line1.split())

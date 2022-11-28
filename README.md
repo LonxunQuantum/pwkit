@@ -30,8 +30,7 @@ $ source pwkit_env/bin/activate
 (pwkit_env) $ tar -zxvf NCPP-PD04-PBE.tar.gz
 # Step 2. 设置环境变量
 (pwkit_env) $ export PWKIT_ROOT=/data/home/liuhanyu/hyliu/code/pwkit
-#(pwkit_env) $ cp $PWKIT_ROOT/pwkit.cfg ~/.local/pwkit
-#(pwkit_env) $ source ~/.local/pwkit
+(pwkit_env) $ export PATH=/data/home/liuhanyu/hyliu/code/pwkit/bin:$PATH
 # Step 3. 找到 pwkit_env 环境的解释器的路径
 (pwkit_env) $ old_python_path=`head -n 1 $PWKIT_ROOT/menu/gmenu/gmenu_cn.py`
 (pwkit_env) $ new_python_path='#!'`python -c "import sys;print(sys.executable)"`

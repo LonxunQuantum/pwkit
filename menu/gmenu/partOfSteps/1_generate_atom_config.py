@@ -42,6 +42,11 @@ class AtomConfigGenerator(object):
             tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
 
             if not os.path.isfile(tmp_file_path):
+                # 遇到文件夹，直接跳过
+                continue
+            
+            if "UPF" in tmp_file_name:
+                # 遇到赝势文件，直接跳过
                 continue
             
             with open(tmp_file_path, "r") as f:
