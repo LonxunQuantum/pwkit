@@ -112,4 +112,3 @@ if __name__ == "__main__":
                                 input_file_format=sys.argv[1],
                                 input_file_path=sys.argv[2],
                                 )
-        

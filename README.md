@@ -19,10 +19,17 @@ $ source pwkit_env/bin/activate
 # 3. 安装 pflow 环境
 (pwkit_env) $ cd pflow; pip install -e .
 # 4. Run Python from in the environment
-(pwkit_env) $ python
+# (pwkit_env) $ python
 ```
 
-## 1.2. pwkit 环境变量设置
+## 1.2. pflow 安装
+```shell
+(pwkit_env) $ tar -zxvf pwflow.tar.gz
+(pwkit_env) $ cd pwkit
+(pwkit_env) $ pip install -e .
+```
+
+## 1.3. pwkit 环境变量设置
 ```shell
 # Step 1. 解压赝势: SG15, PD04
 (pwkit_env) $ cd pwkit/PseudoPotential
