@@ -48,7 +48,7 @@ $ source pwkit_env/bin/activate
 $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
-## 1.3. 卸载
+## 1.4. 卸载
 ```bash
 rm -rf /share/app/pwkit
 rm -rf $HOME/.local/pwkit
