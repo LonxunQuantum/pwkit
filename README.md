@@ -36,20 +36,25 @@ $ source pwkit_env/bin/activate
 $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
-## 1.3. 运行
+
+## 1.3. 卸载
+```bash
+rm -rf /share/app/pwkit
+rm -rf $HOME/.local/pwkit
+```
+
+
+
+# 2. 使用方法
 ```shell
-# 激活 pwkit_env 环境，可以减小python package的搜索成本，显著pwkit第一次运行的速度
-$ source pwkit_env/bin/activate
-(pwkit_env) $ pwkit
+$ module load pwkit/1.0
+$ source /share/app/anaconda3/etc/profile.d/conda.sh
+$ conda activate pwkit
+$ pwkit
  _ ____      ___ __ ___   __ _| |_
 | '_ \ \ /\ / / '_ ` _ \ / _` | __|  website: http://www.lonxun.com
 | |_) \ V  V /| | | | | | (_| | |_   v1.0.0
 | .__/ \_/\_/ |_| |_| |_|\__,_|\__|  pwmat kit Usage: pwkit -h
 |_|
-```
-
-## 1.4. 卸载
-```bash
-rm -rf /share/app/pwkit
-rm -rf $HOME/.local/pwkit
+$ conda deactivate
 ```
