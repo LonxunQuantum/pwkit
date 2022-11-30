@@ -50,8 +50,12 @@ class AtomConfigGenerator(object):
                 # 遇到赝势文件，直接跳过
                 continue
             
-            with open(tmp_file_path, "r") as f:
-                tmp_rows_lst = f.readlines()
+            if (tmp_file_name == "etot.input"):
+                continue
+            
+            if (tmp_file_name == "etot_writer.pkl"):
+                # 不处理 etot_writer.pkl
+                continue
             
             # 将 第2行 和 第6行 的所有字符串变成大写形式
             # tmp_rows_lst[1].split(): ['Lattice', 'vector']
