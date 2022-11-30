@@ -50,6 +50,7 @@ $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 
 ## 1.4. 运行
 ```shell
+# 激活 pwkit_env 环境，可以减小python package的搜索成本，显著pwkit第一次运行的速度
 $ source pwkit_env/bin/activate
 (pwkit_env) $ pwkit
  _ ____      ___ __ ___   __ _| |_
