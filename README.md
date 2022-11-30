@@ -47,14 +47,19 @@ rm -rf $HOME/.local/pwkit
 
 # 2. 使用方法
 ```shell
+# 加载环境
 $ module load pwkit/1.0
 $ source /share/app/anaconda3/etc/profile.d/conda.sh
 $ conda activate pwkit
+
+# 调用 pwkit
 $ pwkit
  _ ____      ___ __ ___   __ _| |_
 | '_ \ \ /\ / / '_ ` _ \ / _` | __|  website: http://www.lonxun.com
 | |_) \ V  V /| | | | | | (_| | |_   v1.0.0
 | .__/ \_/\_/ |_| |_| |_|\__,_|\__|  pwmat kit Usage: pwkit -h
 |_|
+
+# 退出环境
 $ conda deactivate
 ```
