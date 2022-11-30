@@ -21,14 +21,8 @@ $ source pwkit_env/bin/activate
 # (pwkit_env) $ python
 ```
 
-## 1.2. pflow 安装
-```shell
-(pwkit_env) $ tar -zxvf pflow.tar.gz
-(pwkit_env) $ cd pflow
-(pwkit_env) $ pip install -e .
-```
 
-## 1.3. pwkit 环境变量设置
+## 1.2. pwkit 环境变量设置
 ```shell
 # Step 1. 解压赝势: SG15, PD04
 (pwkit_env) $ cd pwkit/PseudoPotential
@@ -47,7 +41,7 @@ $ source pwkit_env/bin/activate
 $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
-## 1.4. 运行
+## 1.3. 运行
 ```shell
 # 激活 pwkit_env 环境，可以减小python package的搜索成本，显著pwkit第一次运行的速度
 $ source pwkit_env/bin/activate
@@ -59,7 +53,7 @@ $ source pwkit_env/bin/activate
 |_|
 ```
 
-## 1.5. 卸载
+## 1.4. 卸载
 ```bash
 rm -rf /share/app/pwkit
 rm -rf $HOME/.local/pwkit
