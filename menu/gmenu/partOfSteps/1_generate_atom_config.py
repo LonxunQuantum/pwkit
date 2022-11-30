@@ -41,22 +41,23 @@ class AtomConfigGenerator(object):
         current_dir_path = os.getcwd()
         for tmp_file_name in os.listdir(current_dir_path):
             tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
-
+            
             if not os.path.isfile(tmp_file_path):
-                # 遇到文件夹，直接跳过
+                # 不处理 文件夹
                 continue
             
             if "UPF" in tmp_file_name:
-                # 遇到赝势文件，直接跳过
+                # 不处理 赝势文件
                 continue
             
             if (tmp_file_name == "etot.input"):
+                # 不处理 etot.input
                 continue
             
             if (tmp_file_name == "etot_writer.pkl"):
                 # 不处理 etot_writer.pkl
                 continue
-            
+
             # 将 第2行 和 第6行 的所有字符串变成大写形式
             # tmp_rows_lst[1].split(): ['Lattice', 'vector']
             # tmp_rows_lst[5].split(): ['Position,', 'move_x,', 'move_y,', 'move_z']

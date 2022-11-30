@@ -48,7 +48,18 @@ $ source pwkit_env/bin/activate
 $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
-## 1.4. 卸载
+## 1.4. 运行
+```shell
+$ source pwkit_env/bin/activate
+(pwkit_env) $ pwkit
+ _ ____      ___ __ ___   __ _| |_
+| '_ \ \ /\ / / '_ ` _ \ / _` | __|  website: http://www.lonxun.com
+| |_) \ V  V /| | | | | | (_| | |_   v1.0.0
+| .__/ \_/\_/ |_| |_| |_|\__,_|\__|  pwmat kit Usage: pwkit -h
+|_|
+```
+
+## 1.5. 卸载
 ```bash
 rm -rf /share/app/pwkit
 rm -rf $HOME/.local/pwkit
