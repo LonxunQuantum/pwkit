@@ -33,7 +33,6 @@ $ source pwkit_env/bin/activate
 # Step 3. 设置 python 解释器的路径
 # /data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
 # 自动安装了 pymatgen, click, prettytable, joblib, linecache, conda-pack
-/data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
 $ find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
 ```
 
