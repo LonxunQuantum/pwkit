@@ -99,7 +99,7 @@ while [ 1 ]
 " file_name
         if [ ! -f $file_name ];
         then
-            echo "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
+            echo -e "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
             continue
         fi
         $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name

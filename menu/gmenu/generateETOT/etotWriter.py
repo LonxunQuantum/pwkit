@@ -263,11 +263,11 @@ class EtotWriter(object):
         with open(self.etot_path, "a") as f:
             # self.task = CR, RELAX_DETAIL = 1 100 0.01 1 0.01
             if self.task_name == "CR":
-                f.write("RELAX_DETAIL = {0}\n   # 结构驰豫".format(relax_detail))
+                f.write("RELAX_DETAIL = {0}   # 结构驰豫\n".format(relax_detail))
             
             # self.task = AR, RELAX_DETAIL = 1 100 0.01
             if self.task_name == "AR":
-                f.write("RELAX_DETAIL = {0}\n   # 结构驰豫".format(relax_detail))
+                f.write("RELAX_DETAIL = {0}   # 结构驰豫\n".format(relax_detail))
             
             # self.task_name == DS : dos writing
             if self.task_name == "DS":

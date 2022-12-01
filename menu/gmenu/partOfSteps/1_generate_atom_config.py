@@ -83,7 +83,7 @@ class AtomConfigGenerator(object):
                     ):
                     atom_config_name = tmp_file_name
                     
-            except UnicodeDecodeError:
+            except:
                 pass
         
         
