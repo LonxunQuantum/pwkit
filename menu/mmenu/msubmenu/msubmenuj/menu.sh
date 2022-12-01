@@ -4,7 +4,7 @@
 mmenu::msubmenuj() {
 while [ 1 ]
   do
-    $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuj/menu_${glanguage}.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuj/menu_${glanguage}.py
     read -p " ------------>> 
 " submenuOpt
     case $submenuOpt in

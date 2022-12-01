@@ -27,7 +27,7 @@ mmenu() {
 
 while [ 1 ]
     do
-        $PWKIT_ROOT/menu/mmenu/mmenu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/mmenu_cn.py
         read -p " ------------>>
 " menuOpt
     

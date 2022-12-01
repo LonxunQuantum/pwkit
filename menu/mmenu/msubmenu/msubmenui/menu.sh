@@ -8,7 +8,7 @@ source $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenui/opt1/menu_opt1.sh
 mmenu::msubmenui() {
 while [ 1 ]
   do
-    $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenui/menu_${glanguage}.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenui/menu_${glanguage}.py
     read -p " ------------>> 
 " submenuOpt
     case $submenuOpt in

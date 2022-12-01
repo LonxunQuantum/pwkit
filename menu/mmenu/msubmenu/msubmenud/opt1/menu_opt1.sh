@@ -4,7 +4,7 @@
 msubmenud::menu_opt1() {
 while [ 1 ]
     do 
-        $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt1/opt1_intro.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenud/opt1/opt1_intro.py
         read -p " ------------>>  
 " opt
     case $opt in 

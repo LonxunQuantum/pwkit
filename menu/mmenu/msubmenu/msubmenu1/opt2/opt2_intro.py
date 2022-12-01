@@ -1,4 +1,3 @@
-#!/data/home/liuhanyu/anaconda3/envs/pwkit_env/bin/python
 import click
 import sys
 

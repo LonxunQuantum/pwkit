@@ -10,7 +10,7 @@ for i in {1,2,3,4,5,6,7,8,9,a,b}
 mmenu::msubmenu7() {
 while [ 1 ]
   do
-    $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/menu_${glanguage}.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenu7/menu_${glanguage}.py
     read -p " ------------>>
 " submenuOpt
     case $submenuOpt in

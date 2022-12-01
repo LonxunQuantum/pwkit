@@ -11,7 +11,7 @@ for i in {1,2,3,4}
 mmenu::msubmenuf() {
 while [ 1 ]
   do
-    $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuf/menu_${glanguage}.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/mmenu/msubmenu/msubmenuf/menu_${glanguage}.py
     read -p " ------------>> 
 " submenuOpt
     case $submenuOpt in
