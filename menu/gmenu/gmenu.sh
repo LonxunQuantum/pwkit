@@ -73,11 +73,12 @@ while [ 1 ]
 
 
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
+    echo "当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有 atom.config 格式的文件..."
+
     while [ 1 ]
     do  
     ## Step 1.1. 判断是否存在 atom.config 格式的结构文件
     # atom_config_format_file_name: atom.config 格式的文件的名字
-    echo "当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有 atom.config 格式的文件..."
     echo "" # 换行
     atom_config_format_file_name=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
 
@@ -99,10 +100,20 @@ while [ 1 ]
 " file_name
         if [ ! -f $file_name ];
         then
-            echo -e "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
+            echo -e "\033[35m(*_*) 检查输入的文件名是否存在... (*_*)\033[0m"
             continue
         fi
-        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name
+
+        # 如果由于种种 Exception，导致结构文件的类型转换失败。则 check_structure_file="Check_structure_file"
+        check_structure_file=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name`
+        
+        # 如果结构文件格式转换失败，则输出`异常`
+        if [ "$check_structure_file" = "Check_structure_file" ]
+        then
+            echo -e "\033[35m(*_*) 检查输入的文件内容是否为空... (*_*)\033[0m"
+            continue
+        fi
+
         break
     else 
         break   # atom.config 存在的话，直接跳出while循环

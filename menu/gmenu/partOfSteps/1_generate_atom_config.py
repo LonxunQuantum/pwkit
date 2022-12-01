@@ -105,16 +105,17 @@ class AtomConfigGenerator(object):
         output_file_format = "pwmat"
         output_file_path = "atom.config"
         
-        
-        structure = DStructure.from_file(
-                            file_format=input_file_format,
-                            file_path=input_file_path,
-                            )
-        
-        structure.to(
-                    output_file_format=output_file_format,
-                    output_file_path=output_file_path,
-                    )
+        try:
+            structure = DStructure.from_file(
+                                file_format=input_file_format,
+                                file_path=input_file_path,
+                                )
+            structure.to(
+                        output_file_format=output_file_format,
+                        output_file_path=output_file_path,
+                        )
+        except:
+            print("Check_structure_file")
         
 
 if __name__ == "__main__":
