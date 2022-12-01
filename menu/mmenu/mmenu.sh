@@ -33,6 +33,8 @@ while [ 1 ]
     
     case $menuOpt in
     q|Q)
+        # 退出 pwkit 的 conda 环境
+        conda deactivate
         exit
         ;;
     bb|BB)

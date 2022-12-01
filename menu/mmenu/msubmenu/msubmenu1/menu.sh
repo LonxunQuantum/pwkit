@@ -17,6 +17,8 @@ while [ 1 ]
 " submenuOpt
     case $submenuOpt in
     q|Q)
+        # 退出 pwkit 的 conda 环境
+        conda deactivate
       exit 0
       ;;
     bb|BB)

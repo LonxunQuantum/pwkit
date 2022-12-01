@@ -10,7 +10,7 @@ for i in {1,2,3,4,5,6,7,8,9,a,b,c,d,e}
 umenu::usubmenu1() {
 while [ 1 ]
     do 
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/menu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/menu_cn.py
         read -p " ------------>>  
 " submenuOpt
 

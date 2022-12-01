@@ -11,7 +11,7 @@ umenu() {
 
 while [ 1 ]
     do
-        $PWKIT_ROOT/menu/umenu/umenu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/umenu_cn.py
         read -p " ------------>>
 " menuOpt
     

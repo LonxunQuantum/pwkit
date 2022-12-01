@@ -4,7 +4,7 @@
 usubmenu1::menu_optb() {
 while [ 1 ]
     do 
-        $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optb/optb_intro.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optb/optb_intro.py
         read -p " ------------>>  
 " opt
     case $opt in 
