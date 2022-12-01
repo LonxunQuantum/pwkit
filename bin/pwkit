@@ -2,13 +2,26 @@
 
 PWKIT_ROOT=${PWKIT_ROOT:-"/share/app/pwkit"}
 
+# 1. 将配置文件 (pwkit.cfg) 复制到 $HOME/.local/pwkit/pwkit.cfg
 if [ ! -d $HOME/.local/pwkit ];then
     mkdir -p $HOME/.local/pwkit
     cp $PWKIT_ROOT/pwkit.cfg $HOME/.local/pwkit
 fi
 
-# source $PWKIT_ROOT/pwkit.cfg
+# 2. source $PWKIT_ROOT/pwkit.cfg
 source $HOME/.local/pwkit/pwkit.cfg
+
+# 3. 激活 pwkit 所需要的环境(conda、环境变量)
+module load pwkit/1.0   ### for mcloud2
+source $CONDA_PATH
+conda activate pwkit    ### for mcloud2
+#conda activate pwkit_env    ### for test
+
+## 3.1. 将所有 python 脚本的解释器换成 pwkit 环境的 python 解释器
+old_python_path=`head -n 1 $PWKIT_ROOT/menu/gmenu/gmenu_cn.py`
+new_python_path='#!'`python -c "import sys;print(sys.executable)"`
+find . -name "*.py" | xargs sed -i "s:${old_python_path}:${new_python_path}:g"
+
 
 ### 日志 ###
 echo "=== `basename $0`: PWmat Kit Log `date` ===" >> $glog
@@ -22,10 +35,15 @@ source $PWKIT_ROOT/lib/usage.sh
 source $PWKIT_ROOT/menu/menu.sh
 ###
 
+
+# 4. 显示主菜单(menu)
 if [ $#  == 0 ]; then
     asset::logo
     menu
 fi
+
+# 5. 退出 pwkit 的 conda 环境
+conda deactivate
 
 ### 加载 lib 函数库
 source $PWKIT_ROOT/lib/cmd.sh
