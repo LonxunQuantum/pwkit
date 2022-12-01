@@ -16,7 +16,7 @@ $ tar -xzf pwkit_env.tar.gz -C pwkit_env
 # 2. 激活 `pwkit_env` 环境
 $ source pwkit_env/bin/activate
 # 3. 安装 pflow 环境
-(pwkit_env) $ cd pflow; pip install -e .
+(pwkit_env) $ cd pflow; pip install .
 ```
 
 
