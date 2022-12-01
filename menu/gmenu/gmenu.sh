@@ -39,7 +39,7 @@ while [ 1 ]
 
     while [ 1 ]
     do
-        $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gmenu_cn.py
         read -p " ------------>>
 " longStr
 
@@ -55,7 +55,7 @@ while [ 1 ]
     
     # Step 0. 准备工作
     # 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
-    configStr=`$PWKIT_ROOT/menu/gmenu/partOfSteps/0_output_config.py $longStr`
+    configStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/0_output_config.py $longStr`
     mark_AbortOrOutputConfig=`echo $configStr | cut -d';' -f 1`
     if [ "$mark_AbortOrOutputConfig" = "abort_task" ]; then
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
@@ -64,7 +64,7 @@ while [ 1 ]
         echo -e "\033[35m(*_*) Check your input: $longStr! (*_*)\033[0m"
     else # [ "$mark_AbortOrOutputConfig" = "output_config" ]
         # 处理类似于 "自洽计算;PBE;..." 的字符串
-        $PWKIT_ROOT/menu/gmenu/partOfSteps/0_1_process_config_str.py $configStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/0_1_process_config_str.py $configStr
         break
     fi
     done
@@ -77,10 +77,10 @@ while [ 1 ]
     # atom_config_format_file_name: atom.config 格式的文件的名字
     echo "当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有 atom.config 格式的文件..."
     echo "" # 换行
-    atom_config_format_file_name=`$PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
+    atom_config_format_file_name=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
 
     if [ ! -f $atom_config_format_file_name ]; then
-        $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "structure_convert_warning"
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "structure_convert_warning"
         ## Step 1.2.1. 判断输入的文件格式是否存在
         read -p " 结构文件的格式 
 --------------->>
@@ -100,7 +100,7 @@ while [ 1 ]
             echo "\033[35m(*_*) 检查输入的文件名是否存在... \(*_*)\033[0m"
             continue
         fi
-        $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py $file_format $file_name
         break
     else 
         break   # atom.config 存在的话，直接跳出while循环
@@ -112,12 +112,12 @@ while [ 1 ]
     ## Part I. 任务类型 -- taskStr, 将 longStr[3:] 保存为 restStr
     taskStr=`echo $longStr | cut -c 1-2`
     # taskStr 经处理后，均为大写
-    taskStr=`$PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
+    taskStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/select_task.py $taskStr`
 
     ### Note: 设置 kmesh 的 density
     ## 对于部分任务 (在$tasks_need_kmesh数组中的任务)，输入density (为了后面得到 KMesh)
     if echo "${tasks_need_kmesh[@]}" | grep -w $taskStr &> /dev/null; then 
-        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
         read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>
 " density_in_2pi
@@ -133,62 +133,62 @@ while [ 1 ]
     sc|SC)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     cr|CR)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ar|AR)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ns|NS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ds|DS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     os|OS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ep|EP)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     md|MD)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     na|NA)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     td|TD)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;   
     tc|TC)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     ts|TS)
         echo "Part I. 任务类型设置成功..." #$taskStr
         restStr=`echo $longStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/1_write_task.py $taskStr $atom_config_format_file_name
         ;;
     default)
         echo -e "\033[35m任务类型: (*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
@@ -203,7 +203,7 @@ while [ 1 ]
     ## Part II. 泛函设置 -- functionalStr, 将 restStr[3:] 保存为 restStr
     functionalStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
-    functionalStr=`$PWKIT_ROOT/menu/gmenu/select_functional.py $functionalStr`
+    functionalStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/select_functional.py $functionalStr`
 
     case $functionalStr in
     q|Q)
@@ -215,57 +215,57 @@ while [ 1 ]
     pe|PE)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     91)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ps|PS)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     ld|LD)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h6|H6)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     h3|H3)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     p0|P0)
         echo "Part II. 泛函类型设置成功..." #$functionalStrr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     b3|B3)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     tp|TP)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;
     sc|SC)
         echo "Part II. 泛函类型设置成功..." #$functionalStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         ;;   
     default)
         functionalStr="PE"
         echo "Part II. 泛函类型设置成功..." #$functionalStr
-        $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/2_write_functional.py $functionalStr
         #restStr=$restStr
         ;;
     *)
@@ -275,15 +275,15 @@ while [ 1 ]
     esac
 
     ### 写入 ACCURACY 设置
-    $PWKIT_ROOT/menu/gmenu/generateETOT/3_write_accuracy.py $density_in_2pi
+    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/3_write_accuracy.py $density_in_2pi
     ### 写入 #电子自洽设置
-    $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py $density_in_2pi
+    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py $density_in_2pi
 
 
     ## Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
     pseudoStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
-    pseudoStr=`$PWKIT_ROOT/menu/gmenu/select_pseudo.py $pseudoStr`
+    pseudoStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/select_pseudo.py $pseudoStr`
 
     case $pseudoStr in
     q|Q)
@@ -330,7 +330,7 @@ while [ 1 ]
     do 
     specificStr=`echo $restStr | cut -c 1-2`
     # functionalStr 经处理后，均为大写
-    specificStr=`$PWKIT_ROOT/menu/gmenu/select_specific.py $specificStr`
+    specificStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/select_specific.py $specificStr`
     case $specificStr in
     q|Q)
         exit
@@ -341,51 +341,51 @@ while [ 1 ]
     sp|SP)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     so|SO)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     sn|SN)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     cs|CS)
         restStr=`echo $restStr | cut -c 3-`
         # 提示
-        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
         read -p " ------------>>
 " charge_capacity
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $charge_capacity $SG15_DIR_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $charge_capacity $SG15_DIR_PATH
         echo "Part IV. 特殊设置成功..." # $specificStr
         ;;
     pu|PU)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     d3|D3)
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     ff|FF)
         restStr=`echo $restStr | cut -c 3-`
         # 提示
-        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
         read -p " ------------>>
 " electrode_potential
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $electrode_potential
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr $electrode_potential
         echo "Part IV. 特殊设置成功..." # $specificStr
         ;;
     se|SE)
-        $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py $specificStr
         echo "Part IV. 特殊设置成功..." # $specificStr
         restStr=`echo $restStr | cut -c 3-`
-        $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/5_write_specific.py $specificStr
         ;;
     default)
         pseudoStr="默认"
@@ -401,7 +401,7 @@ while [ 1 ]
     done
 
 
-    $PWKIT_ROOT/menu/gmenu/generateETOT/7_write_other.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/7_write_other.py
 
     # 当 restStr 等于 ""，写入输入输出设置后，退出程序
     if [ "$restStr" = "$endMark" ]
@@ -409,10 +409,10 @@ while [ 1 ]
         ### 写入 `输入输出设置` 到 `etot.input`
         case $pseudoStr in 
         sg|SG)
-        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $SG15_DIR_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $SG15_DIR_PATH
         ;;
         pd|PD)
-        $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $PD04_DIR_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $PD04_DIR_PATH
         ;;
         esac
 

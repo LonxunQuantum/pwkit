@@ -15,7 +15,7 @@ source $PWKIT_ROOT/menu/umenu/umenu.sh
 menu() {
     while [ 1 ]
         do
-            $PWKIT_ROOT/menu/menu_cn.py     # 显示菜单
+            $PYTHON_PATH $PWKIT_ROOT/menu/menu_cn.py     # 显示菜单
             read -p " ------------>> 
 " menuOpt 
         
