@@ -16,12 +16,13 @@ def write_functional():
     1   4
     #基础设置
     JOB = SCF
+    RELAX_DETAIL = 1 100 0.01 1 0.01
     XCFUNCTIONAL = PBE
     ACCURACY = NORM
     CONVERGENCE = EASY
     PRECISION = AUTO
     '''
-    try: 
+    try:
         etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
         etot_writer = joblib.load(etot_writer_path)
     except:

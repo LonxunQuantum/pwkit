@@ -221,11 +221,13 @@ class EtotWriter(object):
             precision = "AUTO"
             
         if self.task_name == "CR":
+            relax_detail = "1 100 0.01 1 0.01"
             accuracy = "HIGH"
             convergence = "EASY"
             precision = "AUTO"
             
         if self.task_name == "AR":
+            relax_detail = "1 100 0.01"
             accuracy = "HIGH"
             convergence = "EASY"
             precision = "AUTO"
@@ -259,6 +261,14 @@ class EtotWriter(object):
                 pass
         
         with open(self.etot_path, "a") as f:
+            # self.task = CR, RELAX_DETAIL = 1 100 0.01 1 0.01
+            if self.task_name == "CR":
+                f.write("RELAX_DETAIL = {0}\n".format(relax_detail))
+            
+            # self.task = AR, RELAX_DETAIL = 1 100 0.01
+            if self.task_name == "AR":
+                f.write("RELAX_DETAIL = {0}\n".format(relax_detail))
+            
             # self.task_name == DS : dos writing
             if self.task_name == "DS":
                 f.write("DOS_DETAIL = {0}\n".format(dos_detail))
