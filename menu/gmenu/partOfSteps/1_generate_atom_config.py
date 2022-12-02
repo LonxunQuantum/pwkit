@@ -78,7 +78,7 @@ class AtomConfigGenerator(object):
                 # tmp_rows_lst_1_upper: ['LATTICE', 'VECTOR']
                 # tmp_rows_lst_5_upper: ['POSITION,', 'MOVE_X,', 'MOVE_Y,', 'MOVE_Z']
                 if ("LATTICE" in tmp_rows_lst_1_upper and \
-                    "VECTOR" in tmp_rows_lst_1_upper and \
+                    #"VECTOR" in tmp_rows_lst_1_upper and \
                     "POSITION" in tmp_rows_lst_5_upper
                     ):
                     atom_config_name = tmp_file_name
