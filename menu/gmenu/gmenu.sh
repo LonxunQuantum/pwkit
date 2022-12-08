@@ -73,12 +73,12 @@ while [ 1 ]
 
 
     ### Step 1. 读取结构 -- 如果不存在 atom.config，就生成 atom.config
-    echo "当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有 atom.config 格式的文件..."
+    echo "当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有 PWmat 格式的结构文件..."
 
     while [ 1 ]
     do  
     ## Step 1.1. 判断是否存在 atom.config 格式的结构文件
-    # atom_config_format_file_name: atom.config 格式的文件的名字
+    # atom_config_format_file_name: PWmat 格式的文件的名字
     echo "" # 换行
     atom_config_format_file_name=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/partOfSteps/1_generate_atom_config.py "judge_atom_config_exist"`
 
@@ -119,6 +119,9 @@ while [ 1 ]
         break   # atom.config 存在的话，直接跳出while循环
     fi
     done
+
+    echo "搜索到 PWmat 格式的结构文件: ${atom_config_format_file_name}
+    "
 
 
     ### Step 2. 判断任务类型，对于部分任务，应得到 KMesh density

@@ -4,7 +4,7 @@ import click
 def menu_cn():
     ### Part I. Generator
     print(
-            "{0:=^80s}".format(" Generator ")
+            "{0:=^90s}".format(" Generator ")
     )
     print(
 ''' g) 进入 Input Generator 模块''', end=''
@@ -17,10 +17,10 @@ def menu_cn():
 
     ### Part II. Module
     print(
-            "{0:=^80s}".format(" Module ")
+            "{0:=^90s}".format(" Module ")
     )
     print(
-''' m) 进入 Module''',
+''' m) Module 功能简介''',
     )
     print(
 ''' 在PWmat的基础功能上, 我们针对用户的使用需求开发了一些顶层模块(MODULE)。
@@ -30,18 +30,18 @@ def menu_cn():
 ''')
 
     ### Part III. Utility
-    print(
-            "{0:=^80s}".format(" Utility ")
-    )
-    print(
-''' u) 进入 Utility '''
-    )
-    print(
-''' 为了方便用户进行计算的前、后处理, PWmat安装包内附带了一系列实用程序。通过这些程
-序, 我们可以实现PWmat结构文件和其他常见晶体结构文件之间的相互转换、处理数据得到
-可视化电荷密度、能带结构图、投影态密度、真空能级等操作。
-'''
-    )
+#    print(
+#            "{0:=^90s}".format(" Utility ")
+#    )
+#    print(
+#''' u) 进入 Utility '''
+#    )
+#    print(
+#''' 为了方便用户进行计算的前、后处理, PWmat安装包内附带了一系列实用程序。通过这些程
+#序, 我们可以实现PWmat结构文件和其他常见晶体结构文件之间的相互转换、处理数据得到
+#可视化电荷密度、能带结构图、投影态密度、真空能级等操作。
+#'''
+#    )
 
     ### Part IV. Exit
     print(
