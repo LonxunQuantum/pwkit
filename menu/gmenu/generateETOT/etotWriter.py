@@ -245,7 +245,7 @@ class EtotWriter(object):
             convergence = "EASY"
             precision = "AUTO"
             
-            # DOS_DETAIL      
+            # DOS_DETAIL
             try:
                 density = density
                 
@@ -346,6 +346,7 @@ class EtotWriter(object):
             f.write("### 电子自洽设置\n")
             f.write("Ecut = {0}\n".format(ecut))
             if mp_n123:
+                #if self.task_name != "DS":  # 当计算DOS的时候，KMesh在 DOS_DETAIL中设置
                 f.write("MP_N123 = {0}\n".format(mp_n123))
             if scf_iter0_1:
                 f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
