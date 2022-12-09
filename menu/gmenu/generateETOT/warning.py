@@ -4,6 +4,11 @@ import sys
 class Warning(object):
     @staticmethod
     def kmesh_warning():
+        '''
+        Description
+        -----------
+            1. 选择 KMesh for `MP_N123` in etot.input
+        '''
         print("+{0:-^68}+".format("Warm Tips"))
         print("\t* Accuracy Levels: Gamma-Only: 0;")
         print("\t                   Low:        0.06~0.04;")
