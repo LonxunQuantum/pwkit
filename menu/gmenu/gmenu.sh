@@ -171,6 +171,7 @@ while [ 1 ]
 ------------>>
 " density_for_kpath
             $PYTHON_PATH ${PWKIT_ROOT}/menu/gmenu/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${density_for_kpath}
+            ${PWKIT_ROOT}/menu/scripts/split_kp.x gen.kpt
             ;;
         esac
 

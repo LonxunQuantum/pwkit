@@ -13,8 +13,8 @@ source ${HOME}/.local/pwkit/pwkit.cfg
 
 # 3. 激活 pwkit 所需要的环境(conda、环境变量)
 source ${CONDA_PATH}/etc/profile.d/conda.sh
-conda activate pwkit    ### for mcloud2
-#conda activate pwkit_env    ### for test
+#conda activate pwkit    ### for mcloud2
+conda activate pwkit_env    ### for test
 
 ### 日志 ###
 echo "=== `basename $0`: PWmat Kit Log `date` ===" >> $glog
