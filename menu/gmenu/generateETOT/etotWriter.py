@@ -246,7 +246,7 @@ class EtotWriter(object):
             precision = "AUTO"
             
             # DOS_DETAIL: 需要 KMesh
-            try:
+            if density: # density: $density_in_2_pi
                 density = density
                 
                 kmesh = KMesh(file_format="pwmat",
@@ -257,8 +257,7 @@ class EtotWriter(object):
                 kmesh_str = " ".join(kmesh_lst)
                 
                 dos_detail = "0 {0}".format(kmesh_str)
-            except:
-                pass
+        
         
         with open(self.etot_path, "a") as f:
             # self.task = CR, RELAX_DETAIL = 1 100 0.01 1 0.01
@@ -295,7 +294,7 @@ class EtotWriter(object):
         '''
         # density of KMesh (unit: 2pi/Angstrom)
         mp_n123 = None
-        try:
+        if density: # density: $density_in_2_pi
             density = density
             
             kmesh = KMesh(file_format="pwmat",
@@ -306,8 +305,6 @@ class EtotWriter(object):
             kmesh_str = " ".join(kmesh_lst)
             
             mp_n123 = "{0} 0 0 0 0".format(kmesh_str)
-        except:
-            pass
             
             
         if self.task_name == "SC":
@@ -341,19 +338,31 @@ class EtotWriter(object):
             scf_iter0_2 = None
             scf_iter1_1 = None
         
-        with open(self.etot_path, "a") as f:
-            f.write("\n\n")
-            f.write("### 电子自洽设置\n")
-            f.write("Ecut = {0}\n".format(ecut))
-            if mp_n123:
-                #if self.task_name != "DS":  # 当计算DOS的时候，KMesh在 DOS_DETAIL中设置
-                f.write("MP_N123 = {0}\n".format(mp_n123))
-            if scf_iter0_1:
-                f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
-            if scf_iter0_2:
-                f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
-            if scf_iter1_1:
-                f.write("SCF_ITER1_1 = {0}\n".format(scf_iter1_1))
+        
+        if self.task_name == "NS":
+            with open(self.etot_path, "a") as f:
+                f.write("\n\n")
+                f.write("### 电子非自洽设置\n")
+                f.write("Ecut = {0}\n".format(ecut))
+                if mp_n123:
+                    #if self.task_name != "DS":  # 当计算DOS的时候，KMesh在 DOS_DETAIL中设置
+                    f.write("MP_N123 = {0}\n".format(mp_n123))
+                if scf_iter0_1:
+                    f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
+        else:
+            with open(self.etot_path, "a") as f:
+                f.write("\n\n")
+                f.write("### 电子自洽设置\n")
+                f.write("Ecut = {0}\n".format(ecut))
+                if mp_n123:
+                    #if self.task_name != "DS":  # 当计算DOS的时候，KMesh在 DOS_DETAIL中设置
+                    f.write("MP_N123 = {0}\n".format(mp_n123))
+                if scf_iter0_1:
+                    f.write("SCF_ITER0_1 = {0}\n".format(scf_iter0_1))
+                if scf_iter0_2:
+                    f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
+                if scf_iter1_1:
+                    f.write("SCF_ITER1_1 = {0}\n".format(scf_iter1_1))
     
     
     
@@ -468,7 +477,7 @@ class EtotWriter(object):
                 num_species = len(species_lst)
                 with open(self.in_solvent_path, "a") as f_in_solvent:
                     for idx_specie in range(num_species):
-                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 #内容均为1 1 1。有{1}种元素，就是{2}行，这里是第{3}个元素\n".format(idx_specie+1, num_species, num_species, idx_specie+1))
+                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 # 这里是第{1}个元素\n".format(idx_specie+1, idx_specie+1))
                     f_in_solvent.write("DIELECTRIC_MODEL = ATOM_CHARGE\n")
                     f_in_solvent.write("DIELECTRIC_CONST = 78\n")
                     f_in_solvent.write("RHOMIN_DIELECTRIC = 0.0001\n")
@@ -498,7 +507,7 @@ class EtotWriter(object):
                 num_species = len(species_lst)
                 with open(self.in_solvent_path, "a") as f_in_solvent:
                     for idx_specie in range(num_species):
-                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 #内容均为1 1 1。有{1}种元素，就是{2}行，这里是第{3}个元素\n".format(idx_specie+1, num_species, num_species, idx_specie+1))
+                        f_in_solvent.write("PARAM_CHARGE.{0} = 1 1 1 # 这里是第{1}个元素\n".format(idx_specie+1, idx_specie+1))
                     f_in_solvent.write("DIELECTRIC_MODEL = ATOM_CHARGE\n")
                     f_in_solvent.write("DIELECTRIC_CONST = 78\n")
                     f_in_solvent.write("RHOMIN_DIELECTRIC = 0.0001\n")
@@ -560,7 +569,7 @@ class EtotWriter(object):
             out_wg = "T"
             out_rho = "T"
             out_vr = "T"
-            out_vatom = "T"
+            out_vatom = "F"
         
         # 2. task_name == CR
         if self.task_name == "CR":

@@ -31,11 +31,14 @@ def write_accuracy():
     except:
         print("Error!!! check your input.")
         
-    try:    
-        etot_writer.write_scf(density=float( sys.argv[1] ))
+        
+    # 1. 任务类型为 nonscf 时，若按照高对称点确定KPoints，$density_in_2pi 是空的
+    try:
+        density = float( sys.argv[1] )
     except IndexError:  # IndexError: 有些任务比如NS，不需要填写density_in_2pi, 
                         # 因此不会向Python脚本传入参数，因此sys.argv[1]会引发错误
-        pass
+        density = False
+    etot_writer.write_accuracy(density=density)
 
 
 if __name__ == "__main__":
