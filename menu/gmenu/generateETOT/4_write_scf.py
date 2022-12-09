@@ -16,13 +16,22 @@ def write_scf():
     MP_N123 = 12 12 1 0 0 0 0
     SCF_ITER0_1 = 6 4 3 0.0 0.025 1
     SCF_ITER0_2 = 94 4 3 1.0 0.025 1
+    
+    sys.argv
+    --------
+        1. sys.argv[1]: KMesh 的 density -- 用于填写 MP_N123
     '''
     try: 
         etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    etot_writer.write_scf(density=float( sys.argv[1] ))
+        
+    try:    
+        etot_writer.write_scf(density=float( sys.argv[1] ))
+    except IndexError:  # IndexError: 有些任务比如NS，不需要填写density_in_2pi, 
+                        # 因此不会向Python脚本传入参数，因此sys.argv[1]会引发错误
+        pass
 
 
 if __name__ == "__main__":

@@ -156,15 +156,24 @@ while [ 1 ]
     ### Case 2: 非自洽计算(NS)，需要选择 KMesh or KPATH
     ## 对于部分任务 (在$tasks_need_kmesh数组中的任务)，输入density (为了后面得到 KMesh)
     if [ "$taskStr" == "NS" ]; then 
-        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/warning.py "kmesh_warning"
-        if [ "$taskStr" == "ds" -o "$taskStr" == "DS" ] ;then
-            echo -e "\033[31m        * 进行DOS计算的时候，density必须与之前计算一致! \033[0m"
-            echo -e "+--------------------------------------------------------------------+"
-        fi
-
-        read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
+        $PYTHON_PATH ${PWKIT_ROOT}/menu/gmenu/partOfSteps/2_1_hSP_menu.py
+        read -p " 输入 KPoints 的定义方式: 
+------------>>
+" ns_kpoints_definition_way
+        case $ns_kpoints_definition_way in 
+        1)
+            read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>
 " density_in_2pi
+            ;;
+        2)
+            read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
+------------>>
+" density_for_kpath
+            $PYTHON_PATH ${PWKIT_ROOT}/menu/gmenu/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${density_for_kpath}
+            ;;
+        esac
+
     fi
     
 
@@ -324,8 +333,10 @@ while [ 1 ]
     esac
 
     ### 写入 ACCURACY 设置
+    #  Note: self.task=NS时，没有 density_in_2pi 变量
     $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/3_write_accuracy.py $density_in_2pi
     ### 写入 #电子自洽设置
+    #  Note: self.task=NS时，没有 density_in_2pi 变量
     $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/4_write_scf.py $density_in_2pi
 
 
@@ -462,10 +473,10 @@ while [ 1 ]
         ### 写入 `输入输出设置` 到 `etot.input`
         case $pseudoStr in 
         sg|SG)
-        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $SG15_DIR_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $SG15_DIR_PATH $ns_kpoints_definition_way
         ;;
         pd|PD)
-        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $PD04_DIR_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/generateETOT/6_write_input_output.py $pseudoStr $atom_config_format_file_name $PD04_DIR_PATH $ns_kpoints_definition_way
         ;;
         esac
 

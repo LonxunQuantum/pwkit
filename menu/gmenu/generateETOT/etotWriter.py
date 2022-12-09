@@ -245,7 +245,7 @@ class EtotWriter(object):
             convergence = "EASY"
             precision = "AUTO"
             
-            # DOS_DETAIL
+            # DOS_DETAIL: 需要 KMesh
             try:
                 density = density
                 
@@ -282,7 +282,7 @@ class EtotWriter(object):
             f.write("PRECISION = {0}\n".format(precision))
     
     
-    def write_scf(self, density:float):
+    def write_scf(self, density:float=None):
         '''
         Description
         -----------
@@ -519,6 +519,7 @@ class EtotWriter(object):
                         pseudo_name:str,
                         atom_config_format_file_name:str,
                         pseudo_dir_path:str,
+                        in_kpt_for_ns:bool=False,
                         ):
         '''
         Description
@@ -588,7 +589,10 @@ class EtotWriter(object):
             in_wg = "F"
             in_rho = "F"
             in_vr = "T"
-            in_kpt = "T"
+            if in_kpt_for_ns == "2":
+                in_kpt = "T"
+            else:
+                in_kpt = "F"
             out_wg = "T"
             out_rho = "F"
             out_vr = "F"
