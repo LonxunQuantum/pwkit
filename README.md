@@ -1,4 +1,4 @@
-# pwkit
+# PWkit
 Toolkits for pwmat
 
 详情见 http://doc.lonxun.com/PWkit/PWkit.html
