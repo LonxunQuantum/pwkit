@@ -1,6 +1,9 @@
 # pwkit
 Toolkits for pwmat
 
+详情见 http://doc.lonxun.com/PWkit/PWkit.html
+
+
 # 1. Installation
 # 1.0. 需要准备的文件
 1. `pwkit_env.tar.gz`: pwkit 的环境
