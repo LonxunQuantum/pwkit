@@ -4,6 +4,7 @@
 # 加载 usubmenu 对应的所有opt函数
 for i in {1,2,3,4,5,6,7,8,9,a,b,c,d,e}
     do
+        #echo $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt${i}/menu_opt${i}_use.sh
         source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt${i}/menu_opt${i}_use.sh
     done
 
