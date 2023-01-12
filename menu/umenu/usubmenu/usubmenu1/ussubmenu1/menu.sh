@@ -2,7 +2,7 @@
 
 
 ### 加载 usubmenu 对应的所有opt函数
-for i in {1,2,3,4}
+for i in {1,2,3,4,5,6}
     do
         source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt${i}/menu_opt${i}_use.sh
     done
@@ -37,6 +37,14 @@ while [ 1 ]
         ;;
     4)
         ussubmenu1::opt4
+        exit 0
+        ;;
+    5)
+        ussubmenu1::opt5
+        exit 0
+        ;;
+    6)
+        ussubmenu1::opt6
         exit 0
         ;;
     *)

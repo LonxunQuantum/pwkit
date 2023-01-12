@@ -32,14 +32,14 @@ def opt3():
         input_file_name = input(" PWMat格式的文件名\n------------>>\n")
         input_file_path = os.path.join(current_path, input_file_name)
     
-    # e.g. output_file_name = "atom.pwscf"
-    output_file_name = "atom.pwscf"
+    # e.g. output_file_name = "rndstr.in"
+    output_file_name = "rndstr.in"
     output_file_path = os.path.join(current_path, output_file_name)
         
     
     ### Step 2. 文件格式转换
     structure = DStructure.from_file(file_path=input_file_path, file_format="pwmat")
-    structure.to(output_file_path=output_file_path, output_file_format="pwscf")
+    structure.to(output_file_path=output_file_path, output_file_format="atat")
 
 
     ### Step 3. 输出程序运行的信息

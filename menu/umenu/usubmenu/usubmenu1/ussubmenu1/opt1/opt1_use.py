@@ -32,8 +32,8 @@ def opt1():
         input_file_name = input(" POSCAR格式的文件名\n------------>>\n")
         input_file_path = os.path.join(current_path, input_file_name)
     
-    # e.g. output_file_name = "POSCAR.atom.config"
-    output_file_name = "{0}.atom.config".format( input_file_name.split('.')[0] )
+    # e.g. output_file_name = "atom.config"
+    output_file_name = "atom.config"
     output_file_path = os.path.join(current_path, output_file_name)
         
     

@@ -10,8 +10,7 @@ def mmenu_cn():
     print(
 ''' 
  1) PWMat文件 -> POSCAR文件     2) PWMat文件 -> xsf文件
- 3) PWMat文件 -> pwscf文件      4) PWMat文件 -> atat文件
- 5) PWMat文件 -> cif文件
+ 3) PWMat文件 -> atat文件       4) PWMat文件 -> cif文件
 '''
     )
     

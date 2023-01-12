@@ -2,13 +2,13 @@ import click
 
 
 @click.command()
-def opt5():
+def opt6():
     ### Part I. Utility 名
     print("{0:=^180}".format(" Utility --> convert_rho.x "))
     print(
 '''1.工具简介
 ----------
-  将 pwscf 转换为 atom.config 格式的文件
+  用于将cif文件转换为atom.config
 '''
     )
     print(
@@ -24,4 +24,4 @@ def opt5():
     
 
 if __name__ == "__main__":
-    opt5()
+    opt6()
