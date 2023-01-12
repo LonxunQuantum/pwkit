@@ -6,10 +6,10 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 格式转换
-    print("{0:-^50}".format("  其他格式 -> PWMat格式  "))
+    print("{0:-^68}".format(" 查看结构信息 "))
     print(
-''' 1) PWMat文件 -> POSCAR文件     2) PWMat文件 -> xsf文件
- 3) PWMat文件 -> atat文件       4) PWMat文件 -> cif文件
+''' 1) 查看原晶胞的基矢\t\t\t2) 查看倒易点阵的基矢
+ 3) 查看原晶胞的基矢长度\t\t4) 查看原晶胞的基矢间夹角
 '''
     )
     

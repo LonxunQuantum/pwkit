@@ -2,7 +2,7 @@
 
 
 # 加载 usubmenu 对应的所有opt函数
-for i in {1,2}
+for i in {1,2,3}
     do  
         source /data/home/liuhanyu/hyliu/code/pwkit/menu/umenu/usubmenu/usubmenu1/ussubmenu${i}/menu.sh
     done
@@ -34,11 +34,7 @@ while [ 1 ]
         exit 0
         ;;
     3)
-        #usubmenu1::ussubmenu3
-        exit 0
-        ;;
-    4)
-        #usubmenu1::ussubmenu4
+        usubmenu1::ussubmenu3
         exit 0
         ;;
     *)
