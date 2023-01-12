@@ -2,10 +2,13 @@
 
 # 加载menu函数 -- umenu_cn.py
 
-# 加载 usubmenu 函数
+## 加载 usubmenu 函数
+# 1. 格式转换
 source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/menu.sh
 source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/menu.sh
 source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/menu.sh
+source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh
+
 
 umenu() {
 
@@ -32,6 +35,9 @@ while [ 1 ]
         ;;
     3) 
         umenu::usubmenu3
+        ;;
+    4) 
+        umenu::usubmenu4
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
