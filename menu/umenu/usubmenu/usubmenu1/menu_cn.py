@@ -24,5 +24,6 @@ def mmenu_cn():
  q)  退出'''
     )
     
+
 if __name__ == "__main__":
     mmenu_cn()
