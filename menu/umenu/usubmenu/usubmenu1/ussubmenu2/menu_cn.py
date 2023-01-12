@@ -8,9 +8,10 @@ def mmenu_cn():
     ### Part I. 格式转换
     print("{0:-^50}".format("  其他格式 -> PWMat格式  "))
     print(
-''' 1) POSCAR文件 -> PWMat文件     2) xsf文件  -> PWMat文件
- 3) pwscf文件  -> PWMat文件     4) atat文件 -> PWMat文件
- 5) cif文件    -> PWMat文件     
+''' 
+ 1) PWMat文件 -> POSCAR文件     2) PWMat文件 -> xsf文件
+ 3) PWMat文件 -> pwscf文件      4) PWMat文件 -> atat文件
+ 5) PWMat文件 -> cif文件
 '''
     )
     

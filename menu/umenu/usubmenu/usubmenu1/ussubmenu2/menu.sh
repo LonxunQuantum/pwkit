@@ -4,13 +4,14 @@
 ### 加载 usubmenu 对应的所有opt函数
 for i in {1,2,3,4,5}
     do
-        source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt${i}/menu_opt${i}_use.sh
+        source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu2/opt${i}/menu_opt${i}_use.sh
     done
 
-usubmenu1::ussubmenu1() {
+
+usubmenu1::ussubmenu2() {
 while [ 1 ]
     do 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/menu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu2/menu_cn.py
         read -p " ------------>>  
 " submenuOpt
 
@@ -24,23 +25,23 @@ while [ 1 ]
         umenu::usubmenu1
         ;;
     1)
-        ussubmenu1::opt1       
+        ussubmenu2::opt1       
         exit 0
         ;;
     2)
-        ussubmenu1::opt2
+        ussubmenu2::opt2
         exit 0
         ;;
     3)
-        ussubmenu1::opt3
+        ussubmenu2::opt3
         exit 0
         ;;
     4)
-        ussubmenu1::opt4
+        ussubmenu2::opt4
         exit 0
         ;;
     5)
-        ussubmenu1::opt5
+        ussubmenu2::opt5
         exit 0
         ;;
     *)
