@@ -1,8 +1,9 @@
 #!/bin/bash
+#!/bin/bash
 
 
-usubmenu1::menu_opt9() {
+usubmenu1::menu_optc() {
 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt9/opt9_use.py
+    $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/optc/optc_use.py
 
 }

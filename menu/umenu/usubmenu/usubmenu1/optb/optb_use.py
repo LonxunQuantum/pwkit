@@ -1,16 +1,16 @@
 import os
 
 
-def optb():
+
+def opte():
     '''
     Description
     -----------
-        1. atominfo.x 主要是给出 PWmat 的结构文件 atom.config 的几何信息.
-        2. atominfo.x atom.config，屏幕输出
+        1. 求取某个或者多个波函数的势能项
+        2. 直接运行 convert_rho_multiply.x，根据提示输入参数
     '''
-    config_name = input(" 请输入atom.config格式的文件名\n------------>>\n")
-    os.system("atominfo.x {0}".format(config_name))
+    os.system("convert_rho_multiply.x")
 
 
 if __name__ == "__main__":
-    optb()
+    opte()

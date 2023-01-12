@@ -2,19 +2,19 @@ import click
 
 
 @click.command()
-def opt4():
+def opt6():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> poscar2config.x "))
+    print("{0:=^180}".format(" Utility --> xsf2config.x "))
     print(
 '''1.工具简介
 ----------
-  用于将POSCAR文件转换为atom.config
+  用于将XSF文件转换为atom.config
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/poscar2config.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/xsfconfig.pdf
 '''
     )
     print(
@@ -23,4 +23,4 @@ def opt4():
     )
 
 if __name__ == "__main__":
-    opt4()
+    opt6()

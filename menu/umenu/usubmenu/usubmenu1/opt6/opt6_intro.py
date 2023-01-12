@@ -2,25 +2,26 @@ import click
 
 
 @click.command()
-def opt6():
+def opt8():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> xsf2config.x "))
+    print("{0:=^180}".format(" Utility --> convert_from_config.x "))
     print(
 '''1.工具简介
 ----------
-  用于将XSF文件转换为atom.config
+  用于将atom.config转换为xsf和xyz格式的文件
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/xsfconfig.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/convert_from_config.pdf
 '''
     )
     print(
 ''' bb) 返回上一级目录
  q)  退出'''
     )
+    
 
 if __name__ == "__main__":
-    opt6()
+    opt8()

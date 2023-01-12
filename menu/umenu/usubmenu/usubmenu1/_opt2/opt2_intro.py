@@ -2,26 +2,25 @@ import click
 
 
 @click.command()
-def opte():
+def opt2():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> convert_rho_multiply "))
+    print("{0:=^180}".format(" Utility --> vwr2upf.x "))
     print(
 '''1.工具简介
 ----------
-  求取某个或者多个波函数的势能项
+  将vwr赝势转换为UPF赝势
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/convert_rho_multiply.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/vwr2upf.pdf
 '''
     )
     print(
 ''' bb) 返回上一级目录
  q)  退出'''
     )
-    
 
 if __name__ == "__main__":
-    opte()
+    opt2()

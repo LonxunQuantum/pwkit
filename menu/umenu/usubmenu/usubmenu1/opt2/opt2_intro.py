@@ -2,19 +2,19 @@ import click
 
 
 @click.command()
-def opt2():
+def opt4():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> vwr2upf.x "))
+    print("{0:=^180}".format(" Utility --> poscar2config.x "))
     print(
 '''1.工具简介
 ----------
-  将vwr赝势转换为UPF赝势
+  用于将POSCAR文件转换为atom.config
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/vwr2upf.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/poscar2config.pdf
 '''
     )
     print(
@@ -23,4 +23,4 @@ def opt2():
     )
 
 if __name__ == "__main__":
-    opt2()
+    opt4()

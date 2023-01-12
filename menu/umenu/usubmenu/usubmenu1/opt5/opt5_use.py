@@ -1,16 +1,16 @@
 import os 
 
 
-def opt5():
+def opt7():
     '''
     Description
     -----------
-        1. 将CASTEP的cell格式的结构文件转换为atom.config文件。
-        2. cell2config.x < atom.cell，之后就会得到 atom.config
+        1. pwscf2config.x 主要将 pwscf 的结构文件转换为 atom.config 文件。
+        2. pwscf2config.x 主要将 pwscf 的结构文件转换为 atom.config 文件。
     '''
-    cell_name = input(" 请输入cell格式的文件名\n------------>>\n")
-    os.system("cell2config.x < {0}".format(cell_name))
-    
+    pwscf_name = input(" 请输入pwscf格式的文件名\n------------>>\n")
+    os.system("pwscf2config.x < {0}".format(pwscf_name))
+
 
 if __name__ == "__main__":
-    opt5()
+    opt7()

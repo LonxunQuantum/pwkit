@@ -1,16 +1,16 @@
 import os 
 
 
-def opt7():
+def opt9():
     '''
     Description
     -----------
-        1. pwscf2config.x 主要将 pwscf 的结构文件转换为 atom.config 文件。
-        2. pwscf2config.x 主要将 pwscf 的结构文件转换为 atom.config 文件。
+        1. config2poscar.x主要是把PWmat的结构文件atom.config转换为POSCAR格式。
+        2. config2poscar.x atom.config，之后就会得到 POSCAR.pwmat
     '''
-    pwscf_name = input(" 请输入pwscf格式的文件名\n------------>>\n")
-    os.system("pwscf2config.x < {0}".format(pwscf_name))
+    config_name = input(" 请输入POSCAR格式的文件名\n------------>>\n")
+    os.system("config2poscar.x {0}".format(config_name))
 
 
 if __name__ == "__main__":
-    opt7()
+    opt9()

@@ -2,19 +2,19 @@ import click
 
 
 @click.command()
-def optc():
+def opta():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> convert_realwg.x "))
+    print("{0:=^180}".format(" Utility --> upf2upfSO.x "))
     print(
 '''1.工具简介
 ----------
-  将波函数转化到实空间，然后用VESTA可以查看
+  用于将pwscf的含有spin-orbital的赝势转换为PWmat专有数据格式的赝势
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/convert_reawg.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/upf2upfSO.pdf
 '''
     )
     print(
@@ -24,4 +24,4 @@ def optc():
     
 
 if __name__ == "__main__":
-    optc()
+    opta()

@@ -8,13 +8,13 @@ def mmenu_cn():
     ### Part I. 格式转换
     print("{0:-^60}".format(" 格式转换 "))
     print(
-''' 1) convert_rho.x            2) vwr2upf.x
- 3) uspp2upf.x               4) poscar2config.x
- 5) cell2config.x            6) xsf2config.x
- 7) pwscf2config.x           8) convert_from_config.x
- 9) config2poscar.x          a) upf2upfSO.x
- b) atominfo.x               c) convert_realwg.x
- d) convert_wg2rho           e) convert_rho_multiply'''
+'''
+ 1) convert_rho.x            2) poscar2config.x
+ 3) cell2config.x            4) xsf2config.x
+ 5) pwscf2config.x           6) convert_from_config.x
+ 7) config2poscar.x          8) atominfo.x               
+ 9) convert_realwg.x         a) convert_wg2rho           
+ b) convert_rho_multiply'''
     )
     
     ### Part II. EXIT

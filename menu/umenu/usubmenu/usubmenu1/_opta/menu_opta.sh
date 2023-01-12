@@ -1,10 +1,10 @@
 #!/bin/bash
 
 
-usubmenu1::menu_opte() {
+usubmenu1::menu_opta() {
 while [ 1 ]
     do 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opte/opte_intro.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opta/opta_intro.py
         read -p " ------------>>  
 " opt
     case $opt in 

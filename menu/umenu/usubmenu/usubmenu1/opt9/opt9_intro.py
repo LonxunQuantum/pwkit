@@ -2,19 +2,19 @@ import click
 
 
 @click.command()
-def opt9():
+def optc():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> config2poscar.x "))
+    print("{0:=^180}".format(" Utility --> convert_realwg.x "))
     print(
 '''1.工具简介
 ----------
-  用于将atom.config转换为POSCAR格式的文件
+  将波函数转化到实空间，然后用VESTA可以查看
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/config2poscar.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/convert_reawg.pdf
 '''
     )
     print(
@@ -24,4 +24,4 @@ def opt9():
     
 
 if __name__ == "__main__":
-    opt9()
+    optc()

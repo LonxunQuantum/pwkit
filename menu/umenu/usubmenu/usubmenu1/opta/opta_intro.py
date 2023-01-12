@@ -2,19 +2,19 @@ import click
 
 
 @click.command()
-def opta():
+def optd():
     ### Part I. Utility 名
-    print("{0:=^180}".format(" Utility --> upf2upfSO.x "))
+    print("{0:=^180}".format(" Utility --> convert_wg2rho "))
     print(
 '''1.工具简介
 ----------
-  用于将pwscf的含有spin-orbital的赝势转换为PWmat专有数据格式的赝势
+  将某个或者多个波函数转化成电荷密度
 '''
     )
     print(
 '''2.使用手册
 ----------
-  http://www.pwmat.com:8080/upload/utility/pdf/upf2upfSO.pdf
+  http://www.pwmat.com:8080/upload/utility/pdf/convert_wg2rho.pdf
 '''
     )
     print(
@@ -24,4 +24,4 @@ def opta():
     
 
 if __name__ == "__main__":
-    opta()
+    optd()
