@@ -31,15 +31,15 @@ while [ 1 ]
         exit 0
         ;;
     2)
-        usubmenu1::ussubmenu2
+        #usubmenu1::ussubmenu2
         exit 0
         ;;
     3)
-        usubmenu1::ussubmenu3
+        #usubmenu1::ussubmenu3
         exit 0
         ;;
     4)
-        usubmenu1::ussubmenu4
+        #usubmenu1::ussubmenu4
         exit 0
         ;;
     *)

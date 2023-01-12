@@ -7,6 +7,7 @@
 #        #echo $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt${i}/menu_opt${i}_use.sh
 #        source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/opt${i}/menu_opt${i}_use.sh
 #    done
+source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt1/menu_opt1_use.sh
 
 usubmenu1::ussubmenu1() {
 while [ 1 ]
@@ -25,8 +26,7 @@ while [ 1 ]
         umenu
         ;;
     1)
-        echo "POSCAR -> PWMat格式"
-        #opt1::opt() # POSCAR -> PWMat格式
+        ussubmenu1::opt1        # POSCAR -> PWMat格式
         exit 0
         ;;
     2)
