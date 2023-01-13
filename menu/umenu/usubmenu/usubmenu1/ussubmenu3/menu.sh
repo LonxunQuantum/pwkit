@@ -64,7 +64,7 @@ while [ 1 ]
         exit 0
         ;;
     5)
-        # 查看倒易点阵的基矢 (单位: 1/埃)
+        # 查看倒易点阵的基矢长度 (单位: 2pi/埃)
         $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu3/opt5/opt5_use.py $atom_config_file_name
         exit 0
         ;;
