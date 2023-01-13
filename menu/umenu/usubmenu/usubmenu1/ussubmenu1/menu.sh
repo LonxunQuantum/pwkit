@@ -7,6 +7,7 @@ for i in {1,2,3,4,5,6}
         source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt${i}/menu_opt${i}_use.sh
     done
 
+
 usubmenu1::ussubmenu1() {
 while [ 1 ]
     do 
@@ -23,28 +24,28 @@ while [ 1 ]
     bb|BB)
         umenu::usubmenu1
         ;;
-    1)
-        ussubmenu1::opt1       
+    1)  
+        1ussubmenu1::opt1       
         exit 0
         ;;
     2)
-        ussubmenu1::opt2
+        1ussubmenu1::opt2
         exit 0
         ;;
     3)
-        ussubmenu1::opt3
+        1ussubmenu1::opt3
         exit 0
         ;;
     4)
-        ussubmenu1::opt4
+        1ussubmenu1::opt4
         exit 0
         ;;
     5)
-        ussubmenu1::opt5
+        1ussubmenu1::opt5
         exit 0
         ;;
     6)
-        ussubmenu1::opt6
+        1ussubmenu1::opt6
         exit 0
         ;;
     *)
