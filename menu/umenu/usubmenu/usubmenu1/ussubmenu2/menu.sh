@@ -25,19 +25,19 @@ while [ 1 ]
         umenu::usubmenu1
         ;;
     1)
-        ussubmenu2::opt1       
+        2ussubmenu2::opt1       
         exit 0
         ;;
     2)
-        ussubmenu2::opt2
+        2ussubmenu2::opt2
         exit 0
         ;;
     3)
-        ussubmenu2::opt3
+        2ussubmenu2::opt3
         exit 0
         ;;
     4)
-        ussubmenu2::opt4
+        2ussubmenu2::opt4
         exit 0
         ;;
     *)
