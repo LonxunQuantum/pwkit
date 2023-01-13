@@ -20,8 +20,8 @@ def opt1():
     for file_name in os.listdir(current_path):
         file_path = os.path.join(current_path, file_name)
         # 默认输入 POSCAR 文件，进行格式转换        
-        if os.path.isfile(file_path) and (file_name=="POSCAR"):
-            input_file_name = "POSCAR"
+        if os.path.isfile(file_path) and (file_name=="atom.config"):
+            input_file_name = "atom.config"
             input_file_path = file_path
             mark_poscar_exits = True
             break
