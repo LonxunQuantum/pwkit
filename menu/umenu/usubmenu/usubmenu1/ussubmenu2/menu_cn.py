@@ -8,8 +8,10 @@ def mmenu_cn():
     ### Part I. 格式转换
     print("{0:-^50}".format("  PWMat格式 -> 其他格式  "))
     print(
-''' 1) PWMat文件 -> POSCAR文件     2) PWMat文件 -> xsf文件
- 3) PWMat文件 -> atat文件       4) PWMat文件 -> cif文件
+''' 1) atom.config -> POSCAR文件 (POSCAR)    
+ 2) atom.config -> xsf文件    (atom.xsf)
+ 3) atom.config -> atat文件   (rndstr.in)
+ 4) atom.config -> cif文件    (atom.cif)
 '''
     )
     
