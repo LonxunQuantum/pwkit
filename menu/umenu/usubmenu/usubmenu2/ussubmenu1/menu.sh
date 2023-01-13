@@ -26,7 +26,7 @@ while [ 1 ]
         umenu::usubmenu2
         ;;
     1)
-        ussubmenu1::opt1
+        1ussubmenu1::opt1
         exit 0
         ;;
     *)
