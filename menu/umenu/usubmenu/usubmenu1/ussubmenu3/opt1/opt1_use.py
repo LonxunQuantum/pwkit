@@ -35,7 +35,7 @@ def get_basis_vector(atom_config_name:str):
     print("\t* 晶胞的基矢(单位:埃) :")
     for idx_a in range(3):
         print("\t\t{0:<10}{1:<15}{2:<15}{3:<15}".format(
-                        "a{0}".format(idx_a),
+                        "a{0}".format(idx_a+1),
                         basis_vector_array[idx_a][0],
                         basis_vector_array[idx_a][1],
                         basis_vector_array[idx_a][2]

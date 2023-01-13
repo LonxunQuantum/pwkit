@@ -7,7 +7,7 @@ def get_basis_vector(atom_config_name:str):
     '''
     Description
     -----------
-        1. 查看晶胞的基矢
+        1. 查看晶胞的基矢长度
 
     Parameters
     ----------
@@ -22,7 +22,7 @@ def get_basis_vector(atom_config_name:str):
                             file_format="pwmat",
                             file_path=atom_config_path,
                             )
-    basis_vector_array = structure.lattice.matrix    
+    basis_vector_length_tuple = structure.lattice.abc
     
     ### Step 2. 输出信息
     # 1. 
@@ -32,15 +32,15 @@ def get_basis_vector(atom_config_name:str):
     print("\t\t{0}".format(atom_config_name))
     
     # 2. 
-    print("\t* 晶胞的基矢(单位:埃) :")
-    for idx_a in range(3):
-        print("\t\t{0:<10}{1:<15}{2:<15}{3:<15}".format(
-                        "a{0}".format(idx_a),
-                        basis_vector_array[idx_a][0],
-                        basis_vector_array[idx_a][1],
-                        basis_vector_array[idx_a][2]
-                        )
-            )
+    print("\t* 晶胞的基矢长度(单位:埃) :")
+    print("\t\t{0:<15}{1:<15}{2:<15}".format("a1-length", "a2-length", "a3-length"))
+    print("\t\t{0:<15}{1:<15}{2:<15}".format(
+                                        round(basis_vector_length_tuple[0], 8),
+                                        round(basis_vector_length_tuple[1], 8),
+                                        round(basis_vector_length_tuple[2], 8)
+                                        )
+        )
+    
     
     # 3. 
     print("*{0:-^72}*".format("---------"))
