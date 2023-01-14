@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-info_types_lst=([0]="1" [1]="2" [2]="3" [3]="4" [4]="5") 
+info_types_lst=([0]="1" [1]="2" [2]="3" [3]="4" [4]="5" [5]="6") 
 
 
 
@@ -66,6 +66,11 @@ while [ 1 ]
     5)
         # 查看倒易点阵的基矢长度 (单位: 2pi/埃)
         $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu3/opt5/opt5_use.py $atom_config_file_name
+        exit 0
+        ;;
+    6)
+        # 查看晶胞的对称性信息
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu3/opt6/opt6_use.py $atom_config_file_name
         exit 0
         ;;
     *)
