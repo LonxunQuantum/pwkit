@@ -43,11 +43,6 @@ def get_symmetry_info(atom_config_name:str):
                                 )
         )
     # 2). 空间群
-    #print("\t* {0:<10} {1:<10}".format(
-    #                            "空间群:",
-    #                            space_group_analyzer.get_space_group_symbol()
-    #                           )
-    #    )
     print("\t* {0:<20} ".format(
                                 "Space Group:",
                                 ),
@@ -56,7 +51,7 @@ def get_symmetry_info(atom_config_name:str):
     print(space_group_analyzer.get_space_group_operations())
     # 3). 点群
     print("\t* {0:<20} {1:<20}".format(
-                                "Class Class:",
+                                "Crystal Class:",
                                 space_group_analyzer.get_point_group_symbol()
                                 )
         )
@@ -72,7 +67,7 @@ def get_symmetry_info(atom_config_name:str):
                                 1E-4
                                 )
     ) 
-    
+    #print(space_group_analyzer.get_symmetry_dataset())
     
     ## 3. 
     print("*{0:-^72}*".format("---------"))
