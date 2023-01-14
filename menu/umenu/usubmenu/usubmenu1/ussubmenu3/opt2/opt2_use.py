@@ -40,6 +40,8 @@ def get_basis_vector(atom_config_name:str):
                                         round(basis_vector_length_tuple[2], 8)
                                         )
         )
+    print("\t* 晶胞的体积(单位:埃^3) :")
+    print("\t\t{0:<10}{1:<15}".format("volume", structure.volume))
     
     
     # 3. 

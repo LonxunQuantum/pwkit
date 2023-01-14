@@ -36,11 +36,13 @@ def get_basis_vector(atom_config_name:str):
     for idx_a in range(3):
         print("\t\t{0:<10}{1:<15}{2:<15}{3:<15}".format(
                         "a{0}".format(idx_a+1),
-                        basis_vector_array[idx_a][0],
-                        basis_vector_array[idx_a][1],
-                        basis_vector_array[idx_a][2]
+                        round(basis_vector_array[idx_a][0], 4),
+                        round(basis_vector_array[idx_a][1], 4),
+                        round(basis_vector_array[idx_a][2], 4)
                         )
             )
+    print("\t* 晶胞的体积(单位:埃^3) :")
+    print("\t\t{0:<10}{1:<15}".format("volume", structure.volume))
     
     # 3. 
     print("*{0:-^72}*".format("---------"))

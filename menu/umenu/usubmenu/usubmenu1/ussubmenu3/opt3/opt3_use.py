@@ -52,6 +52,10 @@ def get_basis_vector(atom_config_name:str):
                                 round(gamma_angle, 2)
                                         )
         )
+
+
+    print("\t* 晶胞的体积(单位:埃^3) :")
+    print("\t\t{0:<10}{1:<15}".format("volume", structure.volume))
     
     
     # 3. 
