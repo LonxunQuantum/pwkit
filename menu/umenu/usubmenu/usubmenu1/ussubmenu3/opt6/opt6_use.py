@@ -1,6 +1,5 @@
 import os
 import sys
-import numpy as np
 from pflow.io.publicLayer.structure import DStructure
 from pymatgen.symmetry.analyzer import SpacegroupAnalyzer
 
