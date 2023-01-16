@@ -15,22 +15,22 @@ Toolkits for pwmat
 ### Part I. 到新服务器下解压
 # 1. 将 `pwkit_env` 环境解压到 `pwkit_env` 文件夹下
 $ mkdir -p pwkit_env
-$ tar -xzf pwkit_env.tar.gz -C pwkit_env
+$ tar -xzf pwkit_env.tar.gz -C pwkit
 # 2. 激活 `pwkit_env` 环境
-$ source pwkit_env/bin/activate
+$ source pwkit/bin/activate
 # 3. 安装 pflow 环境
-(pwkit_env) $ cd pflow; pip install .
+(pwkit) $ cd pflow; pip install .
 ```
 
 
 ## 1.2. pwkit 环境变量设置
 ```shell
 # Step 1. 设置环境变量
-(pwkit_env) $ export PWKIT_ROOT=/data/home/liuhanyu/hyliu/code/pwkit
-(pwkit_env) $ export PATH=/data/home/liuhanyu/hyliu/code/pwkit/bin:$PATH
+(pwkit) $ export PWKIT_ROOT=/data/home/liuhanyu/hyliu/code/pwkit
+(pwkit) $ export PATH=/data/home/liuhanyu/hyliu/code/pwkit/bin:$PATH
 
 # Step 2. 设置Conda环境 -- 修改 CONDA_PATH
-(pwkit_env) $ vim pwkit.cfg 
+(pwkit) $ vim pwkit.cfg 
 ```
 
 
