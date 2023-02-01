@@ -20,23 +20,11 @@ def opt1():
     
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
-    try: # 删除原本存在的 RHO.xsf
-        shutil.rmtree(os.path.join(current_path, "RHO.xsf"))
-    except:
-        pass
-    
-    for file_name in os.listdir(current_path):
-        file_path = os.path.join(current_path, file_name)
-        # 默认输入 OUT.RHO 文件，进行格式转换        
-        if os.path.isfile(file_path) and (file_name=="OUT.RHO"):
-            input_file_name = "OUT.RHO"
-            input_file_path = file_path
-            mark_rho_exits = True
-            break
     
     # 若不存在 OUT.RHO 文件，则需要手动指明 OUT.RHO 格式文件的文件名
-    if mark_rho_exits == False:
-        os.system('''        echo -e "\n\033[31m - 未搜索到名为OUT.RHO的文件，需要手动指定OUT.RHO格式的文件名...\033[0m\n"''')
+    input_file_name = "OUT.RHO"
+    while ( not os.path.exists(os.path.join(current_path, input_file_name)) ):
+        os.system('''        echo -e "\n\033[31m - 未搜索到名为 {0} 的文件，需要手动指定OUT.RHO格式的文件名...\033[0m\n"'''.format(input_file_name))
         input_file_name = input(" OUT.RHO格式的文件名\n------------>>\n")
         input_file_path = os.path.join(current_path, input_file_name)
     
@@ -64,10 +52,10 @@ def print_sum(input_file_name:str,
     '''
     print("*{0:-^68}*".format(" Summary "))
     
-    print("\t* 输入文件:")
-    print("\t\t{0}".format(input_file_name))
-    print("\t* 输出文件:")
-    print("\t\t{0}".format(output_file_name))
+    print("\t* 输入文件:", end="")
+    print("\t{0}".format(input_file_name))
+    print("\t* 输出文件:", end="")
+    print("\t{0}".format(output_file_name))
         
     print("*{0:-^68}*".format("---------"))
 
