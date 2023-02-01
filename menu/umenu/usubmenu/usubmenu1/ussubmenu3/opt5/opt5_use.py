@@ -28,7 +28,7 @@ def get_basis_vector(atom_config_name:str):
     # 1. 
     print("\n")
     print("*{0:-^72}*".format(" Output "))
-    print("\t* 结构文件:")
+    print("\t* 结构文件:", end="")
     print("\t\t{0}".format(atom_config_name))
     
     # 2. 

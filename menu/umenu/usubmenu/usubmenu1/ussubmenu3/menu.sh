@@ -19,16 +19,16 @@ while [ 1 ]
         echo "
  - 当前目录下共有 $(ls | wc -l) 个文件。搜索当前目录是否含有名为 atom.config 的结构文件..."
 
-        if [ ! -f "atom.config" ]; then
+        atom_config_file_name="atom.config"  # 默认结构文件名为 atom.config
+        while [ ! -f $atom_config_file_name ]
+        do
             echo -e "
-\033[31m - 未搜索到名为atom.config的文件，需要手动指定结构文件名...\033[0m"
+\033[31m - 未搜索到名为 $atom_config_file_name 的文件，需要手动指定结构文件名...\033[0m"
             read -p " 
  结构文件的名字
  --------------->>
 " atom_config_file_name
-        else
-            atom_config_file_name="atom.config"
-        fi
+        done
     fi
 
 
