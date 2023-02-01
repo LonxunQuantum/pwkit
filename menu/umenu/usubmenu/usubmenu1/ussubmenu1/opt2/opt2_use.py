@@ -13,22 +13,13 @@ def opt2():
         1. input_file_path
         2. output_file_path
     '''    
-    mark_xsf_exits = False
-    
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
-    for file_name in os.listdir(current_path):
-        file_path = os.path.join(current_path, file_name)
-        # 默认输入 atom.xsf 文件，进行格式转换        
-        if os.path.isfile(file_path) and (file_name=="xatom.xsf"):
-            input_file_name = "xatom.xsf"
-            input_file_path = file_path
-            mark_xsf_exits = True
-            break
     
     # 若不存在 xsf 文件，则需要手动指明xsf格式文件的文件名
-    if mark_xsf_exits == False:
-        os.system('''        echo -e "\n\033[31m - 未搜索到名为xatom.xsf的结构文件，需要手动指定xsf格式的文件名...\033[0m\n"''')
+    input_file_name = "atom.xsf"
+    while ( not os.path.exists(os.path.join(current_path, input_file_name)) ):
+        os.system('''        echo -e "\n\033[31m - 未搜索到名为 atom.xsf 的结构文件，需要手动指定 xsf 格式的文件名...\033[0m\n"''')
         input_file_name = input(" xsf格式的文件名\n------------>>\n")
         input_file_path = os.path.join(current_path, input_file_name)
     
