@@ -6,7 +6,7 @@ def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
     ### Part I. 格式转换
-    print("{0:-^60}".format(" 电势转换 "))
+    print("{0:-^60}".format(" 波函数转换 "))
     print(
 ''' 1) PWMat格式 -> 其他格式
 '''
