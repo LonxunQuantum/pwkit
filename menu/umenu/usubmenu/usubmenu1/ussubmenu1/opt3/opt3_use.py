@@ -15,7 +15,7 @@ def opt3():
     '''    
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
-    
+    input_file_path = os.path.join(current_path, input_file_name)
     # 若不存在 atat 文件，则需要手动指明atat格式文件的文件名
     input_file_name = "rndstr.in"
     while ( not os.path.exists(os.path.join(current_path, input_file_name)) ):
