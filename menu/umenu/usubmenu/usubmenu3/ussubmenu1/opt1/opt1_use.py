@@ -54,7 +54,7 @@ def opt1():
     ##             3. atom.config 格式的文件名
     ##             4. 波函数的 range of index
     # 1. kpoint 的 index
-    idx_kpoints = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3`)\n------------>>\n".format(num_kpt))
+    idx_kpoint = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3`)\n------------>>\n".format(num_kpt))
     
     # 2. OUT.WG 格式的文件名： 在前面
     
@@ -70,7 +70,7 @@ def opt1():
         
     ### Step 3. 文件格式转换 (plot_wg2.x)
     os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg2.x > /dev/null'.format(
-                                        idx_kpoints,
+                                        idx_kpoint,
                                         wg_file_name,
                                         atom_config_name,
                                         idx_wg,            
@@ -80,23 +80,56 @@ def opt1():
 
     ### Step 4. 输出程序运行的信息
     wg_xsf_file_path = os.path.join(current_path, "PSI.xsf")
-    #if os.path.exists(wg_xsf_file_path): # os.system() 中的cmd执行成功
-        #print_sum(input_file_name, output_file_name)
+    if os.path.exists(wg_xsf_file_path): # os.system() 中的cmd执行成功
+        print_sum(atom_config_name=atom_config_name,
+                  wg_file_name=wg_file_name,
+                  idx_kpoint=idx_kpoint,
+                  idx_wg=idx_wg,
+                  output_file_name=output_file_name,
+                  )
     
 
-def print_sum(input_file_name:str,
-            output_file_name:str):
+def print_sum(
+            atom_config_name:str,
+            wg_file_name:str,
+            idx_kpoint:str,
+            idx_wg:str,
+            output_file_name:str="PSI.xsf",
+            ):
     '''
     Description
     -----------
         1. 输出 summary
+    
+    Parameters
+    ----------
+        1. atom_config_name: str
+            - atom.config 格式的结构文件名
+            
+        2. wg_file_name: str
+            - OUT.WG 格式的文件名
+            
+        3. idx_kpoint: str
+            - K点的 index e.g. `3`
+            
+        4. id_wg: str
+            - 波函数的范围， e.g. `12,16`
+        
+        5. output_file_name: str
+            - `PSI.xsf`
     '''
     print("*{0:-^68}*".format(" Summary "))
     
-    print("\t* 输入文件:")
-    print("\t\t{0}".format(input_file_name))
-    print("\t* 输出文件:")
-    print("\t\t{0}".format(output_file_name))
+    print("\t* 输入的结构文件  :", end="")
+    print("\t{0}".format(atom_config_name))
+    print("\t* 输入的波函数文件:", end="")
+    print("\t{0}".format(wg_file_name))
+    print("\t* 要画的K点       :", end="")
+    print("\t{0}".format(idx_kpoint))
+    print("\t* 要画的波函数    :", end="")
+    print("\t{0} ~ {1}".format(idx_wg.split(',')[0], idx_wg.split(',')[1]))
+    print("\t* 输出文件        :", end="")
+    print("\t{0}".format(output_file_name))
         
     print("*{0:-^68}*".format("---------"))
 
