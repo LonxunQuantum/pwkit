@@ -65,17 +65,26 @@ def opt1():
         atom_config_name = input(" 请输入 atom.config 格式的文件名\n------------>>\n")
         
     # 4. 波函数的index (e.g. `12,16`)
-    idx_wg = input(" 一共有{0}个波函数，请输入要画的波函数 (e.g. `12,16`)\n------------>>\n".format(num_band))
+    idx_wg = input(" 一共有{0}个波函数，请输入要画的波函数 (e.g. `12,16 or 12`)\n------------>>\n".format(num_band))
     
         
     ### Step 3. 文件格式转换 (plot_wg2.x)
-    os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg2.x > /dev/null'.format(
-                                        idx_kpoint,
-                                        wg_file_name,
-                                        atom_config_name,
-                                        idx_wg,            
-                                        )
-            )
+    if ',' in idx_wg:
+        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg2.x > /dev/null'.format(
+                                            idx_kpoint,
+                                            wg_file_name,
+                                            atom_config_name,
+                                            idx_wg,            
+                                            )
+                )
+    else:
+        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg.x > /dev/null'.format(
+                                            idx_kpoint,
+                                            wg_file_name,
+                                            atom_config_name,
+                                            idx_wg,            
+                                            )
+                )
 
 
     ### Step 4. 输出程序运行的信息
@@ -127,7 +136,10 @@ def print_sum(
     print("\t* 要画的K点       :", end="")
     print("\t{0}".format(idx_kpoint))
     print("\t* 要画的波函数    :", end="")
-    print("\t{0} ~ {1}".format(idx_wg.split(',')[0], idx_wg.split(',')[1]))
+    try:
+        print("\t{0} ~ {1}".format(idx_wg.split(',')[0], idx_wg.split(',')[1]))
+    except:
+        print("\t{0}".format(idx_wg))
     print("\t* 输出文件        :", end="")
     print("\t{0}".format(output_file_name))
         
