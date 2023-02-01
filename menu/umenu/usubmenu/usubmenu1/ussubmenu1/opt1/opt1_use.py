@@ -20,7 +20,7 @@ def opt1():
     input_file_name = "POSCAR"
     
     while ( not os.path.exists(os.path.join(current_path, input_file_name)) ):
-        os.system('''        echo -e "\n\033[31m - 未搜索到名为POSCAR的结构文件，需要手动指定POSCAR格式的文件名...\033[0m\n"''')
+        os.system('''        echo -e "\n\033[31m - 未搜索到名为 {0} 的结构文件，需要手动指定POSCAR格式的文件名...\033[0m\n"'''.format(input_file_name))
         input_file_name = input(" POSCAR格式的文件名\n------------>>\n")
     input_file_path = os.path.join(current_path, input_file_name)
     
