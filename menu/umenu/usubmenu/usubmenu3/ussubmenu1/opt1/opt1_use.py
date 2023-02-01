@@ -1,58 +1,87 @@
 import os
 import shutil
+import linecache
 
 
 def opt1():
     '''
     Description
     -----------
-        1. convert_rho.x 主要是把 PWmat 输出的二进制文件 OUT.RHO、OUT.VR 转换为 VESTA、
-        XcrySDen 可读的格式。
-        2. `convert_rho.x OUT.RHO`   
-            - 之后就会得到 RHO.xsf
+        1. plot_wg2.x 主要用于将 OUT.WG 转换为可视化的文件 (PSI.xsf) 放在 VESTA 里面查看。
+        2. `plot_wg2.x`
+            - 之后就会得到 PSI.xsf
         
     Variables
     ---------
         1. input_file_path
         2. output_file_path
-    '''    
-    mark_rho_exits = False
-    
+    '''        
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
-    try: # 删除原本存在的 RHO.xsf
-        shutil.rmtree(os.path.join(current_path, "RHO.xsf"))
+    try: # 删除原本存在的 PSI.xsf
+        shutil.rmtree(os.path.join(current_path, "PSI.xsf"))
     except:
         pass
     
-    for file_name in os.listdir(current_path):
-        file_path = os.path.join(current_path, file_name)
-        # 默认输入 OUT.RHO 文件，进行格式转换        
-        if os.path.isfile(file_path) and (file_name=="OUT.RHO"):
-            input_file_name = "OUT.RHO"
-            input_file_path = file_path
-            mark_rho_exits = True
-            break
-    
-    # 若不存在 OUT.RHO 文件，则需要手动指明 OUT.RHO 格式文件的文件名
-    if mark_rho_exits == False:
-        os.system('''        echo -e "\n\033[31m - 未搜索到名为OUT.RHO的文件，需要手动指定OUT.RHO格式的文件名...\033[0m\n"''')
-        input_file_name = input(" OUT.RHO格式的文件名\n------------>>\n")
-        input_file_path = os.path.join(current_path, input_file_name)
+    wg_file_name = "OUT.WG"
+    while ( not os.path.exists( os.path.join(current_path, wg_file_name) ) ):
+        os.system('echo -e "\n\033[31m - 未搜索到 {0} 文件，需要手动指定文件名...\033[0m\n"'.format(wg_file_name))
+        wg_file_name = input(" 请输入 OUT.WG 格式的文件名\n------------>>\n")
     
     # e.g. output_file_name = "atom.config"
-    output_file_name = "RHO.xsf"
+    output_file_name = "PSI.xsf"
     output_file_path = os.path.join(current_path, output_file_name)
-        
     
-    ### Step 2. 文件格式转换
-    os.system("convert_rho.x {0}".format(input_file_name))
+    
+    ### Step 2. 用户手动输入 plot_wg2.x 的参数
+    ##  Step 2.1. 从 REPORT 中查询 NUM_KPT 和 NUM_BAND
+    report_file_path = os.path.join(current_path, "REPORT")
+    aim_content_kpt = "NUM_KPT"
+    idx_row_kpt = search_aim(file_path=report_file_path, aim_content=aim_content_kpt)[0]
+    #print(idx_row_kpt)
+    num_kpt = linecache.getline(report_file_path, idx_row_kpt).split()[-1]
+            
+    report_file_path = os.path.join(current_path, "REPORT")
+    aim_content_wg = "NUM_BAND"
+    idx_row_wg = search_aim(file_path=report_file_path, aim_content=aim_content_wg)[0]
+    #print(idx_row_wg)
+    num_band = linecache.getline(report_file_path, idx_row_wg).split()[-1]
+    
+    
+    ##  Step 2.2. 得到 plot_wg2.x 的各种信息
+    ##             1. kpoint 的 index
+    ##             2. OUT.WG 格式的文件名
+    ##             3. atom.config 格式的文件名
+    ##             4. 波函数的 range of index
+    # 1. kpoint 的 index
+    idx_kpoints = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3`)\n------------>>\n".format(num_kpt))
+    
+    # 2. OUT.WG 格式的文件名： 在前面
+    
+    # 3. atom.config 格式的文件
+    atom_config_name = "atom.config"    # 默认结构文件名为 atom.config
+    while ( not os.path.exists( os.path.join(current_path, atom_config_name) ) ):
+        os.system('echo -e "\n\033[31m - 未搜索到 {0} 文件，需要手动指定结构文件的文件名...\033[0m\n"'.format(atom_config_name))
+        atom_config_name = input(" 请输入 atom.config 格式的文件名\n------------>>\n")
+        
+    # 4. 波函数的index (e.g. `12,16`)
+    idx_wg = input(" 一共有{0}个波函数，请输入要画的波函数 (e.g. `12,16`)\n------------>>\n".format(num_band))
+    
+        
+    ### Step 3. 文件格式转换 (plot_wg2.x)
+    os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg2.x > /dev/null'.format(
+                                        idx_kpoints,
+                                        wg_file_name,
+                                        atom_config_name,
+                                        idx_wg,            
+                                        )
+            )
 
 
-    ### Step 3. 输出程序运行的信息
-    rho_xsf_file_path = os.path.join(current_path, "RHO.xsf")
-    if os.path.exists(rho_xsf_file_path): # os.system() 中的cmd执行成功
-        print_sum(input_file_name, output_file_name)
+    ### Step 4. 输出程序运行的信息
+    wg_xsf_file_path = os.path.join(current_path, "PSI.xsf")
+    #if os.path.exists(wg_xsf_file_path): # os.system() 中的cmd执行成功
+        #print_sum(input_file_name, output_file_name)
     
 
 def print_sum(input_file_name:str,
@@ -70,6 +99,29 @@ def print_sum(input_file_name:str,
     print("\t\t{0}".format(output_file_name))
         
     print("*{0:-^68}*".format("---------"))
+
+
+def search_aim(file_path:str, aim_content:str):
+    '''
+    Description
+    -----------
+        1. 查询文件中是否存在特定内容，并确定所在的行数
+    
+    Parameters
+    ----------
+        1. file_path: str
+
+        2. aim: str
+
+    '''
+    with open(file_path) as f:
+        lines_lst = f.readlines()
+    idxs_lst = []
+    for idx, line in enumerate(lines_lst, 1):
+        if aim_content in line:
+            idxs_lst.append(idx)
+    return idxs_lst
+
 
 
 if __name__ == "__main__":
