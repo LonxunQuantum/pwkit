@@ -127,7 +127,7 @@ while [ 1 ]
         "
         break
     else 
-        atom_config_format_file_name="atom.config"
+        #atom_config_format_file_name="atom.config"
         break   # atom.config 存在的话，直接跳出while循环
     fi
     done
@@ -176,7 +176,9 @@ while [ 1 ]
         esac
 
     fi
+
     
+
 
     case $taskStr in
     q|Q)

@@ -216,7 +216,7 @@ class EtotWriter(object):
                 K-Mesh density in 2pi/A.
         '''
         if self.task_name == "SC":
-            accuracy = "NORMAL"
+            accuracy = "NORM"
             convergence = "EASY"
             precision = "AUTO"
             
@@ -233,7 +233,7 @@ class EtotWriter(object):
             precision = "AUTO"
         
         if self.task_name == "NS":
-            accuracy = "NORMAL"
+            accuracy = "NORM"
             convergence = "EASY"
             precision = "AUTO"
         
@@ -241,7 +241,7 @@ class EtotWriter(object):
             # DOS_DETAIL
             dos_gaussian_broadening = "0.05"
             num_dos_grid = 4000
-            accuracy = "NORMAL"
+            accuracy = "NORM"
             convergence = "EASY"
             precision = "AUTO"
             
