@@ -16,6 +16,7 @@ def mmenu_cn():
  6) cell文件   (atom.cell)  -> atom.config
  7) pdb文件    (atom.pdb)   -> atom.config     
  8) inp文件    (atom.inp)   -> atom.config
+ 9) OUTCAR文件 (OUTCAR)     -> MOVEMENT
 '''
     )
     

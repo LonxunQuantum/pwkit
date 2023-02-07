@@ -7,7 +7,7 @@
 gsubmenu2::gssubmenu1() {
 while [ 1 ]
     do 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/menu_cn.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu1/menu_cn.py
         read -p " ------------>>  
 " submenuOpt
 
@@ -50,6 +50,10 @@ while [ 1 ]
         ;;
     8)
         $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu1/opt8/opt8_use.py
+        exit 0
+        ;;
+    9)
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu1/opt9/opt9_use.py
         exit 0
         ;;
     *)
