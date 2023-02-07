@@ -8,7 +8,6 @@ Toolkits for pwmat
 # 1.0. 需要准备的文件
 1. `pwkit_env.tar.gz`: pwkit 的环境
 2. `pwkit.tar.gz`: pwkit 软件包
-3. `pflow.tar.gz`: pflow package 的软件包
 
 ## 1.1. Python 的 conda 环境配置
 ```shell
@@ -18,10 +17,7 @@ $ mkdir -p pwkit_env
 $ tar -xzf pwkit_env.tar.gz -C pwkit
 # 2. 激活 `pwkit_env` 环境
 $ source pwkit/bin/activate
-# 3. 安装 pflow 环境
-(pwkit) $ cd pflow; pip install .
 ```
-
 
 ## 1.2. pwkit 环境变量设置
 ```shell
