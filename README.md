@@ -3,14 +3,6 @@ Toolkits for PWmat (http://www.pwmat.com/pwmat-introduce).
 
 详情见 http://doc.lonxun.com/PWkit/PWkit.html
 
-```shell
- _ ____      ___ __ ___   __ _| |_
-| '_ \ \ /\ / / '_ ` _ \ / _` | __|  
-| |_) \ V  V /| | | | | | (_| | |_  
-| .__/ \_/\_/ |_| |_| |_|\__,_|\__| 
-|_|
-```
-
 
 # 1. Installation
 # 1.0. 需要准备的文件
