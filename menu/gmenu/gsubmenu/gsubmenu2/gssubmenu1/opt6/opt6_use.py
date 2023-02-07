@@ -30,7 +30,7 @@ def opt6():
         
     
     ### Step 2. 文件格式转换
-    os.system("cell2config.x < {0}".format(input_file_name))
+    os.system("$PWKIT_ROOT/menu/scripts/cell2config.x < {0}".format(input_file_name))
 
 
     ### Step 3. 输出程序运行的信息

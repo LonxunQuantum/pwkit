@@ -70,7 +70,7 @@ def opt1():
         
     ### Step 3. 文件格式转换 (plot_wg2.x)
     if ',' in idx_wg:
-        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg2.x > /dev/null'.format(
+        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | $PWKIT_ROOT/menu/scripts/plot_wg2.x > /dev/null'.format(
                                             idx_kpoint,
                                             wg_file_name,
                                             atom_config_name,
@@ -78,7 +78,7 @@ def opt1():
                                             )
                 )
     else:
-        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | plot_wg.x > /dev/null'.format(
+        os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | $PWKIT_ROOT/menu/scripts/plot_wg.x > /dev/null'.format(
                                             idx_kpoint,
                                             wg_file_name,
                                             atom_config_name,

@@ -34,7 +34,7 @@ def opt1():
         
     
     ### Step 2. 文件格式转换
-    os.system("convert_rho.x {0}".format(input_file_name))
+    os.system("$PWKIT_ROOT/menu/scripts/ {0}".format(input_file_name))
 
 
     ### Step 3. 输出程序运行的信息
