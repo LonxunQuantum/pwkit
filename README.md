@@ -1,12 +1,5 @@
 # PWkit
- _ ____      ___ __ ___   __ _| |_
-| '_ \ \ /\ / / '_ ` _ \ / _` | __|  
-| |_) \ V  V /| | | | | | (_| | |_   
-| .__/ \_/\_/ |_| |_| |_|\__,_|\__|  
-|_|
-
-
-<font size="10">Toolkits for pwmat </font>
+Toolkits for PWmat (http://www.pwmat.com/pwmat-introduce).
 
 详情见 http://doc.lonxun.com/PWkit/PWkit.html
 
