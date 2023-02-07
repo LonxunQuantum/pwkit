@@ -6,7 +6,7 @@
 # 1. 格式转换
 source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/menu.sh
 source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/menu.sh
-#source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/menu.sh
+source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu3/opt1/opt1.sh
 #source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh
 
 
@@ -33,8 +33,9 @@ while [ 1 ]
     2)
         gmenu::gsubmenu2
         ;;
-    3)
-        #umenu::usubmenu3
+    3)  # 生成高对称点的文件：只有一个选项
+        gsubmenu3::opt1
+        exit
         ;;
     4)
         #umenu::usubmenu4
