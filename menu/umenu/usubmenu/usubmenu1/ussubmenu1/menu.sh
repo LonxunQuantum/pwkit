@@ -1,11 +1,7 @@
 #!/bin/bash
 
 
-### 加载 usubmenu 对应的所有opt函数
-for i in {1,2,3,4,5,6,7,8}
-    do
-        source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt${i}/menu_opt${i}_use.sh
-    done
+### 加载 usubmenu 对应的所有opt函数: 直接调用 Python 脚本，不需要 source `shell函数`
 
 
 usubmenu1::ussubmenu1() {
@@ -25,35 +21,35 @@ while [ 1 ]
         umenu::usubmenu1
         ;;
     1)  
-        ussubmenu1::opt1       
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt1/opt1_use.py      
         exit 0
         ;;
     2)
-        ussubmenu1::opt2
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt2/opt2_use.py
         exit 0
         ;;
     3)
-        ussubmenu1::opt3
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt3/opt3_use.py
         exit 0
         ;;
     4)
-        ussubmenu1::opt4
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt4/opt4_use.py
         exit 0
         ;;
     5)
-        ussubmenu1::opt5
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt5/opt5_use.py
         exit 0
         ;;
     6)
-        ussubmenu1::opt6
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt6/opt6_use.py
         exit 0
         ;;
     7)
-        ussubmenu1::opt7
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt7/opt7_use.py
         exit 0
         ;;
     8)
-        ussubmenu1::opt8
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/ussubmenu1/opt8/opt8_use.py
         exit 0
         ;;
     *)
