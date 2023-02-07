@@ -22,7 +22,7 @@ while [ 1 ]
         exit 0
         ;;
     bb|BB)
-        umenu
+        gmenu
         ;;
     1)
         gsubmenu2::gssubmenu1
