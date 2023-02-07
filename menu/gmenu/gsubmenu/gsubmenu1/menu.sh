@@ -53,7 +53,7 @@ while [ 1 ]
         exit
         ;;
     bb|BB)
-        menu
+        gmenu
         ;;
     esac
     

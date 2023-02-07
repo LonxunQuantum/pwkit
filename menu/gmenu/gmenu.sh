@@ -5,9 +5,9 @@
 ## 加载 usubmenu 函数
 # 1. 格式转换
 source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh
+source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/menu.sh
+#source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/menu.sh
+#source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh
 
 
 gmenu() {
@@ -30,14 +30,14 @@ while [ 1 ]
     1)
         gmenu::gsubmenu1
         ;;
-    2) 
-        umenu::usubmenu2
+    2)
+        gmenu::gsubmenu2
         ;;
-    3) 
-        umenu::usubmenu3
+    3)
+        #umenu::usubmenu3
         ;;
-    4) 
-        umenu::usubmenu4
+    4)
+        #umenu::usubmenu4
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
