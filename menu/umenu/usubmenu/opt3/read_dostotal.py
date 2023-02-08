@@ -100,11 +100,14 @@ def get_dfs_dos():
     
     Return
     -------
-        1. [df_dos, df_dos_sub_efermi]: list of pd.DataFrame
-            1. df_dos: pd.DataFrame
-                - 未减去费米能级
-            2. df_dos_sub_efermi: pd.DataFrame
-                - 减去费米能级
+        Case 1. [df_dos, df_dos_sub_efermi]: list of pd.DataFrame
+                1. df_dos: pd.DataFrame
+                    - 未减去费米能级
+                2. df_dos_sub_efermi: pd.DataFrame
+                    - 减去费米能级
+                    
+        Case 2. [df_dos]: pd.DataFrame
+                    - 未减去费米能级
         
     
     Requisites
@@ -144,7 +147,10 @@ def get_dfs_dos():
         df_dos_sub_efermi.loc[:, "Energy"] = \
                         df_dos_sub_efermi.loc[:, "Energy"] - efermi
     
-    return df_dos, df_dos_sub_efermi
+    if mark_out_fermi:
+        return [df_dos, df_dos_sub_efermi]
+    else:
+        return [df_dos]
 
 
 if __name__ == "__main__":
