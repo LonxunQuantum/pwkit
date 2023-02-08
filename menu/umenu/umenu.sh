@@ -29,7 +29,7 @@ while [ 1 ]
         exit
         ;;
     3) 
-        echo "能带图绘制"
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py
         exit
         ;;
     4) 

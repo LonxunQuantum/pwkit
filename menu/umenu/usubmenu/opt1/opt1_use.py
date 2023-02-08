@@ -18,7 +18,7 @@ def opt1():
     Requisites
     ----------
         1. 电荷密度文件: OUT.WG
-    '''    
+    '''
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
     
