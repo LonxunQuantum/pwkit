@@ -37,8 +37,7 @@ while [ 1 ]
         exit 0
         ;;
     5)
-        #$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu2/opt4/opt4_use.py
-        echo "MOVEMENT -> MOVEMENT.xsf"
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu2/opt5/opt5_use.py
         exit 0
         ;;
     *)
