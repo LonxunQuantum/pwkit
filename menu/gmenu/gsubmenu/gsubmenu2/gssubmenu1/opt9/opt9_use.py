@@ -32,7 +32,7 @@ def opt1():
         
     
     ### Step 2. 文件格式转换
-    os.system("$PWKIT_ROOT/menu/scripts/outcar2movement")
+    os.system("$PYTHON_PATH $PWKIT_ROOT/menu/scripts/outcar2movement.py")
 
 
     ### Step 3. 输出程序运行的信息

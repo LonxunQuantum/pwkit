@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # image class, again, hahaha
 # all forces in python variables are correct one f_atom = -dE/dR
 # please add minus sign when you read and write MOVEMENT
