@@ -1,13 +1,6 @@
 #!/bin/bash
 
-# 加载menu函数 -- umenu_cn.py
-
-## 加载 usubmenu 函数
-# 1. 格式转换
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu1/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu2/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu3/menu.sh
-source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh
+# menu 显示函数 -- umenu_cn.py
 
 
 umenu() {
@@ -28,16 +21,33 @@ while [ 1 ]
         menu
         ;;
     1)
-        umenu::usubmenu1
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt1/opt1_use.py
+        exit
         ;;
     2) 
-        umenu::usubmenu2
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt2/opt2_use.py
+        exit
         ;;
     3) 
-        umenu::usubmenu3
+        echo "能带图绘制"
+        exit
         ;;
     4) 
-        umenu::usubmenu4
+        echo "态密度图绘制"
+        exit
+        ;;
+    5) 
+        echo "投影能带"
+        exit
+        ;;
+
+    a)  
+        echo "能带带隙"
+        exit
+        ;;
+    b) 
+        echo "真空能级"
+        exit
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

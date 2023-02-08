@@ -29,7 +29,7 @@ def opt1():
     # e.g. output_file_name = "MOVEMENT"
     output_file_name = "MOVEMENT"
     output_file_path = os.path.join(current_path, output_file_name)
-        
+    
     
     ### Step 2. 文件格式转换
     os.system("$PYTHON_PATH $PWKIT_ROOT/menu/scripts/outcar2movement.py")
@@ -52,7 +52,6 @@ def print_sum(input_file_name:str,
     print("\t\t{0}".format(input_file_name))
     print("\t* 输出文件:")
     print("\t\t{0}".format(output_file_name))
-    
     
     print("*{0:-^68}*".format("---------"))
 

@@ -5,25 +5,20 @@ import click
 def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 
-    ### Part I. 物质结构
-    print("{0:-^60}".format(" 格式转换 "))
+    ### Part I. Utility 数据可视化
+    print("{0:-^60}".format(" 数据可视化 "))
     print(
-''' 1) 结构转换            2) 电荷密度转换
- 3) 波函数转换          4) 电势转换        
+''' 
+ 1) 电荷密度可视化        2) 波函数可视化        3) 能带图绘制
+ 4) 态密度图绘制          5) 投影能带              
 '''
     )
 
-    ### Part II. 电子结构及声子计算
-    print("{0:-^59}".format(" 数据可视化 "))
+    ### Part II. Utility 数据后处理
+    print("{0:-^60}".format(" 数据后处理 "))
     print(
-''' 待开发...
 '''
-    )
-
-    ### Part III. 电子结构及声子计算
-    print("{0:-^59}".format(" 数据后处理 "))
-    print(
-''' 待开发...
+ a) 能带带隙              b) 真空能级
 '''
     )
 
