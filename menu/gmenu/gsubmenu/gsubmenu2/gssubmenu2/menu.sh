@@ -40,6 +40,10 @@ while [ 1 ]
         $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu2/opt5/opt5_use.py
         exit 0
         ;;
+    6)
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/gssubmenu2/opt6/opt6_use.py
+        exit 0
+        ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;
     esac

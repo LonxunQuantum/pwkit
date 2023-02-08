@@ -15,8 +15,7 @@ def print_sum_opt1(atom_config_path:str):
     print("\t - {0}".format("HIGHK"))
     print("\t\t\t - {0}".format("gen.kpt"))
     print("\t\t\t - {0}".format("HIGH_SYMMETRY_POINT"))
-    print("\t\t\t - {0}".format("IN.KPT"))
-    
+    print("\t\t\t - {0}".format("IN.KPT")) 
     
     print("*{0:-^68}*".format("---------"))
 

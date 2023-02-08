@@ -13,6 +13,7 @@ def mmenu_cn():
  3) atom.config -> atat文件   (rndstr.in)
  4) atom.config -> cif文件    (atom.cif)
  5) MOVEMENT    -> xsf文件    (MOVEMENT.xsf)
+ 6) MOVEMENT    -> xyz文件    (MOVEMENT.xyz)
 '''
     )
     

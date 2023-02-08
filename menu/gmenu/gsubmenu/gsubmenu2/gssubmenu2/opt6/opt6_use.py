@@ -25,7 +25,7 @@ def opt4():
         input_file_path = os.path.join(current_path, input_file_name)
     
     # e.g. output_file_name = "MOVEMENT.xsf"
-    output_file_name = "MOVEMENT.xsf"
+    output_file_name = "MOVEMENT.xyz"
     output_file_path = os.path.join(current_path, output_file_name)
         
 
@@ -35,8 +35,8 @@ def opt4():
 
 
     ### Step 3. 输出程序运行的信息
-    print_sum(input_file_name)
-    
+    print_sum(input_file_name)  # 输出文件一定是MOVEMENT.xsf, MOVEMENT.xyz (调用了convet_from_config.x)    
+
 
 def print_sum(input_file_name:str):
     '''
@@ -49,8 +49,8 @@ def print_sum(input_file_name:str):
     print("\t* 输入文件:", end="")
     print("\t - {0}".format(input_file_name))
     print("\t* 输出文件:", end="")
-    print("\t - {0}".format("MOVEMENT.xsf"))
-    print("\t\t\t - {0}".format("MOVEMENT.xyz"))
+    print("\t - {0}".format("MOVEMENT.xyz"))
+    print("\t\t\t - {0}".format("MOVEMENT.xsf"))
     
     print("*{0:-^68}*".format("---------"))
     
