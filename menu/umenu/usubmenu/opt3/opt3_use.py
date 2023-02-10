@@ -16,11 +16,16 @@ def opt3():
         1. 生成文件:
             - DOS.totalspin.csv : 未减去费米能级
             - DOS.totalspin_ShiftFermi.csv : 减去费米能级
-            - DOS.jpg: Total Dos 图像
+            - DOS.jpg: Total Dos 图像 (未减去费米能级的)
+            - DOS_ShiftFermi.jpg: Total Dos 图像 (减去费米能级的)
     '''
+    E_min = -5
+    E_max = 5
     ### Note
     ### ----
     ###     1. 如果当前文件夹下没有 OUT.FERMI，则输出的 DOS 无法减去费米能级
+    current_path = os.getcwd()
+    
     df_dos, df_dos_minus_efermi  = get_dfs_dos()
     try:
         assert (df_dos_minus_efermi == False)
@@ -41,9 +46,13 @@ def opt3():
     
     ### Step 1.3. Plot TDOS （未减去费米能级的 TDOS)
     plt.figure(figsize=(10, 8))
+    mask = (df_dos.loc[:, "Energy"] >= E_min) & (df_dos.loc[:, "Energy"] <= E_max)
+    df_dos = df_dos.loc[mask, :]
     plt.plot(
             df_dos.loc[:, "Energy"],
-            df_dos.loc[:, "Total"],
+            df_dos.loc[:, "Total"],                
+            c="indigo",
+            lw="2",
             )
     # 1. xlabel / ylabel
     plt.xlabel("Energy (eV)", 
@@ -75,7 +84,14 @@ def opt3():
     #delta = float(0.05 * (max-min))
     #min = min - delta
     #max = max + delta/dos
-    plt.xlim(-5, 5)
+    plt.xlim(E_min, E_max)
+    
+    # 6. 保存图片
+    plt.savefig(
+                os.path.join(current_path, "dos.jpg"),
+                dpi=300,
+                bbox_inches="tight",
+                )
     
     
     ### Step 2. Plot TDOS (绘制减去费米能级的TDOS)
@@ -92,9 +108,13 @@ def opt3():
         
         ### Step 2.3. Plot TDOS （未减去费米能级的 TDOS)
         plt.figure(figsize=(10, 8))
+        mask = (df_dos_minus_efermi.loc[:, "Energy"] >= E_min) & (df_dos_minus_efermi.loc[:, "Energy"] <= E_max)
+        df_dos_minus_efermi = df_dos_minus_efermi.loc[mask, :]
         plt.plot(
                 df_dos_minus_efermi.loc[:, "Energy"],
                 df_dos_minus_efermi.loc[:, "Total"],
+                c="indigo",
+                lw="2",
                 )
         # 1. xlabel / ylabel
         plt.xlabel("Energy (eV)", 
@@ -122,14 +142,21 @@ def opt3():
         ax.spines['left'].set_linewidth(1.5);   ####设置左边坐标轴的粗细
         ax.spines['right'].set_linewidth(1.5);  ###设置右边坐标轴的粗细
         ax.spines['top'].set_linewidth(1.5);    ###设置右边坐标轴的粗细
-        # 5. xrange
+        # 5. xrange / yrange
         #delta = float(0.05 * (max-min))
         #min = min - delta
         #max = max + delta/dos
-        plt.xlim(-5, 5)
+        plt.xlim(E_min, E_max)
+        #plt.ylim(-5, 5)
+        if marks_lst[1]:
+            plt.savefig(
+                        os.path.join(current_path, "dos_ShiftFermi.jpg"),
+                        dpi=300,
+                        bbox_inches="tight",
+                        )
     
     
-    ### Step 3. 保存文件
+    ### Step 3. 保存 csv 文件
     current_path = os.getcwd()
     ### Step 3.1. 保存 csv 文件
     df_dos.to_csv(
@@ -144,18 +171,8 @@ def opt3():
                 index=False,
                 )
     
-    ### Step 3.2. 保存图片``
-    plt.savefig(
-                os.path.join(current_path, "dos.jpg"),
-                dpi=300,
-                bbox_inches="tight",
-                )
-    if marks_lst[1]:
-        plt.savefig(
-                    os.path.join(current_path, "dos_ShiftFermi.jpg"),
-                    dpi=300,
-                    bbox_inches="tight",
-                    )
+    ### Step 3.2. 保存图片`` (绘制完成后就保存完毕)
+    ### ...
     
     ### Step 4. Summary
     print_sum(marks_lst)
