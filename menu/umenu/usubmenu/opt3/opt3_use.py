@@ -20,11 +20,6 @@ def opt3():
             - DOS.jpg: Total Dos 图像 (未减去费米能级的)
             - DOS_ShiftFermi.jpg: Total Dos 图像 (减去费米能级的)
     '''
-    # e.g. input_string = "-5, 5"
-    input_string = sys.argv[1]
-    E_min = float( input_string.split(",")[0] )
-    E_max = float( input_string.split(",")[1] )
-
     ### Note
     ### ----
     ###     1. 如果当前文件夹下没有 OUT.FERMI，则输出的 DOS 无法减去费米能级
@@ -36,6 +31,30 @@ def opt3():
         marks_lst = [True, False]
     except ValueError:
         marks_lst = [True, True]
+
+    ### Step 0
+    # e.g. input_string = "-5, 5"
+    E_min_range = min([
+            df_dos.loc[:, "Energy"].min(), 
+            df_dos_minus_efermi.loc[:, "Energy"].min(),
+            ])
+    E_max_range = max([
+            df_dos.loc[:, "Energy"].max(), 
+            df_dos_minus_efermi.loc[:, "Energy"].max(),
+            ])
+    
+    input_string = input(
+        "能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
+        round(E_min_range, 3),
+        round(E_max_range, 3),
+        ))
+    E_min = float( input_string.split(",")[0] )
+    E_max = float( input_string.split(",")[1] )
+    
+    if (E_min < E_min_range) or (E_max > E_max_range):
+        os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
+        raise SystemExit
+
 
     ### Step 1. Plot TDOS
     ### Step 1.1. 全局设置
