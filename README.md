@@ -1,8 +1,8 @@
 # PWkit
 Toolkits for PWmat (http://www.pwmat.com/pwmat-introduce).
 
-详情见 http://doc.lonxun.com/PWkit/PWkit.html
-
+PWkit 手册: http://doc.lonxun.com/PWkit/PWkit.html
+PWmat 常见任务计算方法: http://www.pwmat.com/Tutorials
 
 # 1. Installation
 # 1.0. 需要准备的文件
