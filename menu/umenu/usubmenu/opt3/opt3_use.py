@@ -1,4 +1,5 @@
 import os 
+import sys
 import matplotlib.pyplot as plt
 
 from read_dostotal import (
@@ -19,8 +20,11 @@ def opt3():
             - DOS.jpg: Total Dos 图像 (未减去费米能级的)
             - DOS_ShiftFermi.jpg: Total Dos 图像 (减去费米能级的)
     '''
-    E_min = -5
-    E_max = 5
+    # e.g. input_string = "-5, 5"
+    input_string = sys.argv[1]
+    E_min = float( input_string.split(",")[0] )
+    E_max = float( input_string.split(",")[1] )
+
     ### Note
     ### ----
     ###     1. 如果当前文件夹下没有 OUT.FERMI，则输出的 DOS 无法减去费米能级

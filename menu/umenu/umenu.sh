@@ -29,7 +29,10 @@ while [ 1 ]
         exit
         ;;
     3) 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py
+        echo " 请输入绘制的能量范围 (e.g. -5,5)"
+        read -p " ------------>>
+" range_energy
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py $range_energy
         exit
         ;;
     4) 
