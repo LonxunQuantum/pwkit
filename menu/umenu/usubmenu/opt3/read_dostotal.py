@@ -36,7 +36,7 @@ def check_requisites():
     else:
         if not mark_dos_totalspin:
             # case 2. DOS.totalspin 不存在
-            os.system('echo "\033[31m - Error: DOS.totalspin 不存在\033[0m"')
+            os.system('echo "\033[31m - Error: 当前目录下不存在 DOS.totalspin 文件\033[0m"')
     
     return [mark_dos_totalspin, mark_out_fermi]
 
