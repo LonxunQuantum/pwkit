@@ -29,8 +29,7 @@ while [ 1 ]
         exit
         ;;
     3) 
-        #$PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/read_dostotal.py
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py
         exit
         ;;
     4) 

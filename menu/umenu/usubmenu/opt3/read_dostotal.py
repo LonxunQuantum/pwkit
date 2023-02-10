@@ -150,7 +150,7 @@ def get_dfs_dos():
     if mark_out_fermi:
         return [df_dos, df_dos_sub_efermi]
     else:
-        return [df_dos]
+        return [df_dos, False]
 
 
 if __name__ == "__main__":
