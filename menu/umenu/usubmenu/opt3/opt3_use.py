@@ -34,15 +34,19 @@ def opt3():
 
     ### Step 0
     # e.g. input_string = "-5, 5"
-    E_min_range = min([
-            df_dos.loc[:, "Energy"].min(), 
-            df_dos_minus_efermi.loc[:, "Energy"].min(),
-            ])
-    E_max_range = max([
-            df_dos.loc[:, "Energy"].max(), 
-            df_dos_minus_efermi.loc[:, "Energy"].max(),
-            ])
-    
+    try:
+        E_min_range = min([
+                df_dos.loc[:, "Energy"].min(), 
+                df_dos_minus_efermi.loc[:, "Energy"].min(),
+                ])
+        E_max_range = max([
+                df_dos.loc[:, "Energy"].max(), 
+                df_dos_minus_efermi.loc[:, "Energy"].max(),
+                ])
+    except AttributeError:  # 'bool' object(`df_dos_minus_efermi`) has no attribute 'loc'
+        E_min_range = df_dos.loc[:, "Energy"].min()
+        E_max_range = df_dos.loc[:, "Energy"].max()
+        
     input_string = input(
         "能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
         round(E_min_range, 3),
@@ -233,6 +237,11 @@ def print_sum(marks_lst):
     # p4
     if marks_lst[1]:
         print(" \t\t\t - {0}".format("dos_ShiftFermi.jpg"))   
+        
+    # p5: Warning: 
+    if not marks_lst[1]:
+        print("*{0:-^68}*".format("---------"), end="")
+        print("\n\033[1;31m \t* 当前目录下没有 OUT.FERMI 文件，态密度没有减去费米能级!\033[0m\n", end="")
     
     print("*{0:-^68}*".format("---------"))
     
