@@ -140,7 +140,6 @@ def get_dfs_bandstructure(file_path:str):
         spin2eigen_energies_lst["up"].append(tmp_eigen_energies)
     
     print(spin2eigen_energies_lst)
-        
 
 
 def opt4():

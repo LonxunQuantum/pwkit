@@ -5,13 +5,14 @@ import pandas as pd
 
 
 
-def check_requisites():
+def check_requisites(dos_totalspin_path:str):
     '''
     Description
     -----------
-        1. 检查时候有 `plot_DOS.py` 所需的文件
+        1. 检查是否有 `plot_DOS.py` 所需的文件
                 1) DOS.totalspin (这个文件未将费米能级归零)
                 2) OUT.FERMI
+        2. 同样适用于 `DOS.spinup` 和 `DOS.spindown` 文件
     
     Return
     ------
@@ -22,9 +23,10 @@ def check_requisites():
                 OUT.FERMI 是否存在
     '''
     current_path = os.getcwd()
+    dos_spinx_name = os.path.basename(dos_totalspin_path)
     
     mark_dos_totalspin = os.path.exists(
-                            os.path.join(current_path, "DOS.totalspin")
+                            os.path.join(current_path, dos_spinx_name)
                         )
     mark_out_fermi = os.path.exists(
                             os.path.join(current_path, "OUT.FERMI")
@@ -36,10 +38,9 @@ def check_requisites():
     else:
         if not mark_dos_totalspin:
             # case 2. DOS.totalspin 不存在
-            os.system('echo "\033[31m - Error: 当前目录下不存在 DOS.totalspin 文件\033[0m"')
+            os.system('echo "\033[31m - Error: 当前目录下不存在 {0} 文件\033[0m"'.format(dos_spinx_name))
     
     return [mark_dos_totalspin, mark_out_fermi]
-
 
 
 def get_efermi(out_fermi_path:str):
@@ -76,7 +77,7 @@ def get_dos_df(dos_totalspin_path:str):
         all_rows.pop(0) # 删除原来的行首
         all_rows.insert(0, new_first_row)   # 添加新的行首
     
-    ### Step 2. 写入新的 DOS.totalspin 到新文件 `DOS.totalspin_`
+    ### Step 2. 写入新的 DOS.totalspin 到新文件 `DOS.totalspin.bak`
     current_path = os.path.dirname(dos_totalspin_path)
     new_dos_totalspin_path = os.path.join(current_path, "DOS.totalspin.bak")
     with open(new_dos_totalspin_path, "w") as f:    # mode="w" 重写模式
@@ -92,7 +93,7 @@ def get_dos_df(dos_totalspin_path:str):
     
     
 
-def get_dfs_dos():
+def get_dfs_dos(dos_totalspin_path:str):
     '''
     Description
     -----------
@@ -106,7 +107,7 @@ def get_dfs_dos():
                 2. df_dos_sub_efermi: pd.DataFrame
                     - 减去费米能级
                     
-        Case 2. [df_dos]: pd.DataFrame
+        Case 2. [df_dos, False]: pd.DataFrame
                     - 未减去费米能级
         
     
@@ -126,7 +127,9 @@ def get_dfs_dos():
     ### Step 1. 检查 requisite files，如果不满足条件，自动退出程序
     #       mark_dos_totalspin: DOS.totalspin 是否存在
     #       mark_out_fermi: OUT.FERMI 是否存在
-    mark_dos_totalspin, mark_out_fermi = check_requisites()
+    dos_spinx_path = os.path.join(dos_totalspin_path)
+    mark_dos_totalspin, mark_out_fermi = check_requisites(
+                                    dos_totalspin_path=dos_totalspin_path)
     if not mark_dos_totalspin:
         raise SystemExit
         
@@ -137,7 +140,7 @@ def get_dfs_dos():
         efermi = get_efermi(out_fermi_path=out_fermi_path)
 
     ### Step 3. 读取 DOS.totalspin 文件，生成 pd.DataFrame 对象
-    dos_totalspin_path = os.path.join(current_path, "DOS.totalspin")
+    dos_totalspin_path = os.path.join(current_path, dos_spinx_path)
     df_dos = get_dos_df(dos_totalspin_path=dos_totalspin_path)
     
     ### Step 4. 读取 DOS.totalspin 文件，减去费米能级后，生成 pd.DataFrame 对象
