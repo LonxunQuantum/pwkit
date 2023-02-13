@@ -1,0 +1,45 @@
+1  4   # 并行设置: 波函数并行设置、K点并行设置，两者之积必须等于GPU总数
+
+### 基础设置
+JOB = SCF
+XCFUNCTIONAL = PBE
+ACCURACY = NORM
+CONVERGENCE = EASY
+PRECISION = AUTO
+
+
+### 电子自洽设置
+Ecut = 50
+MP_N123 = 2 5 1 0 0 0 0
+SCF_ITER0_1 = 6 4 3 0.0 0.025 1
+SCF_ITER0_2 = 94 4 3 1.0 0.025 1
+
+
+### 特殊设置
+FIX_FERMI = T  -6.72  0.1  0.06 # 固定电势计算
+
+
+### 其他设置
+#CHARGE_DECOMP = T
+#NUM_BAND = XX
+#SYMM_PREC = 1E-5
+
+
+### 输入输出设置
+IN.ATOM = temp.input
+IN.PSP1 = Ni.SG15.PBE.UPF
+IN.PSP2 = O.SG15.PBE.UPF
+IN.PSP3 = Zn.SG15.PBE.UPF
+IN.PSP4 = Mn.SG15.PBE.UPF
+IN.PSP5 = Na.SG15.PBE.UPF
+IN.PSP6 = Fe.SG15.PBE.UPF
+IN.WG = F
+IN.RHO = F
+IN.VR = F
+IN.KPT = F
+OUT.WG = T
+OUT.RHO = T
+OUT.VR = T
+OUT.VATOM = F
+IN.SOLVENT = T     # 固定电势计算
+OUT.SOLVENT_CHARGE = T     # 固定电势计算

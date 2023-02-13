@@ -465,7 +465,7 @@ class EtotWriter(object):
                 e_f = -4.42 - electrode_potential
                 # 保留两位小数
                 e_f = round(e_f, 2)
-                f.write("FIX_FERMI = {0}  0.1  0.06 # 固定电势计算\n".format(e_f))
+                f.write("FIX_FERMI = T  {0}  0.1  0.06 # 固定电势计算\n".format(e_f))
 
                 # 7.1. 编写 IN.SOLVENT 文件
                 dstructure = DStructure.from_file(
