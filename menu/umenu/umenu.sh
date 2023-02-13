@@ -33,7 +33,8 @@ while [ 1 ]
         exit
         ;;
     4) 
-        echo "态密度图绘制"
+        #echo "能带图绘制"
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt4/opt4_use.py
         exit
         ;;
     5) 
