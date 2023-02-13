@@ -322,14 +322,14 @@ def opt3_spin():
     plt.plot(
             df_dos_spinup.loc[:, "Energy"],
             df_dos_spinup.loc[:, "Total"],                
-            c="blue",
+            c="teal",
             lw="2",
             label="Spin_up"
             )
     plt.plot(
             df_dos_spindown.loc[:, "Energy"],
             df_dos_spindown.loc[:, "Total"],                
-            c="orange",
+            c="coral",
             lw="2",
             label="Spin_down"
             )
@@ -401,14 +401,14 @@ def opt3_spin():
         plt.plot(
                 df_dos_spinup_minus_efermi.loc[:, "Energy"],
                 df_dos_spinup_minus_efermi.loc[:, "Total"],                
-                c="blue",
+                c="teal",
                 lw="2",
                 label="Spin_up"
                 )
         plt.plot(
                 df_dos_spindown_minus_efermi.loc[:, "Energy"],
                 df_dos_spindown_minus_efermi.loc[:, "Total"],                
-                c="orange",
+                c="coral",
                 lw="2",
                 label="Spin_down"
                 )
