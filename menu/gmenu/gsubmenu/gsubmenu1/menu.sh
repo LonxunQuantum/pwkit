@@ -170,8 +170,8 @@ while [ 1 ]
             read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>
 " density_for_kpath
-            $PYTHON_PATH PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${density_for_kpath}
-            ${PWKIT_ROOT}/menu/scripts/split_kp.x gen.kpt
+            $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${density_for_kpath}
+            ${PWKIT_ROOT}/menu/scripts/split_kp.x gen.kpt > /dev/null
             ;;
         esac
 
