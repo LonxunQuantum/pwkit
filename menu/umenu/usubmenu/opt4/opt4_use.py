@@ -3,6 +3,7 @@ import math
 import linecache
 
 import numpy as np
+import pandas as pd
 from typing import List
 
 
@@ -72,7 +73,7 @@ def get_xaxis_from_inkpt(in_kpt_path:str):
     hsp_idx2name = {}   # Dict[int, str] - e.g. {高对称的行索引: 高对称点的名字}
     for tmp_idx, tmp_name in zip(idxs_for_hsp, names_for_hsp):
         hsp_idx2name.update({tmp_idx: tmp_name})
-    print(hsp_idx2name)
+    #print(hsp_idx2name)
     
     ### Step 2. 得到kpoints之间的距离: distances_array
     distances_lst = list( np.linalg.norm( np.diff(kpt_coords_array, axis=0), axis=1) )
@@ -170,11 +171,25 @@ def get_xaxis_from_inkpt(in_kpt_path:str):
     #print(new_kpaths_distances_from_gamma_lst)
     #print(distances_from_gamma_lst)
     
-    return distances_from_gamma_lst
+    ### Step 5. 得到高对称点的名称和对应横坐标
+    '''
+    1. hsp_names_lst
+    ----------------
+        - e.g. ['G', 'M', 'K', 'G', 'A', 'L', 'H', 'A', 'L', 'M', 'K', 'H']
+    
+    2. hsp_xvalues_lst
+    ------------------
+        - e.g. [0.0, 0.5, 0.8727, 1.3441, 1.8441, 2.3441, 2.7168, 3.1882, 3.1882, 3.6882, 3.6882, 4.1882]
+    '''
+    hsp_names_lst = []
+    hsp_xvalues_lst = []
+    for key, value in hsp_idx2name.items():
+        hsp_names_lst.append(value)
+        hsp_xvalues_lst.append(distances_from_gamma_lst[key])
+    
+    return distances_from_gamma_lst, hsp_names_lst, hsp_xvalues_lst
     
     
-    
-
 def get_dfs_bandstructure(file_path:str):
     '''
     Description
@@ -201,15 +216,15 @@ def get_dfs_bandstructure(file_path:str):
         5. mark_ispin: bool
             - True: 打开自旋
             - False: 关闭自旋
-        6. spin2eigen_energies_lst
+        6. spin2eigen_energies
             - e.g. {"up":[], "down":[]}
-            - spin2eigen_energies_lst["up"] / spin2eigen_energies_lst["down"]
+            - spin2eigen_energies["up"] / spin2eigen_energies["down"]
                 1. 一维：kpoints
                 2. 二维：eigen energies
         
     Return
     ------
-        1. spin2eigen_energies_lst 
+        1. spin2eigen_energies: Dict[]
             - e.g. {"up":[], "down":[]}
     '''
     ### Step 1. 从 REPORT 得到 `NUM_KPT` 和 `NUM_BAND`
@@ -260,7 +275,7 @@ def get_dfs_bandstructure(file_path:str):
 
     
     ### Step 2.2. 纵坐标
-    spin2eigen_energies_lst = {"up":[], "down":[]}
+    spin2eigen_energies = {"up":[], "down":[]}
     aim_content_eigen = "eigen energies, in eV"
     idxs_eigen_start_lst = search_aim(
                                 file_path=file_path,
@@ -298,12 +313,14 @@ def get_dfs_bandstructure(file_path:str):
         tmp_eigen_energies = [float(eigen) for tmp_5_eigen in tmp_eigen_energies_ for eigen in tmp_5_eigen.split()]
         
         if (tmp_idx < num_kpt):
-            spin2eigen_energies_lst["up"].append(tmp_eigen_energies)
+            spin2eigen_energies["up"].append(tmp_eigen_energies)
         else:
-            spin2eigen_energies_lst["down"].append(tmp_eigen_energies)
+            spin2eigen_energies["down"].append(tmp_eigen_energies)
     
-    if not ( len(spin2eigen_energies_lst["down"]) == 0 ):   ### 当自旋打开时，我们需要保证自旋向上、向下的 kpoints 数目相等
-        assert ( len(spin2eigen_energies_lst["up"]) == len(spin2eigen_energies_lst["down"]) )
+    if not ( len(spin2eigen_energies["down"]) == 0 ):   ### 当自旋打开时，我们需要保证自旋向上、向下的 kpoints 数目相等
+        assert ( len(spin2eigen_energies["up"]) == len(spin2eigen_energies["down"]) )
+    
+    return spin2eigen_energies
     
 
 def opt4():
@@ -315,10 +332,23 @@ def opt4():
     current_path = os.getcwd()
     in_kpt_path = os.path.join(current_path, "IN.KPT")
     report_file_path = os.path.join(current_path, "REPORT")
-    #get_dfs_bandstructure(file_path=report_file_path)
     
-    get_xaxis_from_inkpt(in_kpt_path=in_kpt_path)
+    ### Step 1. 读取 IN.KPT，得到横坐标。高对称的名称和 xticknames
+    distances_from_gamma_lst, hsp_names_lst, hsp_xvalues_lst = \
+                            get_xaxis_from_inkpt(in_kpt_path=in_kpt_path)
+    xs_lst = distances_from_gamma_lst
+    print( xs_lst )
     
-
+    ### Step 2. 读取 REPORT，得到纵坐标。IN.KPT读取所有的本征能量
+    spin2eigen_energies = get_dfs_bandstructure(file_path=report_file_path)
+    yss_lst = [
+            pd.DataFrame( np.array(spin2eigen_energies["up"]).transpose(), columns=None ), 
+            pd.DataFrame( np.array(spin2eigen_energies["down"]).transpose(), columns=None ),
+            ]
+    print( yss_lst )
+    
+    
+    
+    
 if __name__ == "__main__":
     opt4()
