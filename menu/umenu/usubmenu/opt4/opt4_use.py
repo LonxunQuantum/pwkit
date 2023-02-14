@@ -3,10 +3,12 @@ import math
 import linecache
 
 import numpy as np
+from typing import List
 
 
 # REPORT 中每行写 5 个 eigen energies
 NUM_PER_LINE = 5
+
 
 def search_aim(file_path:str, aim_content:str):
     '''
@@ -44,12 +46,14 @@ def get_xaxis_from_inkpt(in_kpt_path:str):
     
     Return
     ------
-        1. x_values_lst: list of float
+        1. distances_from_gamma_lst: List[float]
             - 能带的横坐标
-        2. hsp2coord: Dict[str, np.ndarray]
-            - {"G": np.ndarray([0.  0.  0.])}
+        2. hsp_names_lst: List[str]
+            - 高对称点的名字
+        3. hsp_xvalue_lst: List[float]
+            - 高对称点在 bandstructure 图上的横坐标
     '''
-    ### Step 1. 
+    ### Step 1. 得到 kpoints 的坐标、高对称点的行索引、高对称点的名字
     with open(in_kpt_path, "r") as f:
         lines_lst = f.readlines()
     kpts_lst = [line.split() for line in lines_lst][2:]
@@ -62,14 +66,114 @@ def get_xaxis_from_inkpt(in_kpt_path:str):
         tmp_kpt_ = [float(value) for value in tmp_kpt[:3]]
         kpt_coords_lst.append(tmp_kpt_)
     kpt_coords_array = np.array(kpt_coords_lst)
-    print(kpt_coords_array)
+    #print(kpt_coords_array)
     
     ### Step 1.2. 得到 hsp_idx2name: Dict[int, str] -- 高对称点的索引和名字
     hsp_idx2name = {}   # Dict[int, str] - e.g. {高对称的行索引: 高对称点的名字}
     for tmp_idx, tmp_name in zip(idxs_for_hsp, names_for_hsp):
         hsp_idx2name.update({tmp_idx: tmp_name})
     print(hsp_idx2name)
-
+    
+    ### Step 2. 得到kpoints之间的距离: distances_array
+    distances_lst = list( np.linalg.norm( np.diff(kpt_coords_array, axis=0), axis=1) )
+    distances_lst.insert(0, 0)
+    distances_array = np.array(distances_lst)
+    #print(len(distances_array))
+    
+    ### Step 3. 截断不同的 kpath -- cutoff_idx_pairs_lst
+    cutoff_idx_lst = []   # [0, 58, 59, 63, 64, 68] -> [[0, 58], [59, 63], [64, 68]]
+    hsp_idxs_lst = sorted(hsp_idx2name.keys())  # e.g. [0, 10, 16, 27, 31, 41, 47, 58, 59, 63, 64, 68]
+    
+    ### Step 3.1. 得到 [0, 58, 59, 63, 64, 68]
+    for tmp_idx in range(1, len(hsp_idxs_lst)):
+        if ((hsp_idxs_lst[tmp_idx] - hsp_idxs_lst[tmp_idx-1]) == 1):
+            cutoff_idx_lst.append(hsp_idxs_lst[tmp_idx-1])
+            cutoff_idx_lst.append(hsp_idxs_lst[tmp_idx])    # [58, 59, 63, 64]
+    cutoff_idx_lst.insert(0, 0) # [0, 58, 59, 63, 64]
+    cutoff_idx_lst.append(len(kpt_coords_array)-1)    # [0, 58, 59, 63, 64, 68]
+    #print(cutoff_idx_lst)
+    
+    ### Step 3.2. 得到 `[0, 58, 59, 63, 64, 68] -> [[0, 58], [59, 63], [64, 68]]`
+    cutoff_idxs_pair_lst = []
+    for tmp_idx in range(1, len(cutoff_idx_lst), 2):
+        tmp_pair = [cutoff_idx_lst[tmp_idx-1], cutoff_idx_lst[tmp_idx]+1]   # Python 索引包括前、不包括后
+        cutoff_idxs_pair_lst.append(tmp_pair)
+    
+    ### Step 4. 计算 bandstructure 的横坐标
+    '''
+    e.g.
+    ----
+    1. kpaths_distances_from_gamma_lst
+    -------------------------------
+        [0, 58]
+        [0.         0.05       0.1        0.15       0.2        0.25
+        0.3        0.35       0.4        0.45       0.5        0.5621135
+        0.6242261  0.6863387  0.74845175 0.81056525 0.87267785 0.91553276
+        0.95838767 1.00124259 1.0440975  1.08695242 1.12980733 1.17266224
+        1.21551716 1.25837207 1.30122698 1.3440819  1.4690819  1.5940819
+        1.7190819  1.8440819  1.8940819  1.9440819  1.9940819  2.0440819
+        2.0940819  2.1440819  2.1940819  2.2440819  2.2940819  2.3440819
+        2.40619539 2.46830799 2.5304206  2.59253365 2.65464714 2.71675974
+        2.75961466 2.80246957 2.84532448 2.8881794  2.93103431 2.97388923
+        3.01674414 3.05959905 3.10245397 3.14530888]
+        
+        [59, 63]
+        [0.5   0.625 0.75  0.875]
+        
+        [64, 68]
+        [0.37267785 0.49767785 0.62267785 0.74767785]
+        
+    2. new_kpaths_distances_from_gamma_lst
+    --------------------------------------
+        [array([0.        , 0.05      , 0.1       , 0.15      , 0.2       ,
+            0.25      , 0.3       , 0.35      , 0.4       , 0.45      ,
+            0.5       , 0.5621135 , 0.6242261 , 0.6863387 , 0.74845175,
+            0.81056525, 0.87267785, 0.91553276, 0.95838767, 1.00124259,
+            1.0440975 , 1.08695242, 1.12980733, 1.17266224, 1.21551716,
+            1.25837207, 1.30122698, 1.3440819 , 1.4690819 , 1.5940819 ,
+            1.7190819 , 1.8440819 , 1.8940819 , 1.9440819 , 1.9940819 ,
+            2.0440819 , 2.0940819 , 2.1440819 , 2.1940819 , 2.2440819 ,
+            2.2940819 , 2.3440819 , 2.40619539, 2.46830799, 2.5304206 ,
+            2.59253365, 2.65464714, 2.71675974, 2.75961466, 2.80246957,
+            2.84532448, 2.8881794 , 2.93103431, 2.97388923, 3.01674414,
+            3.05959905, 3.10245397, 3.14530888, 3.18816379]), 
+            
+            array([3.18816379, 3.31316379, 3.43816379, 3.56316379, 3.68816379]), 
+            
+            array([3.68816379, 3.81316379, 3.93816379, 4.06316379, 4.18816379])]
+    
+    3. distances_from_gamma_lst
+    ---------------------------
+            [0.0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.5621134962789892, 0.6242260981323974, 0.6863386999858055, 0.7484517490576391, 0.8105652453366283, 0.8726778471900365, 0.9155327607706284, 0.9583876743512203, 1.001242587931812, 1.0440975015124039, 1.0869524150929957, 1.1298073286735875, 1.1726622422541795, 1.2155171558347713, 1.2583720694153633, 1.301226982995955, 1.3440818965765469, 1.4690818965765469, 1.5940818965765469, 1.7190818965765469, 1.8440818965765469, 1.894081896576547, 1.944081896576547, 1.994081896576547, 2.044081896576547, 2.094081896576547, 2.1440818965765467, 2.1940818965765465, 2.2440818965765468, 2.2940818965765466, 2.3440818965765464, 2.4061953928555355, 2.4683079947089435, 2.5304205965623514, 2.5925336456341848, 2.654647141913174, 2.716759743766582, 2.7596146573471736, 2.8024695709277654, 2.845324484508357, 2.888179398088949, 2.9310343116695408, 2.9738892252501326, 3.0167441388307243, 3.059599052411316, 3.102453965991908, 3.1453088795724997, 3.1881637931530915, 3.1881637931530915, 3.3131637931530915, 3.4381637931530915, 3.5631637931530915, 3.6881637931530915, 3.6881637931530915, 3.8131637931530915, 3.9381637931530915, 4.063163793153091, 4.188163793153091]
+    '''
+    kpaths_distances_from_gamma_lst:List[np.ndarray] = []
+    for tmp_idx_pair in cutoff_idxs_pair_lst:
+        #print(tmp_idx_pair)
+        tmp_distances_from_gamma_array = np.cumsum(distances_array[tmp_idx_pair[0]:tmp_idx_pair[1]], axis=0)
+        kpaths_distances_from_gamma_lst.append( tmp_distances_from_gamma_array )
+    #print([len(item) for item in kpaths_distances_from_gamma_lst])
+    
+    new_kpaths_distances_from_gamma_lst:List[np.ndarray] = []
+    for idx_kpath, tmp_kpath_distance_from_gamma_array in enumerate(kpaths_distances_from_gamma_lst):
+        if idx_kpath == 0:
+            pass
+        else:
+            ### Note
+            tmp_kpath_distance_from_gamma_array = tmp_kpath_distance_from_gamma_array - \
+                                            tmp_kpath_distance_from_gamma_array[0] + \
+                                            new_kpaths_distances_from_gamma_lst[idx_kpath-1][-1]
+        new_kpaths_distances_from_gamma_lst.append(tmp_kpath_distance_from_gamma_array)
+    num_kpts = sum([item.shape[0] for item in new_kpaths_distances_from_gamma_lst])
+    assert(num_kpts == kpt_coords_array.shape[0])
+    
+    distances_from_gamma_lst:List[float] = [round(tmp_distance, 4) for tmp_array in new_kpaths_distances_from_gamma_lst for tmp_distance in list(tmp_array)]
+    #print(new_kpaths_distances_from_gamma_lst)
+    #print(distances_from_gamma_lst)
+    
+    return distances_from_gamma_lst
+    
+    
+    
 
 def get_dfs_bandstructure(file_path:str):
     '''
