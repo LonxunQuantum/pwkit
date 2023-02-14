@@ -4,6 +4,7 @@ import linecache
 
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 from typing import List
 
 
@@ -34,11 +35,15 @@ def search_aim(file_path:str, aim_content:str):
     return idxs_lst
 
 
-def get_xaxis_from_inkpt(in_kpt_path:str):
+def get_xaxis_from_inkpt(
+                    in_kpt_path:str,
+                    report_path:str,
+                    ):
     '''
     Description
     -----------
-        1. 
+        1. 从 IN.KPT 和 REPORT 中读取 bandstructure 的横坐标
+        2. Note: IN.KPT 和 REPORT 中的kpoints坐标不完全一样
         
     Parameters
     ----------
@@ -62,12 +67,15 @@ def get_xaxis_from_inkpt(in_kpt_path:str):
     names_for_hsp = [kpts_lst[kpts_lst.index(tmp_kpt, tmp_idx, len(kpts_lst))][-1] for tmp_idx, tmp_kpt in enumerate(kpts_lst) if (len(tmp_kpt)==5)]
     
     ### Step 1.1. 得到 kpt_coords_array:np.ndarray -- 所有 kpoints 的分数坐标
-    kpt_coords_lst = [] # 所有 kpoints 的分数坐标
-    for tmp_kpt in kpts_lst:
-        tmp_kpt_ = [float(value) for value in tmp_kpt[:3]]
-        kpt_coords_lst.append(tmp_kpt_)
+    num_kpts = len(kpts_lst)
+    with open(report_path, "r") as f:
+        lines_lst = f.readlines()
+    idx_start = search_aim(file_path=report_path, aim_content="total number of K-point:")[0]
+    kpt_coords_lst = []
+    for tmp_line in lines_lst[idx_start:idx_start+num_kpts]:
+        tmp_coord = [float(value) for value in tmp_line.split()]
+        kpt_coords_lst.append(tmp_coord)
     kpt_coords_array = np.array(kpt_coords_lst)
-    #print(kpt_coords_array)
     
     ### Step 1.2. 得到 hsp_idx2name: Dict[int, str] -- 高对称点的索引和名字
     hsp_idx2name = {}   # Dict[int, str] - e.g. {高对称的行索引: 高对称点的名字}
@@ -321,7 +329,34 @@ def get_dfs_bandstructure(file_path:str):
         assert ( len(spin2eigen_energies["up"]) == len(spin2eigen_energies["down"]) )
     
     return spin2eigen_energies
+
+
+def plot_bands(
+            xs_lst:List[float],
+            yss_lst:List[pd.DataFrame],
+            ):
+    '''
+    Parameters
+    ----------
+        1. xs_lst: List[float]
+        2. ys_lst: List[pd.DataFrame]
+    '''
+    plt.figure(figsize=(10, 8))
+    for df_eigen_energies in yss_lst:
+        if not df_eigen_energies.empty: # "spindown" 的 pd.DataFrame 是否为空
+            for idx_band in range(df_eigen_energies.shape[0]):  # df_eigen_energies.shape[0]: Number of kpoints
+                #print(list( df_eigen_energies.loc[idx_band, :].to_numpy() ), len(xs_lst))
+                plt.plot(
+                        xs_lst, 
+                        list( df_eigen_energies.loc[idx_band, :].to_numpy() ),
+                        c="blue",
+                        )
+    #plt.xlim(-5, 5)
+    plt.ylim(-5, 5)
+                
+    plt.savefig("/data/home/liuhanyu/hyliu/pwmat_demo/band/test.png")
     
+
 
 def opt4():
     '''
@@ -335,9 +370,9 @@ def opt4():
     
     ### Step 1. 读取 IN.KPT，得到横坐标。高对称的名称和 xticknames
     distances_from_gamma_lst, hsp_names_lst, hsp_xvalues_lst = \
-                            get_xaxis_from_inkpt(in_kpt_path=in_kpt_path)
+                            get_xaxis_from_inkpt(in_kpt_path=in_kpt_path, report_path=report_file_path)
     xs_lst = distances_from_gamma_lst
-    print( xs_lst )
+    #print( xs_lst )
     
     ### Step 2. 读取 REPORT，得到纵坐标。IN.KPT读取所有的本征能量
     spin2eigen_energies = get_dfs_bandstructure(file_path=report_file_path)
@@ -345,9 +380,10 @@ def opt4():
             pd.DataFrame( np.array(spin2eigen_energies["up"]).transpose(), columns=None ), 
             pd.DataFrame( np.array(spin2eigen_energies["down"]).transpose(), columns=None ),
             ]
-    print( yss_lst )
+    #print( yss_lst )
     
     
+    plot_bands(xs_lst=xs_lst, yss_lst=yss_lst)
     
     
 if __name__ == "__main__":
