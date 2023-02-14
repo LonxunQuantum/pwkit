@@ -31,6 +31,46 @@ def search_aim(file_path:str, aim_content:str):
     return idxs_lst
 
 
+def get_xaxis_from_inkpt(in_kpt_path:str):
+    '''
+    Description
+    -----------
+        1. 
+        
+    Parameters
+    ----------
+        1. kpoints_coords: np.ndarray
+            kpoints 的坐标
+    
+    Return
+    ------
+        1. x_values_lst: list of float
+            - 能带的横坐标
+        2. hsp2coord: Dict[str, np.ndarray]
+            - {"G": np.ndarray([0.  0.  0.])}
+    '''
+    ### Step 1. 
+    with open(in_kpt_path, "r") as f:
+        lines_lst = f.readlines()
+    kpts_lst = [line.split() for line in lines_lst][2:]
+    idxs_for_hsp = [kpts_lst.index(tmp_kpt, tmp_idx, len(kpts_lst)) for tmp_idx, tmp_kpt in enumerate(kpts_lst) if (len(tmp_kpt)==5)]
+    names_for_hsp = [kpts_lst[kpts_lst.index(tmp_kpt, tmp_idx, len(kpts_lst))][-1] for tmp_idx, tmp_kpt in enumerate(kpts_lst) if (len(tmp_kpt)==5)]
+    
+    ### Step 1.1. 得到 kpt_coords_array:np.ndarray -- 所有 kpoints 的分数坐标
+    kpt_coords_lst = [] # 所有 kpoints 的分数坐标
+    for tmp_kpt in kpts_lst:
+        tmp_kpt_ = [float(value) for value in tmp_kpt[:3]]
+        kpt_coords_lst.append(tmp_kpt_)
+    kpt_coords_array = np.array(kpt_coords_lst)
+    print(kpt_coords_array)
+    
+    ### Step 1.2. 得到 hsp_idx2name: Dict[int, str] -- 高对称点的索引和名字
+    hsp_idx2name = {}   # Dict[int, str] - e.g. {高对称的行索引: 高对称点的名字}
+    for tmp_idx, tmp_name in zip(idxs_for_hsp, names_for_hsp):
+        hsp_idx2name.update({tmp_idx: tmp_name})
+    print(hsp_idx2name)
+
+
 def get_dfs_bandstructure(file_path:str):
     '''
     Description
@@ -54,7 +94,10 @@ def get_dfs_bandstructure(file_path:str):
             - 每个 Kpoint 的 eigen energies 占据几行
         4. kpts_coords_array: np.ndarray
             - 所有 kpoints 的坐标
-        5. spin2eigen_energies_lst
+        5. mark_ispin: bool
+            - True: 打开自旋
+            - False: 关闭自旋
+        6. spin2eigen_energies_lst
             - e.g. {"up":[], "down":[]}
             - spin2eigen_energies_lst["up"] / spin2eigen_energies_lst["down"]
                 1. 一维：kpoints
@@ -62,7 +105,8 @@ def get_dfs_bandstructure(file_path:str):
         
     Return
     ------
-        1. 
+        1. spin2eigen_energies_lst 
+            - e.g. {"up":[], "down":[]}
     '''
     ### Step 1. 从 REPORT 得到 `NUM_KPT` 和 `NUM_BAND`
     ### Step 1.1. 读取 `NUM_KPT`
@@ -107,17 +151,28 @@ def get_dfs_bandstructure(file_path:str):
     kpts_coords_array = np.array(kpts_coords_lst)   # 用于生成能带图的横坐标
 
     ### Step 2. 读取 kpoints (横坐标) 和 eigen energies (纵坐标)
-    ### Step 2.1. 横坐标
-    print(kpts_coords_array[:, :3])
+    ### Step 2.1. 横坐标: 从 IN.KPT 中读取
+    #print(kpts_coords_array[:, :3])
+
     
     ### Step 2.2. 纵坐标
     spin2eigen_energies_lst = {"up":[], "down":[]}
     aim_content_eigen = "eigen energies, in eV"
     idxs_eigen_start_lst = search_aim(
                                 file_path=file_path,
-                                aim_content=aim_content_eigen)    
-    for tmp_idx_eigen_start in idxs_eigen_start_lst:
+                                aim_content=aim_content_eigen)
+    
+    for tmp_idx, tmp_idx_eigen_start in enumerate(idxs_eigen_start_lst):
         '''
+        Parameters
+        ----------
+            1. tmp_idx: int
+                - enumrate() 函数的输出。
+            2. tmp_idx_eign_start: int
+                - "eigen energies, in eV" 出现的行数
+        
+        Function
+        --------
             eigen energies, in eV
                 -62.852423       -62.852240       -62.852238       -62.834165       -37.088712
                 -37.047212       -37.027703       -37.027568       -37.027541       -36.965955
@@ -137,10 +192,15 @@ def get_dfs_bandstructure(file_path:str):
         '''
         tmp_eigen_energies_ = lines_lst[tmp_idx_eigen_start:tmp_idx_eigen_start+num_lines_for_band]
         tmp_eigen_energies = [float(eigen) for tmp_5_eigen in tmp_eigen_energies_ for eigen in tmp_5_eigen.split()]
-        spin2eigen_energies_lst["up"].append(tmp_eigen_energies)
+        
+        if (tmp_idx < num_kpt):
+            spin2eigen_energies_lst["up"].append(tmp_eigen_energies)
+        else:
+            spin2eigen_energies_lst["down"].append(tmp_eigen_energies)
     
-    print(spin2eigen_energies_lst)
-
+    if not ( len(spin2eigen_energies_lst["down"]) == 0 ):   ### 当自旋打开时，我们需要保证自旋向上、向下的 kpoints 数目相等
+        assert ( len(spin2eigen_energies_lst["up"]) == len(spin2eigen_energies_lst["down"]) )
+    
 
 def opt4():
     '''
@@ -149,8 +209,11 @@ def opt4():
         1. 绘制能带
     '''
     current_path = os.getcwd()
+    in_kpt_path = os.path.join(current_path, "IN.KPT")
     report_file_path = os.path.join(current_path, "REPORT")
-    get_dfs_bandstructure(file_path=report_file_path)
+    #get_dfs_bandstructure(file_path=report_file_path)
+    
+    get_xaxis_from_inkpt(in_kpt_path=in_kpt_path)
     
 
 if __name__ == "__main__":
