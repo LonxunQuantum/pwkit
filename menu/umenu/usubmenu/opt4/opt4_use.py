@@ -138,9 +138,9 @@ def plot_band(
                 lw=2,
                 alpha=0.8,
                 )
-        plt.scatter(xs_lst, ys_array[idx_band],
-                c=colors_lst[0],
-                alpha=0.8)
+        #plt.scatter(xs_lst, ys_array[idx_band],
+        #        c=colors_lst[0],
+        #        alpha=0.8)
     ### Step 2.2. spindown
     if (yss_dict["down"].size != 0):
         for idx_band in range(yss_dict["down"].shape[1]):
@@ -150,9 +150,9 @@ def plot_band(
                     lw=2,
                     alpha=0.6,
                     )
-            plt.scatter(xs_lst, ys_array[idx_band],
-                    c=colors_lst[1],
-                    alpha=0.6)
+            #plt.scatter(xs_lst, ys_array[idx_band],
+            #        c=colors_lst[1],
+            #        alpha=0.6)
         
     # 1. xlabel / ylabel
     plt.ylabel("Energy (eV)",
