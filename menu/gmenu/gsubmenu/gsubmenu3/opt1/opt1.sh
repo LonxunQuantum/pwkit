@@ -64,15 +64,20 @@ gsubmenu3::opt1() {
     fi
     done
 
+### Step 2. 二维材料？三维材料？
+read -p " 输入材料的维度 (2: 二维材料; 3: 三维材料):
+------------>>
+" dimension
 
-### Step 2. 获取每条 KPATH 上的取点密度
+
+### Step 3. 获取每条 KPATH 上的取点密度
 read -p " 输入每条KPATH上的取点密度 (单位: 2*PI/Angstrom): 
 ------------>>
 " density_in_2pi
 
 
-# Step 3. 取出结构的高对称点，输出 HIGHK 和 gen.kpt 文件 （用于 split_kp.x 的输入文件）
-$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu3/opt1/1_high_symmetry_points.py ${atom_config_format_file_name} ${density_in_2pi}
+# Step 4. 取出结构的高对称点，输出 HIGHK 和 gen.kpt 文件 （用于 split_kp.x 的输入文件）
+$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu3/opt1/1_high_symmetry_points.py ${atom_config_format_file_name} ${dimension} ${density_in_2pi}
 $PWKIT_ROOT/menu/scripts/split_kp.x < gen.kpt > /dev/null
 # 输出
 $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu3/opt1/2_sum.py $atom_config_format_file_name
