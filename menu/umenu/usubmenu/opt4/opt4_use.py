@@ -1,6 +1,7 @@
 import os
 import numpy as np
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 from typing import Dict, List, Union
 from pflow.io.pwmat.output.report import Report
@@ -129,12 +130,29 @@ def plot_band(
             yss_dict["down"] -= efermi_ev
     
     ### Step 2. 处理数据的部分
+    ### Step 2.2. spinup
     for idx_band in range(yss_dict["up"].shape[1]):
         ys_array = yss_dict["up"].transpose()   # 1d:band 索引; 2d:kpoints 索引
         plt.plot(xs_lst, ys_array[idx_band],
-                c=colors_lst[0])
+                c=colors_lst[0],
+                lw=2,
+                alpha=0.8,
+                )
         plt.scatter(xs_lst, ys_array[idx_band],
-                c=colors_lst[0])
+                c=colors_lst[0],
+                alpha=0.8)
+    ### Step 2.2. spindown
+    if (yss_dict["down"].size != 0):
+        for idx_band in range(yss_dict["down"].shape[1]):
+            ys_array = yss_dict["down"].transpose()   # 1d:band 索引; 2d:kpoints 索引
+            plt.plot(xs_lst, ys_array[idx_band],
+                    c=colors_lst[1],
+                    lw=2,
+                    alpha=0.6,
+                    )
+            plt.scatter(xs_lst, ys_array[idx_band],
+                    c=colors_lst[1],
+                    alpha=0.6)
         
     # 1. xlabel / ylabel
     plt.ylabel("Energy (eV)",
@@ -181,7 +199,24 @@ def plot_band(
     # 7. xrange / yrange
     plt.xlim(0, max(xs_lst))
     plt.ylim(E_min, E_max)
-    plt.savefig(band_png_path)
+    
+    # 8. legend
+    if (yss_dict["down"].size != 0):
+        line1 = Line2D([0], [0], color='steelblue', linewidth=2.5, linestyle='-')
+        line2 = Line2D([0], [0], color='coral', linewidth=2.5, linestyle='-')
+        legend_font = {"size" : 18, 
+                        "weight": "bold"
+                        }
+        legend_handles = [line1, line2]
+        legend_labels = ['spin_up', 'spin_down']
+        ax.legend(legend_handles, legend_labels, 
+                prop=legend_font,
+                frameon=False)
+
+    
+    plt.savefig(band_png_path,
+                dpi=300,
+                bbox_inches="tight",)
 
 
 def print_sum(efermi_ev:Union[float, bool]):
@@ -232,25 +267,28 @@ if __name__ == "__main__":
     # 3. yss_dict
     yss_dict = get_yss_dict(report_path=report_path)
     assert (len(xs_lst) == yss_dict["up"].shape[0])
+    #print(yss_dict)
+    
     # 3.1. 输入能带的范围
     yss_dict_ = {"up":np.array([]), "down":np.array([])}
     if efermi_ev:
         yss_dict_["up"] = yss_dict["up"] - efermi_ev
-        if (yss_dict_["down"].size != 0):
+        if (yss_dict["down"].size != 0):
             yss_dict_["down"] = yss_dict["down"] - efermi_ev
     else:
         yss_dict_["up"] = yss_dict["up"]
-        if (yss_dict_["down"].size != 0):
+        if (yss_dict["down"].size != 0):
             yss_dict_["down"] = yss_dict["down"]
-        
+    #print(yss_dict_)
+    
     if yss_dict["down"].size == 0:  # ispin 关闭
         e_max = np.max(yss_dict_["up"])
         e_min = np.min(yss_dict_["up"])
     else:
-        e_max = np.max( np.max(yss_dict_["up"]), np.max(yss_dict_["down"]) )
-        e_min = np.max( np.min(yss_dict_["up"]), np.min(yss_dict_["down"]) )
+        e_max = max( [np.max(yss_dict_["up"]), np.max(yss_dict_["down"])] )
+        e_min = min( [np.min(yss_dict_["up"]), np.min(yss_dict_["down"])] )
     input_string = input(
-        "能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
+        "\n能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
         round(e_min, 3),
         round(e_max, 3),
         ))
