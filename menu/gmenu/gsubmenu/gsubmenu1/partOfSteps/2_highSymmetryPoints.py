@@ -10,6 +10,7 @@ warnings.filterwarnings("ignore")
 class HighSymmetryPointsGenerator(object):
     def __init__(self,
                 atom_config_path:str,
+                dimension:int,
                 symprec:float=0.1,
                 angle_tolerance:float=5,
                 atol:float=1e-5,
@@ -21,6 +22,7 @@ class HighSymmetryPointsGenerator(object):
                             )
         self.kpath_sampler = KpathSampler(
                             structure=structure,
+                            dimension=dimension,
                             symprec=symprec,
                             angle_tolerance=angle_tolerance,
                             atol=atol,
@@ -39,11 +41,12 @@ class HighSymmetryPointsGenerator(object):
 if __name__ == "__main__":
     high_symmetry_points_generator = HighSymmetryPointsGenerator(
                                         atom_config_path=sys.argv[1],
+                                        dimension=int(sys.argv[2]),
                                         symprec=0.1,
                                         angle_tolerance=5,
                                         atol=1e-5,
                                         )
     # sys.argv[2] 定义 KPATH 各个路段的取点密度
     high_symmetry_points_generator.output_gen_kpt_and_HIGHK(
-                                        density=float(sys.argv[2]),
+                                        density=float(sys.argv[3]),
                                         )

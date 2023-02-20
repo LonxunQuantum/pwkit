@@ -521,8 +521,6 @@ class EtotWriter(object):
                     f_in_solvent.write("RHOMIN_DEBY = 0.0001\n")
                     f_in_solvent.write("RHOMAX_DEBY = 0.005\n")
                 
-            
-    
     
     def write_input_output(self,
                         pseudo_name:str,

@@ -166,11 +166,14 @@ while [ 1 ]
 ------------>>
 " density_in_2pi
             ;;
-        2)
+        2)  
+            read -p " 输入材料的维度 (2: 二维材料; 3: 三维材料):
+------------>>
+" dimension_material
             read -p " Input Kmesh-Resolved Value (in Units of 2*PI/Angstrom): 
 ------------>>
 " density_for_kpath
-            $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${density_for_kpath}
+            $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/partOfSteps/2_highSymmetryPoints.py ${atom_config_format_file_name} ${dimension_material} ${density_for_kpath}
             ${PWKIT_ROOT}/menu/scripts/split_kp.x gen.kpt > /dev/null
             ;;
         esac
