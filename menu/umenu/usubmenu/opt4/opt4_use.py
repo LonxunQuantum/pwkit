@@ -2,9 +2,10 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-from typing import Dict, List
+from typing import Dict, List, Union
 from pflow.io.pwmat.output.report import Report
 from pflow.io.pwmat.input.inkpt import Inkpt
+from pflow.io.pwmat.output.outfermi import OutFermi
 
 
 ### Step 1. 得到能带的横坐标 (unit: 埃)
@@ -83,7 +84,17 @@ def get_hsp(
     return hsp_names_lst, hsp_xs_lst
 
 
-### Step 4. 
+### Step 4. 费米能级
+def get_fermi(out_fermi_path:str):
+    '''
+    Description
+    -----------
+        1. 从 OUT.FERMI 中读取费米能级 (unit: eV)
+    '''
+    out_fermi_object = OutFermi(out_fermi_path=out_fermi_path)
+    efermi = out_fermi_object.get_efermi()
+    
+    return efermi
 
 
 ### Step 5. 绘制图像
@@ -92,21 +103,110 @@ def plot_band(
             yss_dict:Dict[str, np.ndarray],
             hsp_names_lst:List[str],
             hsp_xs_lst:List[float],
+            efermi_ev:Union[bool, float],
+            E_min:float,
+            E_max:float,
+            band_png_path:str,
             ):
-    colors_lst = ["steelblue", "red"]
-    band_png_path = os.path.join(current_path, "bandstructure.png")
+    ### Step 0. 颜色选择、输出文件的路径、图
+    colors_lst = ["steelblue", "coral"]
+    band_png_path = band_png_path
     plt.figure(figsize=(10, 8))
+    ### Step 0.1. 全局设置
+    #plt.rcParams["font.family"] = "Times New Roman"
+    #plt.rcParams['mathtext.fontset'] = 'custom'
+    #plt.rcParams['mathtext.rm'] = 'Times New Roman'
+    #plt.rcParams['mathtext.it'] = 'Times New Roman:italic'
+    #plt.rcParams['mathtext.bf'] = 'Times New Roman:bold'
+    ### Step 0.2. 刻度线朝内
+    plt.rcParams['xtick.direction'] = 'in'
+    plt.rcParams['ytick.direction'] = 'in'
     
+    ### Step 1. 若存在 OUT.FERMI 文件，则所有本征能量需要减去费米能级
+    if (efermi_ev != False):
+        yss_dict["up"] -= efermi_ev
+        if (yss_dict["down"].size != 0):
+            yss_dict["down"] -= efermi_ev
     
+    ### Step 2. 处理数据的部分
     for idx_band in range(yss_dict["up"].shape[1]):
         ys_array = yss_dict["up"].transpose()   # 1d:band 索引; 2d:kpoints 索引
         plt.plot(xs_lst, ys_array[idx_band],
                 c=colors_lst[0])
         plt.scatter(xs_lst, ys_array[idx_band],
                 c=colors_lst[0])
+        
+    # 1. xlabel / ylabel
+    plt.ylabel("Energy (eV)",
+               fontsize=24,
+               fontweight="bold")
+    # 2. xticks / yticks
+    ax = plt.gca()
+    #ax.axes.xaxis.set_visible(False)
+    #plt.xticks(fontsize=20, 
+    #    fontweight="bold"
+    #    )
+    plt.yticks(fontsize=20, 
+        fontweight="bold"
+        )
+    # 3. 刻度线的粗细
+    plt.tick_params(
+        width=2,        # 刻度线的粗细
+        length=5,       # 刻度线的长短
+        #labelsize=28   # 刻度线的字体大小
+        )
+    # 4. 设置坐标轴的粗细
+    ax = plt.gca()
+    ax.spines['bottom'].set_linewidth(1.5);###设置底部坐标轴的粗细
+    ax.spines['left'].set_linewidth(1.5);####设置左边坐标轴的粗细
+    ax.spines['right'].set_linewidth(1.5);###设置右边坐标轴的粗细
+    ax.spines['top'].set_linewidth(1.5);###设置右边坐标轴的粗细
     
-    plt.ylim(-5, 5)
+    # 5. 高对称点
+    ax.set_xticks(hsp_xs_lst, )
+    ax.set_xticklabels(hsp_names_lst)
+    plt.xticks(fontsize=20, 
+        fontweight="bold"
+        )
+    #ax.tick_params(axis='x', labelsize=20, weight="bold")
+    
+    # 6. 高对称点处的虚线
+    for x_value in hsp_xs_lst:
+        plt.axvline(
+                x=x_value,
+                lw=2, 
+                linestyle="--",
+                color="black")
+    
+    # 7. xrange / yrange
+    plt.xlim(0, max(xs_lst))
+    plt.ylim(E_min, E_max)
     plt.savefig(band_png_path)
+
+
+def print_sum(efermi_ev:Union[float, bool]):
+    print("*{0:-^68}*".format( " Summary "))
+    
+    print("\t* 输入文件:", end='\t')
+    print(" - {0}".format("final.config"))
+    print(" \t\t\t - {0}".format("IN.KPT"))
+    print(" \t\t\t - {0}".format("REPORT"))
+    if (efermi_ev != False):
+        print(" \t\t\t - {0}".format("OUT.FERMI"))
+    
+    print("\t* 输入文件:", end='\t')
+    if (efermi_ev == False):
+        print(" - {0}".format("bandstructure.png"))
+    else:
+        print(" - {0}".format("bandstructure_ShiftFermi.png"))
+
+    # Warning: 
+    if (efermi_ev == False):
+        print("*{0:-^68}*".format("---------"), end="")
+        print("\n\033[1;31m \t* 当前目录下没有 OUT.FERMI 文件，能带没有减去费米能级!\033[0m\n", end="")
+    
+    print("*{0:-^68}*".format("---------"))
+
 
 
 if __name__ == "__main__":
@@ -115,25 +215,64 @@ if __name__ == "__main__":
     in_kpt_path = os.path.join(current_path, "IN.KPT")
     report_path = os.path.join(current_path, "REPORT")
     atom_config_path = os.path.join(current_path, "final.config")
+    out_fermi_path = os.path.join(current_path, "OUT.FERMI")
+    band_png_path = os.path.join(current_path, "bandstructure.png")
     
-    # 1. xs_lst: List[int]
+    # 1. 若当前目录下存在 OUT.FERMI，则所有本征能量需要减去费米能级
+    efermi_ev = False
+    if os.path.exists(out_fermi_path):
+        efermi_ev = get_fermi(out_fermi_path=out_fermi_path)
+        band_png_path = os.path.join(current_path, "bandstructure_ShiftFermi.png")    
+
+    # 2. xs_lst: List[int]
     xs_lst = get_xs_lst(
                     in_kpt_path=in_kpt_path,
                     atom_config_path=atom_config_path)
     
-    # 2. yss_dict
+    # 3. yss_dict
     yss_dict = get_yss_dict(report_path=report_path)
     assert (len(xs_lst) == yss_dict["up"].shape[0])
+    # 3.1. 输入能带的范围
+    yss_dict_ = {"up":np.array([]), "down":np.array([])}
+    if efermi_ev:
+        yss_dict_["up"] = yss_dict["up"] - efermi_ev
+        if (yss_dict_["down"].size != 0):
+            yss_dict_["down"] = yss_dict["down"] - efermi_ev
+    else:
+        yss_dict_["up"] = yss_dict["up"]
+        if (yss_dict_["down"].size != 0):
+            yss_dict_["down"] = yss_dict["down"]
+        
+    if yss_dict["down"].size == 0:  # ispin 关闭
+        e_max = np.max(yss_dict_["up"])
+        e_min = np.min(yss_dict_["up"])
+    else:
+        e_max = np.max( np.max(yss_dict_["up"]), np.max(yss_dict_["down"]) )
+        e_min = np.max( np.min(yss_dict_["up"]), np.min(yss_dict_["down"]) )
+    input_string = input(
+        "能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
+        round(e_min, 3),
+        round(e_max, 3),
+        ))
+    E_min = float( input_string.split(",")[0] )
+    E_max = float( input_string.split(",")[1] )
     
-    # 3. hsp_names_lst, hsp_xs_lst
+    # 4. hsp_names_lst, hsp_xs_lst
     hsp_names_lst, hsp_xs_lst = get_hsp(
                                     in_kpt_path=in_kpt_path,
                                     atom_config_path=atom_config_path,
                                     )
     
-    # 4. 利用上述信息，绘制能带图像
+    # 5. 利用上述信息，绘制能带图像
     plot_band(
             xs_lst=xs_lst, 
             yss_dict=yss_dict,
             hsp_names_lst=hsp_names_lst,
-            hsp_xs_lst=hsp_xs_lst)
+            hsp_xs_lst=hsp_xs_lst,
+            efermi_ev=efermi_ev,
+            E_min=E_min,
+            E_max=E_max,
+            band_png_path=band_png_path,
+            )
+    
+    print_sum(efermi_ev=efermi_ev)
