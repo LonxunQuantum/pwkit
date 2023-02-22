@@ -33,6 +33,9 @@ def opt_a():
         print("\n\033[1;31m - Error: 当前目录下缺少 OUT.FERMI 文件!\033[0m\n", end="")
         raise SystemExit
     
+    if report_object._is_metal(out_fermi_path=out_fermi_path):
+        print_sum_metal()
+        raise SystemExit
     
     ### Step 2. 得到能带的类型 -- bandgap_type
     bandgap_type_ = report_object.get_bandgap_type(out_fermi_path=out_fermi_path)
@@ -75,7 +78,7 @@ def print_sum(
     
     print("\t* 输出信息:")
     print(" \t\t - 带隙类型:   {0}".format(bandgap_type))
-    print(" \t\t - 带隙类型:   {0} eV".format(bandgap))
+    print(" \t\t - 带隙大小:   {0} eV".format(bandgap))
     for idx_vbm in range(len(vbm_dict["kpts"])):
         print(" \t\t - VBM on:     Band {0}, KPOINT {1}, SPIN {2}".format(
                             vbm_dict["bands"][idx_vbm],
@@ -89,7 +92,20 @@ def print_sum(
                             cbm_dict["spins"][idx_cbm]
         ))
     
+    print("*{0:-^68}*".format("---------"))
     
+
+def print_sum_metal():
+    print("*{0:-^68}*".format(" Summary "))
+    
+    print("\t* 输入文件:", end="\t")
+    print(" - {0}".format("REPORT"))
+    print(" \t\t\t - {0}".format("OUT.FERMI"))
+
+    print("\t* 输出信息:")
+    print(" \t\t - 带隙大小:   {0} eV".format(0))
+
+    print("*{0:-^68}*".format("---------"))
     
 if __name__ == "__main__":
     opt_a()
