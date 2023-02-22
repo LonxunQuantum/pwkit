@@ -229,7 +229,7 @@ def print_sum(efermi_ev:Union[float, bool]):
     if (efermi_ev != False):
         print(" \t\t\t - {0}".format("OUT.FERMI"))
     
-    print("\t* 输入文件:", end='\t')
+    print("\t* 输出文件:", end='\t')
     if (efermi_ev == False):
         print(" - {0}".format("bandstructure.png"))
     else:

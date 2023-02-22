@@ -43,7 +43,7 @@ while [ 1 ]
         ;;
 
     a)  
-        echo "能带带隙"
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opta/opta_use.py
         exit
         ;;
     b) 
