@@ -1,0 +1,11 @@
+prefix=/data/home/liuhanyu/anaconda3/envs/pwkit
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+toolexeclibdir=${libdir}
+includedir=/data/home/liuhanyu/anaconda3/envs/pwkit/include
+
+Name: libffi
+Description: Library supporting Foreign Function Interfaces
+Version: 3.4.2
+Libs: -L${toolexeclibdir} -lffi
+Cflags: -I${includedir}
