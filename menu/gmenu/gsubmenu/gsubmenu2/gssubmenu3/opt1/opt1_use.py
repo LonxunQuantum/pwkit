@@ -22,7 +22,7 @@ def get_basis_vector(atom_config_name:str):
                             file_format="pwmat",
                             file_path=atom_config_path,
                             )
-    basis_vector_array = structure.lattice.matrix    
+    basis_vector_array = structure.lattice.matrix
     
     ### Step 2. 输出信息
     # 1. 

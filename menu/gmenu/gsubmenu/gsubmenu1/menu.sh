@@ -183,8 +183,6 @@ while [ 1 ]
 
     case $taskStr in
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit
         ;;
     bb|BB)
@@ -267,8 +265,6 @@ while [ 1 ]
 
     case $functionalStr in
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit
         ;;
     bb|BB)
@@ -351,8 +347,6 @@ while [ 1 ]
 
     case $pseudoStr in
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit
         ;;
     bb|BB)
@@ -399,8 +393,6 @@ while [ 1 ]
     specificStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/select_specific.py $specificStr`
     case $specificStr in
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit
         ;;
     bb|BB)
