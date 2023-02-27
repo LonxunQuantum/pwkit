@@ -36,8 +36,6 @@ while [ 1 ]
     ### Step 2. 根据输入，执行相关的行为
     case $submenuOpt in 
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit 0
         ;;
     bb|BB)

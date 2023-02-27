@@ -13,7 +13,6 @@ while [ 1 ]
 
     case $submenuOpt in 
     q|Q)
-        conda deactivate
         exit 0
         ;;
     bb|BB)

@@ -48,8 +48,6 @@ while [ 1 ]
     # 在输入 `sgpe` 的输入栏中也可以退出
     case $longStr in
     q|Q)
-        # 退出 pwkit 的 conda 环境
-        conda deactivate
         exit
         ;;
     bb|BB)
