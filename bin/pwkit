@@ -11,9 +11,9 @@ fi
 # 2. source $PWKIT_ROOT/pwkit.cfg
 source ${HOME}/.local/pwkit/pwkit.cfg
 
-# 3. 激活 pwkit 所需要的环境(conda、环境变量)
-source ${CONDA_PATH}/etc/profile.d/conda.sh
-conda activate pwkit    ### for mcloud2
+# 3. 激活 pwkit 所需要的环境(conda、环境变量) -- New: 直接使用 $PYTHON_PATH 代替
+#source ${CONDA_PATH}/etc/profile.d/conda.sh
+#conda activate pwkit    ### for mcloud2
 #conda activate pwkit_env    ### for test
 
 ### 日志 ###
@@ -35,8 +35,8 @@ if [ $#  == 0 ]; then
     menu
 fi
 
-# 5. 退出 pwkit 的 conda 环境
-conda deactivate
+# 5. 退出 pwkit 的 conda 环境 -- New: 直接使用 $PYTHON_PATH 代替
+#conda deactivate
 
 ### 加载 lib 函数库
 source $PWKIT_ROOT/lib/cmd.sh

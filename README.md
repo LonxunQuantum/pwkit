@@ -7,11 +7,28 @@
 
 # 1. Installation
 # 1.0. 需要准备的文件
-1. `pwkit_env.tar.gz`: pwkit 的环境
-2. `pwkit.tar.gz`: pwkit 软件包
+1. `pwkit.tar.gz`: pwkit 软件包
+2. `pwkit.env.tar.gz`: pwkit 需要的 Python 环境
+
+```shell
+# Step 1. configure and compile Python, 修改Makefile的prefix（/home/hanyuliu-ICME/softwares/pwkit/dependencies）, install Python
+$ cd <your_path>/pwkit/dependencies
+$ tar zxf Python-3.8.16.tgz
+$ cd Python-3.8.16
+$ ./configure
+$ make
+$ make install 
+
+# Step 2. pip3 install安装依赖包
+$ export PATH=<your_path>/pwkit/dependencies/bin:$PATH
+$ cd <your_path>/pwkit/dependencies
+$ tar -zxvf pymatgen*; cd pymatgen*; pip install .; cd ..
+$ pip3 install *.whl
+
+# Step 3. 
+$ vim pwkit.cfg 
 
 ## 1.1. Python 的 conda 环境配置
-```shell
 ### Part I. 到新服务器下解压
 # 1. 将 `pwkit_env` 环境解压到 `pwkit_env` 文件夹下
 $ mkdir -p pwkit_env
