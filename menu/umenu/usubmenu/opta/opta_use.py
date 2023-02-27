@@ -5,7 +5,6 @@ from pflow.io.pwmat.output.report import Report
 from pflow.io.pwmat.output.outfermi import OutFermi
 
 
-
 def opt_a():
     ### Step 1. 检查当前目录下是否存在
     ###         1) REPORT   2) OUT.FERMI
@@ -50,8 +49,8 @@ def opt_a():
     ### Step 4. 得到 vbm 和 cbm 的信息 -- band, kpoint, spin
     vbm_dict = report_object.get_vbm(out_fermi_path=out_fermi_path)
     cbm_dict = report_object.get_cbm(out_fermi_path=out_fermi_path)
-    print(vbm_dict)
-    print(cbm_dict)
+    #print(vbm_dict)
+    #print(cbm_dict)
     
     
     ### Step 5. Summary
@@ -106,6 +105,7 @@ def print_sum_metal():
     print(" \t\t - 带隙大小:   {0} eV".format(0))
 
     print("*{0:-^68}*".format("---------"))
+    
     
 if __name__ == "__main__":
     opt_a()
