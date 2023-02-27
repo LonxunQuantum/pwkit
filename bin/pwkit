@@ -11,10 +11,6 @@ fi
 # 2. source $PWKIT_ROOT/pwkit.cfg
 source ${HOME}/.local/pwkit/pwkit.cfg
 
-# 3. 激活 pwkit 所需要的环境(conda、环境变量) -- New: 直接使用 $PYTHON_PATH 代替
-#source ${CONDA_PATH}/etc/profile.d/conda.sh
-#conda activate pwkit    ### for mcloud2
-#conda activate pwkit_env    ### for test
 
 ### 日志 ###
 echo "=== `basename $0`: PWmat Kit Log `date` ===" >> $glog
@@ -29,14 +25,12 @@ source $PWKIT_ROOT/menu/menu.sh
 ###
 
 
-# 4. 显示主菜单(menu)
+# 3. 显示主菜单(menu)
 if [ $#  == 0 ]; then
     asset::logo
     menu
 fi
 
-# 5. 退出 pwkit 的 conda 环境 -- New: 直接使用 $PYTHON_PATH 代替
-#conda deactivate
 
 ### 加载 lib 函数库
 source $PWKIT_ROOT/lib/cmd.sh
