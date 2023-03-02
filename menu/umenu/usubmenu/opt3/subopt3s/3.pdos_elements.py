@@ -19,8 +19,9 @@ def main():
     ### Step 1. 运行 `plot_DOS_interp.x`，得到 `DOS.totalspin_projected`
     current_path = os.getcwd()
     dos_totalspin_projected_path = os.path.join(current_path, "DOS.totalspin_projected")
-    if not os.path.exists(dos_totalspin_projected_path):
-        print('\n\033[0;31m Error: 请先使用PWkit生成 DOS.input! \033[0m')
+    dos_input_path = os.path.join(current_path, "DOS.input")
+    if not os.path.exists(dos_input_path):
+        print('\n\033[0;31m Error: 请先使用PWkit生成 DOS.input 文件! \033[0m')
         raise SystemExit
     os.system('plot_DOS_interp.x > /dev/null')
     
