@@ -45,7 +45,7 @@ while [ 1 ]
         exit
         ;;
     b) 
-        echo "真空能级"
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/optb/optb_use.py
         exit
         ;;
     *)
