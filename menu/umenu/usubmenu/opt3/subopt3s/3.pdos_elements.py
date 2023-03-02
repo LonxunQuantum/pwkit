@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 
 
+
 def max_and_min(df:pd.DataFrame):
     max_energy = df.loc[:, "Energy"].max()
     min_energy = df.loc[:, "Energy"].min()
@@ -15,10 +16,12 @@ def max_and_min(df:pd.DataFrame):
 
 
 
-def main():
+def main(dos_totalspin_projected_name):
     ### Step 1. 运行 `plot_DOS_interp.x`，得到 `DOS.totalspin_projected`
     current_path = os.getcwd()
-    dos_totalspin_projected_path = os.path.join(current_path, "DOS.totalspin_projected")
+    dos_totalspin_projected_path = os.path.join(
+                                        current_path,
+                                        dos_totalspin_projected_name)
     dos_input_path = os.path.join(current_path, "DOS.input")
     if not os.path.exists(dos_input_path):
         print('\n\033[0;31m Error: 请先使用PWkit生成 DOS.input 文件! \033[0m')
@@ -70,7 +73,7 @@ def main():
                 efermi_ev=efermi_ev,
                 )
     
-    ### 5. 绘制图像
+    ### 5. 输出总结
     print_sum(efermi_ev=efermi_ev)
 
 
@@ -95,7 +98,7 @@ def plot_pdos_elements(
     plt.rcParams['xtick.direction'] = 'in'
     plt.rcParams['ytick.direction'] = 'in'
     
-    ### Step 1.3. Plot TDOS （未减去费米能级的 TDOS)
+    ### Step 1.3. Plot PDOS
     plt.figure(figsize=(10, 8))
     for idx, tmp_column in enumerate(df_pdos_elements.columns.to_list()):
         if tmp_column == "Energy":
@@ -191,4 +194,5 @@ def print_sum(efermi_ev:float):
 
 
 if __name__ == "__main__":
-    main()
+    dos_totalspin_projected_name = "DOS.totalspin_projected"
+    main(dos_totalspin_projected_name=dos_totalspin_projected_name)
