@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # menu 显示函数 -- umenu_cn.py
+source $PWKIT_ROOT/menu/umenu/usubmenu/opt3/menu.sh
 
 
 umenu() {
@@ -26,8 +27,8 @@ while [ 1 ]
         $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt2/opt2_use.py
         exit
         ;;
-    3) 
-        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/opt3_use.py
+    3)  # 态密度绘制：tdos, pdos (原子), pdos (轨道)
+        umenu_usubmenu::opt3
         exit
         ;;
     4) 

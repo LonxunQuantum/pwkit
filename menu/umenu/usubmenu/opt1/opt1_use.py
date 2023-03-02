@@ -54,9 +54,9 @@ def print_sum(input_file_name:str,
     print("*{0:-^68}*".format(" Summary "))
     
     print("\t* 输入文件:", end="")
-    print("\t{0}".format(input_file_name))
+    print("\t - {0}".format(input_file_name))
     print("\t* 输出文件:", end="")
-    print("\t{0}".format(output_file_name))
+    print("\t - {0}".format(output_file_name))
         
     print("*{0:-^68}*".format("---------"))
 
