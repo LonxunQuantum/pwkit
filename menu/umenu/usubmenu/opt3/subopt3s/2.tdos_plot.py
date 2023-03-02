@@ -239,7 +239,7 @@ def print_sum_nospin(marks_lst):
     # p5: Warning: 
     if not marks_lst[1]:
         print("*{0:-^68}*".format("---------"), end="")
-        print("\n\033[1;31m \t* 当前目录下没有 OUT.FERMI 文件，态密度没有减去费米能级!\033[0m\n", end="")
+        print("\n\033[0;31m \t* 当前目录下没有 OUT.FERMI 文件，态密度没有减去费米能级!\033[0m\n", end="")
     
     print("*{0:-^68}*".format("---------"))
     

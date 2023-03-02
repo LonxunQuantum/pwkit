@@ -30,7 +30,6 @@ def main():
                                 dos_totalspin_path=dos_totalspin_projected_path,
                                 )
     df_elements = dos_totalspin_projected_object.get_pdos_elements()
-    print(df_elements)
     
     ### Step 2.1. 若存在 OUT.FERMI，则减去费米能级
     out_fermi_path = os.path.join(current_path, "OUT.FERMI")
@@ -44,9 +43,11 @@ def main():
     ### Step 3. 获取绘制的能量范围
     ### Step 3.1. 得到能量范围 - [e_min_value, e_max_value]
     e_max_value, e_min_value = max_and_min(df_elements)
+    e_max_value = np.round(e_max_value, 4)
+    e_min_value = np.round(e_min_value, 4)
 
     ### Step 3.2. 输入能量范围
-    print(" 输入绘制的能量范围 (e.g. -2,2)")
+    print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
     e_range_str = input(" ------------>>\n")
     e_max = float( e_range_str.split(',')[1] )
     e_min = float( e_range_str.split(',')[0] )
@@ -65,7 +66,11 @@ def main():
                 df_pdos_elements=df_elements_plot,
                 E_min=e_min,
                 E_max=e_max,
+                efermi_ev=efermi_ev,
                 )
+    
+    ### 5. 绘制图像
+    print_sum(efermi_ev=efermi_ev)
 
 
 
@@ -73,6 +78,7 @@ def plot_pdos_elements(
                 df_pdos_elements:pd.DataFrame,
                 E_min:float,
                 E_max:float,
+                efermi_ev:float,
                 ):
     colors_lst = plt.cm.tab20(np.linspace(0, 1, 20))
     current_path = os.getcwd()
@@ -100,6 +106,13 @@ def plot_pdos_elements(
                 lw="2",
                 label=tmp_column,
                 )
+    # 1. xlabel / ylabel
+    plt.xlabel("Energy (eV)",
+               fontsize=24,
+               fontweight="bold")
+    plt.ylabel("Density of State",
+               fontsize=24,
+               fontweight="bold")
     # 2. xticks / yticks
     plt.xticks(fontsize=20, 
         fontweight="bold"
@@ -133,12 +146,48 @@ def plot_pdos_elements(
                 frameon=False)
 
     # 6. 保存图片
+    if efermi_ev:
+        output_jpg_path = os.path.join(current_path, "dos_elements_ShiftFermi.jpg")
+        output_csv_path = os.path.join(current_path, "dos_elements_ShiftFermi.csv")
+        df_pdos_elements.to_csv(
+                        output_csv_path,
+                        sep=",",
+                        index=False)
+    else:
+        output_jpg_path = os.path.join(current_path, "dos_elements.jpg")
+        output_csv_path = os.path.join(current_path, "dos_elements.csv")
+        df_pdos_elements.to_csv(
+                        output_csv_path,
+                        sep=",",
+                        index=False)
     plt.savefig(
-            os.path.join(current_path, "dos_elements.jpg"),
+            output_jpg_path,
             dpi=300,
             bbox_inches="tight",
             )
     
+
+def print_sum(efermi_ev:float):
+    '''
+    Description
+    -----------
+        1. 输出 summary
+    '''
+    print("*{0:-^68}*".format(" Summary "))
+    
+    print("\t* 输出文件:", end="")
+    if efermi_ev:
+        print("\t - {0}".format("dos_elements_ShiftFermi.csv"))
+        print("\t\t\t - {0}".format("dos_elements_ShiftFermi.jpg"))
+    else:
+        print("\t - {0}".format("dos_elements.csv"))
+        print("\t\t\t - {0}".format("dos_elements.jpg"))
+    if not efermi_ev:
+        print("*{0:-^68}*".format("---------"), end="")
+        print("\n\033[0;31m \t* 当前目录下没有 OUT.FERMI 文件，态密度没有减去费米能级!\033[0m\n", end="")
+
+    print("*{0:-^68}*".format("---------"))
+
 
 if __name__ == "__main__":
     main()
