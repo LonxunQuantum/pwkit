@@ -23,11 +23,11 @@ do
         exit 0
         ;;
     3) 
-        #$PYTHON_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/subopt3s/3.pdos_elements.py
         exit 0
         ;;
     4) 
-        #$PYTHON_PATH
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/subopt3s/4.pdos_orbitals.py
         exit 0
         ;;
     esac

@@ -1,3 +1,4 @@
+import os 
 import click
 
 
@@ -19,7 +20,7 @@ def mmenu_cn():
  bb) 返回上一级目录
  q)  退出'''
     )
-
+    print("\033[0;31m Warm Tips: 在绘制态密度之前, 最好先生成 DOS.input 文件! \033[0m")
 
 if __name__ == "__main__":
     mmenu_cn()

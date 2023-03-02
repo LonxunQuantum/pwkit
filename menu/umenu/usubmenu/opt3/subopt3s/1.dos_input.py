@@ -11,7 +11,7 @@ def choose_mark_method():
     '''
     print("{0:-^50}".format(" 插值选择 "))
     print(" 1) Gaussian Broading    2) Interpolation\n")
-    mark_method = input(" ------------>>\n")
+    mark_method = int(input(" ------------>>\n")) - 1
     return mark_method
 
 
