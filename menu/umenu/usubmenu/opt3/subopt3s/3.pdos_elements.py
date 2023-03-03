@@ -22,9 +22,6 @@ def main_noispin(dos_totalspin_projected_name):
     dos_totalspin_projected_path = os.path.join(
                                         current_path,
                                         dos_totalspin_projected_name)
-    dos_input_path = os.path.join(current_path, "DOS.input")
-    if not os.path.exists(dos_input_path):
-        print('\n\033[0;31m Warning: 请先使用PWkit生成 DOS.input 文件! \033[0m')
     os.system('plot_DOS_interp.x > /dev/null')
     
     
@@ -233,9 +230,6 @@ def main_ispin(
     dos_spindown_projected_path = os.path.join(
                                     current_path,
                                     dos_spindown_projected_name)
-    dos_input_path = os.path.join(current_path, "DOS.input")
-    if not os.path.exists(dos_input_path):
-        print('\n\033[0;31m Warning: 请先使用PWkit生成 DOS.input 文件! \033[0m')
     os.system('plot_DOS_interp.x > /dev/null')
     
     
@@ -398,6 +392,7 @@ def plot_pdos_elements_ispin(
         output_jpg_path = os.path.join(current_path, "dos_elements.jpg")
         output_csv_spinup_path = os.path.join(current_path, "dos_spinup_elements.csv")
         output_csv_spindown_path = os.path.join(current_path, "dos_spindown_elements.csv")
+        
         df_pdos_elements_spinup.to_csv(
                         output_csv_spinup_path,
                         sep=",",
@@ -444,6 +439,15 @@ Part III. Driver code
 '''
 if __name__ == "__main__":
     current_path = os.getcwd()
+    
+    ### Step 1. 如果没有 DOS.input 直接报错
+    dos_input_path = os.path.join(current_path, "DOS.input")
+    if not os.path.exists(dos_input_path):
+        print('\n\033[0;31m   * Error: 请先使用PWkit生成 DOS.input 文件! \033[0m')
+        raise SystemExit
+    
+    
+    ### Step 2. 绘制能带图
     dos_totalspin_projected_name = "DOS.totalspin_projected"
     dos_spinup_projected_name = "DOS.spinup_projected"
     dos_spindown_projected_name = "DOS.spindown_projected"

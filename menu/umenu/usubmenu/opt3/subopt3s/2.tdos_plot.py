@@ -84,7 +84,7 @@ def opt3_nospin():
     plt.xlabel("Energy (eV)", 
                fontsize=28,
                fontweight="bold")
-    plt.ylabel("DOS",
+    plt.ylabel("Density of State",
                fontsize=28,
                fontweight="bold")
     # 2. xticks / yticks
