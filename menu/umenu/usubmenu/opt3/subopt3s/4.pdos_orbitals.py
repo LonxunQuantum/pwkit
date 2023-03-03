@@ -1,6 +1,7 @@
 import os
 import pandas as pd 
 import numpy as np
+from typing import List
 from pflow.io.pwmat.output.dostotalspin import Dostotalspin
 from pflow.io.pwmat.output.outfermi import OutFermi
 
@@ -8,10 +9,149 @@ import matplotlib.pyplot as plt
 
 
 def max_and_min(df:pd.DataFrame):
-    max_energy = df.loc[:, "Energy"].max()
-    min_energy = df.loc[:, "Energy"].min()
+    '''
+    Description
+    ----------- 
+        1. 得到 `DOS.totalspin_projcted` 的能量范围
+    
+    Parameters
+    ----------
+        1. df: pd.DataFrame
+            - 由 `DOS.totalspin_projected` 初始化的 pd.DataFrame 对象
+    '''
+    max_energy = df.loc[:, "energy"].max()
+    min_energy = df.loc[:, "energy"].min()
     return max_energy, min_energy
 
+
+def warm_tips(columns_lst:List[str]):
+    '''
+    Description
+    -----------
+        1. 提醒当前体系内，某原子有什么轨道
+        
+    Parameters
+    ----------
+        1. columns_lst: List[str]
+            - 将 `DOS.totalspin_projected` 读成 pd.DataFrame, 
+            - columns_lst 是这个 `pd.DataFrame` 的 columns 属性
+    
+    Return
+    ------
+        1. orbitals_lst: List[str]
+            - e.g. ["S-3S", "S-3Px", "S-3Py", "S-3Pz", ...]
+    '''
+    try: 
+        columns_lst.remove('energy')
+    except:
+        pass
+    # columns_lower_lst: 轨道全是小写，处理了“输入可以是大写，也可小写”的需求
+    columns_lower_lst = [value.lower() for value in columns_lst]
+    
+    # e.g. [ ['S', '3S'], ['S', '3Pz'], ['S', '3Px'], ... ]
+    column_pairs_lst = [entry.split("-", 1) for entry in columns_lower_lst]
+    # 体系中包含的元素（不重复）e.g. ['S', 'Mo']
+    elements_unique_lst = list( set([tmp_pair[0] for tmp_pair in column_pairs_lst]) )
+    # e.g. principle_quantum_numbers_lst: 储存了所有轨道的主量子数
+    principle_quantum_numbers_lst = [int(tmp_entry[1][0]) for tmp_entry in column_pairs_lst]
+    max_principle_quantum_number = max(principle_quantum_numbers_lst)
+    
+    ### Step 1. 获取按序排列的轨道 -- all_orbitals_lst
+    ###     all_orbitals_lst: ["S-3S", "S-3Px", "S-3Py", "S-3Pz", ...]
+    all_orbitals_lst = []
+    for tmp_element in elements_unique_lst:
+        for principle_quantum_number in range(1, max_principle_quantum_number+1):
+            # direction 实际上代表 angular_quantum_number&direction
+            for direction in ["s", 
+                              "px", "py", "pz",
+                              "dxy", "dxz", "dyz", "dz2", "d(x^2-y^2)"]:
+                tmp_orbital = "{0}-{1}{2}".format(
+                                            tmp_element,
+                                            principle_quantum_number,
+                                            direction
+                                        )
+                if tmp_orbital in columns_lower_lst:
+                    all_orbitals_lst.append(tmp_orbital)    
+    
+    ### Step 2. Warm Tips:
+    element2orbitals = {}
+    ### Step 2.1. 初始化 `element2orbitals`
+    ###         e.g. {'S': ['3S', '3Px', '3Py', '3Pz'], 'Mo': ['4S', '4Px', '4Py', '4Pz', '4Dxy', '4Dxz', '4Dyz', '4Dz2', '4D(x^2-y^2)', '5S']}
+    for tmp_element in elements_unique_lst:
+        element2orbitals.update({tmp_element: []})
+    ### Step 2.2. 根据情况填充 `element2orbitals`
+    for tmp_element in elements_unique_lst:
+        for principle_quantum_number in range(1, max_principle_quantum_number+1):
+            for tmp_direction in ["s", 
+                                  "px", "py", "pz",
+                                  "dxy", "dxz", "dyz", "dz2", "d(x^2-y^2)"]:
+                tmp_orbital = "{0}-{1}{2}".format(
+                                            tmp_element,
+                                            principle_quantum_number,
+                                            tmp_direction,
+                                        )
+                if tmp_orbital in all_orbitals_lst:
+                    element2orbitals[tmp_element].append("{0}{1}".format(
+                                                        principle_quantum_number,
+                                                        tmp_direction,
+                                                        )
+                                                )
+
+    ### Step 2.3. 根据 `element2orbitals` 输出
+    print("+{0:-^68}+".format(" Warm Tips "))
+    print(" * 存在的原子及轨道:")
+    for tmp_element in list(element2orbitals.keys()):
+        print("   - {0:<3}: ".format(tmp_element.capitalize()), end="")
+        for tmp_orbital in element2orbitals[tmp_element]:
+            print(tmp_orbital, end=", ")
+        print()
+    
+    print("\n * 注意事项:")
+    print("   - 格式: <元素>: <轨道1>, <轨道2>, ...")
+    print("   - 输入“回车键”后，即可输入下一个原子以及对应轨道")
+    print("   - 连续输入两次“回车键”后，开始绘制")
+    print("   - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2")
+    print("+{0:-^68}+".format("---------"))
+    
+
+def get_orbitals_from_input():
+    '''
+    Description
+    -----------
+        1. 从用户输入中，得到轨道的名字
+        
+        # Energy  Total  S-3S  S-3Pz  S-3Px  S-3Py  Mo-4S  Mo-4Pz  Mo-4Px  Mo-4Py           
+        Mo-5S   Mo-4Dz2   Mo-4Dxz   Mo-4Dyz  Mo-4D(x^2-y^2)  Mo-4Dxy
+
+    Return
+    ------
+        1. columns_lower_lst: List[str]
+            - 注意：列表中的元素均为小写
+    
+    Format
+    ------
+        1. Mo:4S,4Px,4Py,4Pz,4Dxy,4Dxz,4Dyz,4D(x^2-y^2)
+        2. S:3S,3Px,3Py,3Pz
+    '''
+    columns_lower_lst = []
+    element_count = 0
+    while (True):
+        element_count += 1
+        print("输入绘制的原子(index={0})及轨道:".format(element_count))
+        # e.g. Mo: 4dxy, 4dyz
+        element_orbitals = input(" ------------>>\n")
+        if element_orbitals == '':
+            break
+        else:
+            tmp_element = element_orbitals.split(":")[0].strip().lower()
+            tmp_orbitals_lst = [orbital.strip().lower() for orbital in element_orbitals.split(":")[1].split(",")]
+            for tmp_orbital in tmp_orbitals_lst:
+                columns_lower_lst.append( "{0}-{1}".format(tmp_element, tmp_orbital) )
+    columns_lower_lst.append("energy")
+    
+    return columns_lower_lst
+
+    
 
 def main(dos_totalspin_projected_name):
     ### Step 1. 运行 `plot_DOS_interp.x`，得到 `DOS.totalspin_projected`
@@ -32,6 +172,8 @@ def main(dos_totalspin_projected_name):
                                 dos_totalspin_path=dos_totalspin_projected_path
                                 )
     df_orbitals = dos_totalspin_projected_object.get_pdos_orbitals()
+    ### 将列全换成小写
+    df_orbitals.columns = [column.lower() for column in df_orbitals.columns]
     
     ### Step 2.1. 若存在 OUT.FERMI，则减去费米能级
     out_fermi_path = os.path.join(current_path, "OUT.FERMI")
@@ -39,7 +181,7 @@ def main(dos_totalspin_projected_name):
     if os.path.exists(out_fermi_path):
         output_fermi_object = OutFermi(out_fermi_path=out_fermi_path)
         efermi_ev = output_fermi_object.get_efermi()
-        df_orbitals -= efermi_ev
+        df_orbitals.loc[:, "energy"] =  df_orbitals.loc[:, "energy"] - efermi_ev
     
     
     ### Step 3. 获取绘制的能量范围
@@ -48,19 +190,29 @@ def main(dos_totalspin_projected_name):
     e_max_value = np.round(e_max_value, 4)
     e_min_value = np.round(e_min_value, 4)
     
-    ### Step 3.2. 输入能量的范围
+    
+    ### Step 3.2. 输入需要绘制原子及其轨道 -- mask_element_orbitals
+    warm_tips(columns_lst=df_orbitals.columns.to_list())
+    mask_element_orbitals = get_orbitals_from_input()
+    #print(mask_element_orbitals)
+    
+    ### Step 3.3. 输入能量的范围
     print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
     e_range_str = input(" ------------>>\n")
-    e_max = float( e_range_str.split(',')[1] )
-    e_min = float( e_range_str.split(',')[0] )
+    e_max = float( e_range_str.split(',')[1].strip() )
+    e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
         print('\n\033[0;31m Error: 超出能量范围! \033[0m')
         raise SystemExit
     
-    ### Step 3.3. 根据输入的能量范围筛选数据 -- `df_elements_plot`
-    mask = (df_orbitals.loc[:, "Energy"] < e_max) & \
-            (df_orbitals.loc[:, "Energy"] > e_min)
+    ### Step 3.4. 根据输入的能量范围筛选数据 -- `df_elements_plot`
+    mask = (df_orbitals.loc[:, "energy"] < e_max) & \
+            (df_orbitals.loc[:, "energy"] > e_min)
     df_orbitals_plot = df_orbitals.loc[mask, :]
+    
+    ### Step 3.5. 根据用户的输入筛选数据 (e.g. "Mo:4S,4Px,4Py,4Pz,4Dxy,4Dxz,4Dyz,4D(x^2-y^2)")
+    # Step 3.2 :warm_tips(columns_lst=df_orbitals_plot.columns.to_list()) 
+    df_orbitals_plot = df_orbitals_plot.loc[:, mask_element_orbitals]
     
     
     ### Step 4. 绘制图像
@@ -97,21 +249,20 @@ def plot_pdos_orbitals(
     plt.rcParams['ytick.direction'] = 'in'
     
     ### Step 1.3. Plot PDOS
-    print(df_pdos_orbitals)
     plt.figure(figsize=(10, 8))
     for idx, tmp_column in enumerate(df_pdos_orbitals.columns.to_list()):
-        if tmp_column == "Energy":
+        if tmp_column == "energy":
             continue
         plt.plot(
-                df_pdos_orbitals.loc[:, "Energy"],
+                df_pdos_orbitals.loc[:, "energy"],
                 df_pdos_orbitals.loc[:, tmp_column],                
                 c=colors_lst[idx],
                 lw="2",
-                label=tmp_column,
+                label=tmp_column.capitalize(),
                 )
     
     # 1. xlabel / ylabel
-    plt.xlabel("Energy (eV)",
+    plt.xlabel("energy (eV)",
                fontsize=24,
                fontweight="bold")
     plt.ylabel("Density of State",
@@ -144,6 +295,7 @@ def plot_pdos_orbitals(
     #min = min - delta
     #max = max + delta/dos
     plt.xlim(E_min, E_max)
+    plt.ylim(bottom=0)
     
     legend_font = {
                     "size" : 18, 

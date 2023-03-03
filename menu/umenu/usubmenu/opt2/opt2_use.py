@@ -59,7 +59,7 @@ def opt1():
     ##             3. atom.config 格式的文件名
     ##             4. 波函数的 range of index
     # 1. kpoint 的 index
-    idx_kpoint = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3`)\n------------>>\n".format(num_kpt))
+    idx_kpoint = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3,7 or 3`)\n------------>>\n".format(num_kpt))
     
     # 2. OUT.WG 格式的文件名： 在前面
     
@@ -139,12 +139,16 @@ def print_sum(
     print("\t* 输入的波函数文件:", end="")
     print("\t{0}".format(wg_file_name))
     print("\t* 要画的K点       :", end="")
-    print("\t{0}".format(idx_kpoint))
+    try:
+        print( "\t{0} ~ {1}".format(idx_kpoint.split(',')[0].strip(), idx_kpoint.split(',')[1].strip()) )
+    except IndexError:
+        print( "\t{0}".format(idx_kpoint.strip()) )
+    
     print("\t* 要画的波函数    :", end="")
     try:
-        print("\t{0} ~ {1}".format(idx_wg.split(',')[0], idx_wg.split(',')[1]))
+        print("\t{0} ~ {1}".format(idx_wg.split(',')[0].strip(), idx_wg.split(',')[1].strip()))
     except:
-        print("\t{0}".format(idx_wg))
+        print( "\t{0}".format(idx_wg.strip()) )
     print("\t* 输出文件        :", end="")
     print("\t{0}".format(output_file_name))
         

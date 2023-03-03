@@ -9,7 +9,7 @@ class Warning(object):
         -----------
             1. 选择 KMesh for `MP_N123` in etot.input
         '''
-        print("+{0:-^68}+".format("Warm Tips"))
+        print("+{0:-^68}+".format(" Warm Tips "))
         print("\t* Accuracy Levels: Gamma-Only: 0;")
         print("\t                   Low:        0.06~0.04;")
         print("\t                   Medium:     0.04~0.03")
@@ -20,7 +20,7 @@ class Warning(object):
     
     @staticmethod
     def cs_warning():
-        print("+{0:-^68}+".format("Warm Tips"))
+        print("+{0:-^68}+".format(" Warm Tips "))
         print("\t* 输入带电量 (|绝对值|≤8.000，可以保留3位小数)")
         print("\t* 电子数 = 中性电子数(通过赝势计算所得) - 带电量")
         print("+{0:-^68}+".format("---------"))
@@ -28,7 +28,7 @@ class Warning(object):
 
     @staticmethod
     def ff_warning():
-        print("+{0:-^68}+".format("Warm Tips"))
+        print("+{0:-^68}+".format(" Warm Tips "))
         print("\t* 提示输入电极电势(单位伏特V，|绝对值|≤5.000，保留2位小数)")
         print("\t* Ef=-4.42-电极电势值 ")
         print("\t* 额外需要输出文件IN.SOLVENT (自动生成)")
@@ -37,7 +37,7 @@ class Warning(object):
     
     @staticmethod
     def se_warning():
-        print("+{0:-^68}+".format("Warm Tips"))
+        print("+{0:-^68}+".format(" Warm Tips "))
         print("\t* 额外需要输出文件IN.SOLVENT (自动生成)")
         print("+{0:-^68}+".format("---------"))
 

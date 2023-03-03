@@ -51,8 +51,8 @@ def opt3_nospin():
         round(E_min_range, 3),
         round(E_max_range, 3),
         ))
-    E_min = float( input_string.split(",")[0] )
-    E_max = float( input_string.split(",")[1] )
+    E_min = float( input_string.split(",")[0].strip() )
+    E_max = float( input_string.split(",")[1].strip() )
     
     if (E_min < E_min_range) or (E_max > E_max_range):
         os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
@@ -111,6 +111,7 @@ def opt3_nospin():
     #min = min - delta
     #max = max + delta/dos
     plt.xlim(E_min, E_max)
+    plt.ylim(bottom=0)
     
     # 6. 保存图片
     plt.savefig(

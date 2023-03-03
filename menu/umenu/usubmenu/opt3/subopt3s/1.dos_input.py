@@ -46,7 +46,7 @@ def input_grid_interp():
     if len(grids_interp_lst) != 3:
         grids_interp_lst = ["6", "6", "6"]
     
-    grids_interp_lst = [int(value) for value in grids_interp_lst]
+    grids_interp_lst = [int(value.strip()) for value in grids_interp_lst]
     return grids_interp_lst
 
 

@@ -53,8 +53,8 @@ def main(dos_totalspin_projected_name):
     ### Step 3.2. 输入能量范围
     print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
     e_range_str = input(" ------------>>\n")
-    e_max = float( e_range_str.split(',')[1] )
-    e_min = float( e_range_str.split(',')[0] )
+    e_max = float( e_range_str.split(',')[1].strip() )
+    e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
         print('\n\033[0;31m Error: 超出能量范围! \033[0m')
         raise SystemExit
@@ -141,6 +141,7 @@ def plot_pdos_elements(
     #min = min - delta
     #max = max + delta/dos
     plt.xlim(E_min, E_max)
+    plt.ylim(bottom=0)
     
     legend_font = {
                     "size" : 18, 

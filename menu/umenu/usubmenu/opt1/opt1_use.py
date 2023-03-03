@@ -32,7 +32,7 @@ def opt1():
     # e.g. output_file_name = "OUT.RHO.xsf"
     output_file_name = "OUT.RHO.xsf"
     output_file_path = os.path.join(current_path, output_file_name)
-        
+    
     
     ### Step 2. 文件格式转换
     os.system("$PWKIT_ROOT/menu/scripts/convert_rho_new.x {0}".format(input_file_name))
