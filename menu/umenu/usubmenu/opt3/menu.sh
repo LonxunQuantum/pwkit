@@ -5,9 +5,9 @@ umenu_usubmenu::opt3() {
 while [ 1 ]
 do
     $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/menu_cn.py
-    if [ ! -f "DOS.input" ]; then
-        exit 0
-    fi
+    #if [ ! -f "DOS.input" ]; then
+    #    exit 0
+    #fi
     read -p " ------------>>  
 " submenuOpt
     case $submenuOpt in 
