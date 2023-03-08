@@ -26,7 +26,7 @@ def write_scf():
         etot_writer = joblib.load(etot_writer_path)
     except:
         print("Error!!! check your input.")
-    
+
     
     # 1. 任务类型为 nonscf 时，若按照高对称点确定KPoints，$density_in_2pi 是空的
     try:

@@ -1,7 +1,5 @@
 import os
 import joblib
-from etotWriter import EtotWriter
-
 
 
 def write_other():

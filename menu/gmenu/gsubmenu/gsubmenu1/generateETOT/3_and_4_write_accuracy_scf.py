@@ -3,21 +3,11 @@ import sys
 import joblib
 
 
-def write_accuracy():
+def write_accuracy_and_scf():
     '''
     Description
     -----------
-        1. 向 `etot.input` 写入 `收敛精度`
-    
-    Example
-    -------
-    1   4
-    #基础设置
-    JOB = SCF
-    XCFUNCTIONAL = PBE
-    ACCURACY = NORM
-    CONVERGENCE = EASY
-    PRECISION = AUTO
+        1. 向 `etot.input` 写入 `收敛精度` 和 `电子自洽设置`
         
     sys.argv
     --------
@@ -37,7 +27,8 @@ def write_accuracy():
                         # 因此不会向Python脚本传入参数，因此sys.argv[1]会引发错误
         density = False
     etot_writer.write_accuracy(density=density)
+    etot_writer.write_scf(density=density)
 
 
 if __name__ == "__main__":
-    write_accuracy()
+    write_accuracy_and_scf()

@@ -1,8 +1,6 @@
 import os
 import sys
 import joblib
-from etotWriter import EtotWriter
-
 
 
 def write_specific():

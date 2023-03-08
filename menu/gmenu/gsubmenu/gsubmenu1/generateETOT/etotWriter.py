@@ -292,6 +292,7 @@ class EtotWriter(object):
             1. density: float
                 K-Mesh density in 2pi/A
         '''
+
         # density of KMesh (unit: 2pi/Angstrom)
         mp_n123 = None
         if density: # density: $density_in_2_pi
@@ -363,7 +364,6 @@ class EtotWriter(object):
                     f.write("SCF_ITER0_2 = {0}\n".format(scf_iter0_2))
                 if scf_iter1_1:
                     f.write("SCF_ITER1_1 = {0}\n".format(scf_iter1_1))
-    
     
     
     

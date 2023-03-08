@@ -35,8 +35,8 @@ if [ -f "IN.SOLVENT" ]; then
 fi
 
 
-while [ 1 ]
-    do
+#while [ 1 ]
+#    do
 
 
     while [ 1 ]
@@ -57,6 +57,12 @@ while [ 1 ]
     
     # Step 0. 准备工作
     # 1. 提醒用户所设置的东西; 2. 删除 longStr 对特殊设置的重复设置
+        #************************************* 任务设置 *************************************
+        #    1. 任务类型: 自洽计算
+        #    2. 泛函设置: PBE
+        #    3. 赝势设置: SG15
+        #    4. 特殊设置: 无
+        #************************************************************************************
     configStr=`$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/partOfSteps/0_output_config.py $longStr`
     #echo $configStr
     mark_AbortOrOutputConfig=`echo $configStr | cut -d';' -f 1`
@@ -335,10 +341,11 @@ while [ 1 ]
 
     ### 写入 ACCURACY 设置
     #  Note: self.task=NS时，没有 density_in_2pi 变量
-    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/3_write_accuracy.py $density_in_2pi
+    #$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/3_write_accuracy.py $density_in_2pi
     ### 写入 #电子自洽设置
     #  Note: self.task=NS时，没有 density_in_2pi 变量
-    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/4_write_scf.py $density_in_2pi
+    #$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/4_write_scf.py $density_in_2pi
+    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/3_and_4_write_accuracy_scf.py $density_in_2pi
 
 
     ## Part III. 赝势设置 -- pseudoStr, 将 restStr[3:] 保存为 restStr
@@ -482,5 +489,5 @@ while [ 1 ]
         exit 0
     fi
 
-    done
+#    done
 }
