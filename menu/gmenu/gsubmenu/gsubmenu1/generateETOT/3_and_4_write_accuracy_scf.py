@@ -19,7 +19,6 @@ def write_accuracy_and_scf():
     except:
         print("Error!!! check your input.")
         
-        
     # 1. 任务类型为 nonscf 时，若按照高对称点确定KPoints，$density_in_2pi 是空的
     try:
         density = float( sys.argv[1] )
