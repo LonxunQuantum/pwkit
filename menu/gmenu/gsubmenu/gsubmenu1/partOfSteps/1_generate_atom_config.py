@@ -38,53 +38,43 @@ class AtomConfigGenerator(object):
         atom_config_name = None
         
         current_dir_path = os.getcwd()
-        for tmp_file_name in os.listdir(current_dir_path):
-            try:
-                tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
-                
-                if not os.path.isfile(tmp_file_path):
-                    # 1. 不处理 文件夹
-                    continue
-                
-                if "UPF" in tmp_file_name:
-                    # 2. 不处理 赝势文件
-                    continue
-                
-                if (tmp_file_name == "etot.input"):
-                    # 3. 不处理 etot.input
-                    continue
-                
-                if (tmp_file_name == "etot_writer.pkl"):
-                    # 4. 不处理 etot_writer.pkl
-                    continue
-                
-                if "OUT" in tmp_file_name:
-                    # 5. 不处理带 OUT 的文件
-                    continue
-                
-                if "REPORT" in tmp_file_name:
-                    # 6. 不处理带 REPORT 的文件
-                    continue
-                
-                if "slurm" in tmp_file_name:
-                    # 7. 不处理 slurm 集群的输出文件
-                    continue
-
-                # 将 第2行 和 第6行 的所有字符串变成大写形式
-                # tmp_rows_lst[1].split(): ['Lattice', 'vector']
-                # tmp_rows_lst[5].split(): ['Position,', 'move_x,', 'move_y,', 'move_z']
-                tmp_rows_lst_1_upper = [string.upper() for string in linecache.getline(tmp_file_path, 2).split()]
-                tmp_rows_lst_5_upper = [string.upper().replace(',','') for string in linecache.getline(tmp_file_path, 6).split()]
-                # tmp_rows_lst_1_upper: ['LATTICE', 'VECTOR']
-                # tmp_rows_lst_5_upper: ['POSITION,', 'MOVE_X,', 'MOVE_Y,', 'MOVE_Z']
-                if ("LATTICE" in tmp_rows_lst_1_upper and \
-                    #"VECTOR" in tmp_rows_lst_1_upper and \
-                    "POSITION" in tmp_rows_lst_5_upper
-                    ):
-                    atom_config_name = tmp_file_name
+        
+        ### Case 1. 存在名为 atom.config 的文件
+        if os.path.exists( os.path.join(current_dir_path, "atom.config") ):
+            atom_config_name = "atom.config"
+        ### Case 2. 不存在名为 atom.config 的文件
+        else:
+            for tmp_file_name in os.listdir(current_dir_path):
+                try:
+                    tmp_file_path = os.path.join(current_dir_path, tmp_file_name)
                     
-            except:
-                pass
+                    if (not os.path.isfile(tmp_file_path)) or \
+                        ( "UPF" in tmp_file_name ) or \
+                        ( "etot.input" in tmp_file_name ) or \
+                        ( "etot_writer.pkl" in tmp_file_name ) or \
+                        ( "IN." in tmp_file_name) or \
+                        ( "OUT." in tmp_file_name) or \
+                        ( "REPORT" in tmp_file_name) or \
+                        ( "slurm" in tmp_file_name) or \
+                        ( "output" in tmp_file_name) :
+                        # 1. 不处理 文件夹
+                        continue
+
+                    # 将 第2行 和 第6行 的所有字符串变成大写形式
+                    # tmp_rows_lst[1].split(): ['Lattice', 'vector']
+                    # tmp_rows_lst[5].split(): ['Position,', 'move_x,', 'move_y,', 'move_z']
+                    tmp_rows_lst_1_upper = [string.upper() for string in linecache.getline(tmp_file_path, 2).split()]
+                    tmp_rows_lst_5_upper = [string.upper().replace(',','') for string in linecache.getline(tmp_file_path, 6).split()]
+                    # tmp_rows_lst_1_upper: ['LATTICE', 'VECTOR']
+                    # tmp_rows_lst_5_upper: ['POSITION,', 'MOVE_X,', 'MOVE_Y,', 'MOVE_Z']
+                    if ("LATTICE" in tmp_rows_lst_1_upper and \
+                        #"VECTOR" in tmp_rows_lst_1_upper and \
+                        "POSITION" in tmp_rows_lst_5_upper
+                        ):
+                        atom_config_name = tmp_file_name
+                    
+                except:
+                    pass
         
         
         # return to shell

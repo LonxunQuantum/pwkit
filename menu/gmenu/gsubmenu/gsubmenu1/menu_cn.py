@@ -1,7 +1,7 @@
-import click
+#import click
 
 
-@click.command()
+#@click.command()
 def mmenu_cn():
     #print("{0:=^80}".format(" Module "))
 

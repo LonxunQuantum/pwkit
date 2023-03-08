@@ -27,6 +27,7 @@ while [ 1 ]
         ;;
     1)
         gmenu::gsubmenu1
+        #$PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/menu.py
         ;;
     2)
         gmenu::gsubmenu2
