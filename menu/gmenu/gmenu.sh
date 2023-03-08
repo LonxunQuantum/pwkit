@@ -4,7 +4,7 @@
 
 ## 加载 usubmenu 函数
 # 1. 格式转换
-source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/menu.sh
+source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/menu_test.sh
 source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu2/menu.sh
 source $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu3/opt1/opt1.sh
 #source $PWKIT_ROOT/menu/umenu/usubmenu/usubmenu4/menu.sh

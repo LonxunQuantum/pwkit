@@ -4,7 +4,7 @@ import joblib
 from etotWriter import EtotWriter
 
 
-def write_task():
+def write_task(task_name:str):
     '''
     Description
     -----------
@@ -21,7 +21,7 @@ def write_task():
     PRECISION = AUTO
     '''
     etot_writer = EtotWriter(atom_config_name=sys.argv[2])
-    etot_writer.write_task(task_name=sys.argv[1])
+    etot_writer.write_task(task_name)
     
     etot_writer_path = os.path.join(os.getcwd(), "etot_writer.pkl")
     if os.path.exists(etot_writer_path):
@@ -30,4 +30,5 @@ def write_task():
 
 
 if __name__ == "__main__":
-    write_task()
+    task_name = sys.argv[1]
+    write_task(task_name=task_name)

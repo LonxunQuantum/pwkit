@@ -186,6 +186,7 @@ fi
     fi
 
     
+    $PYTHON_PATH /data/home/liuhanyu/hyliu/code/pwkit/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/etotWritr_mian.py $longStr $atom_config_format_file_name
 
 
     case $taskStr in
