@@ -1,7 +1,7 @@
 import sys
 
 
-class Warning(object):
+class Warner(object):
     @staticmethod
     def kmesh_warning():
         '''
@@ -44,13 +44,13 @@ class Warning(object):
 
 if __name__ == "__main__":
     if sys.argv[1] == "kmesh_warning":
-        Warning.kmesh_warning()
+        Warner.kmesh_warning()
     
     if sys.argv[1] == "CS":
-        Warning.cs_warning()
+        Warner.cs_warning()
         
     if sys.argv[1] == "FF":
-        Warning.ff_warning()
+        Warner.ff_warning()
         
     if sys.argv[1] == "SE":
-        Warning.se_warning()
+        Warner.se_warning()

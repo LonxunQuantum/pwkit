@@ -26,4 +26,14 @@ def write_specific():
 
 
 if __name__ == "__main__":
-    write_specific()
+    specific_str = sys.argv[1]
+    charge_density_capacity = float(sys.argv[2])
+    sg15_dir_path = sys.argv[3]
+    electrode_potential = float(sys.argv[2])
+    
+    write_specific(
+                specific_str=specific_str,
+                charge_density_capacity=charge_density_capacity,
+                sg15_dir_path=sg15_dir_path,
+                electrode_potential=electrode_potential,
+    )

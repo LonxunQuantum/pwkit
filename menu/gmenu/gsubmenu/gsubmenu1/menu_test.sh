@@ -185,8 +185,10 @@ fi
 
     fi
 
-    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/etotWritr_main.py $longStr $atom_config_format_file_name $density_in_2pi
-    
+
+
+    $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu1/generateETOT/etotWritr_main.py $longStr $atom_config_format_file_name $SG15_DIR_PATH $density_in_2pi
+
     exit 0
-#    done
+#   done
 }

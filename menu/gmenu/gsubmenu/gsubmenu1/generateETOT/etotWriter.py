@@ -214,6 +214,10 @@ class EtotWriter(object):
         ----------
             1. density: float
                 K-Mesh density in 2pi/A.
+                
+        Note
+        ----
+            1. 设置 self.density 属性
         '''
         if self.task_name == "SC":
             accuracy = "NORM"
@@ -246,6 +250,7 @@ class EtotWriter(object):
             precision = "AUTO"
             
             # DOS_DETAIL: 需要 KMesh
+            self.density = density
             if density: # density: $density_in_2_pi
                 density = density
                 
@@ -367,17 +372,28 @@ class EtotWriter(object):
     
     
     
-    def write_specific(self):
+    def write_specific(
+                    self,
+                    specific_str:str,
+                    charge_density_capacity:float=None,
+                    sg15_dir_path:str=None,
+                    electrode_potential:float=None,
+                    ):
         '''
         Description
         -----------
             1. run in `6_write_specific.py` file
         
+        
+        Parameters
+        ----------
+            1. spe
+        
         Note
         ----
             1. 选择`溶剂效应`和`固定电势`的时候，需要添加 `IN.SOLVENT` 文件
         '''
-        setattr(self, "specific_name", sys.argv[1])
+        setattr(self, "specific_name", specific_str)
         
         # 首次写入 "#特殊设置\n" 
         mark_first = False
@@ -402,8 +418,7 @@ class EtotWriter(object):
                 f.write("SPIN = 222 # 非共线磁矩+自旋轨道耦合\n")
             # 4. 带电体系
             if (self.specific_name == "CS"):
-                charge_capacity = float(sys.argv[2])
-                sg15_dir_path = sys.argv[3]
+                charge_capacity = charge_density_capacity
                 
                 # 4.1. 从 `赝势SG15` 中得到体系的 `中性电子数`
                 num_electron_pseudo = 0
@@ -460,7 +475,7 @@ class EtotWriter(object):
             #       OUT.SOLVENT_CHARGE = T
             #       额外需要输出文件 IN.SOLVENT
             if (self.specific_name == "FF"):
-                electrode_potential = float( sys.argv[2] )
+                electrode_potential = electrode_potential
                 # Ef计算公式: Ef = -4.42 - 电极电势值
                 e_f = -4.42 - electrode_potential
                 # 保留两位小数
@@ -526,7 +541,6 @@ class EtotWriter(object):
                         pseudo_name:str,
                         atom_config_format_file_name:str,
                         pseudo_dir_path:str,
-                        in_kpt_for_ns:bool=False,
                         ):
         '''
         Description
@@ -596,10 +610,15 @@ class EtotWriter(object):
             in_wg = "F"
             in_rho = "F"
             in_vr = "T"
-            if in_kpt_for_ns == "2":
-                in_kpt = "T"
-            else:
+            try:
+                denisty_for_kmesh = getattr(self, "density")    # 在`self.write_accuracy()` 中设置
                 in_kpt = "F"
+            except AttributeError:
+                in_kpt = "T"
+            #if in_kpt_for_ns == "2":
+            #    in_kpt = "T"
+            #else:
+            #    in_kpt = "F"
             out_wg = "T"
             out_rho = "F"
             out_vr = "F"
@@ -619,7 +638,7 @@ class EtotWriter(object):
         with open(self.etot_path, "a") as f:
             f.write("\n\n")
             f.write("### 输入输出设置\n")
-            f.write("IN.ATOM = {0}\n".format(atom_config_format_file_name))
+            f.write( "IN.ATOM = {0}\n".format(os.path.basename(atom_config_format_file_name)) )
             
             ## Note: 赝势部分
             dstructure = DStructure.from_file(

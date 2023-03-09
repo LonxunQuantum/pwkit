@@ -8,8 +8,15 @@ Description
 import os
 import sys
 import subprocess
+import re
 from etotWriter import EtotWriter
-from select_specific import *
+from warning import Warner
+
+
+
+SG15_DIR_PATH = os.environ.get("SG15_DIR_PATH")
+PD04_DIR_PATH = os.environ.get("PD04_DIR_PATH")
+
 
 
 '''
@@ -91,7 +98,40 @@ def get_upper_pseudo_mark(pseudo_str:str):
     elif (pseudo_str.upper() not in pseudos_str_lst):
         return "default"
     else:
+        #print(pseudo_str.upper())
         return pseudo_str.upper()
+
+
+'''
+Part IV. Specific Config Type
+'''
+specifics_str_lst = [
+            "SP", "SO", "SN", "CS",
+            "PU", "D3", "FF", "SE",
+]
+def get_upper_specifics_mark(specific_str:str):
+    '''
+    Description
+    -----------
+        1. 将剩余的 `self.long_str` 两两分开，并换成大写形式，组成一个列表
+    
+    Parameters
+    ----------  
+        1. specific_str: str
+            - e.g. `scpespso` -> `spso`
+    '''
+    ### Note: `specific_str`的长度不可能是奇数，`menu.sh` 之前已经处理过了
+    specifics_str_lst = re.findall(".{2}", specific_str)    # 两两分开
+    specifics_str_lst = [tmp_str.upper() for tmp_str in specifics_str_lst]
+    
+    ### Step 2. 如果有 `tmp_str` 不在 `specifics_str_lst` 中，raise ValueError
+    ### Note: `specific_str`的长度不可能不存在于 `specifics_str_lst`，`menu.sh` 之前已经处理过了
+    #for tmp_str in specifics_str_lst:
+    #    if tmp_str not in specifics_str_lst:
+    #        raise ValueError
+    
+    return specifics_str_lst    
+    
 
 
 
@@ -102,7 +142,8 @@ class EtotWriterMain(object):
     def __init__(self,
                 long_str:str,
                 atom_config_path:str,
-                density:float
+                sg15_dir_path:str,
+                density:float=None,
                 ):
         '''
         Parameters
@@ -113,9 +154,12 @@ class EtotWriterMain(object):
                 - 相对路径，e.g. `atom.config`
         '''
         self.long_str = long_str
+        self.long_str_origin = long_str
+        self.atom_config_path = atom_config_path
         self.etot_writer = EtotWriter(
                         atom_config_name=atom_config_path,
                         )
+        self.sg15_dir_path = sg15_dir_path
         self.density = density
     
     
@@ -129,7 +173,10 @@ class EtotWriterMain(object):
         self.write_functional()
         self.write_accuracy_and_scf()
         self.write_pesudo()
-    
+        self.write_specific()
+        self.write_other()
+        self.write_input_output()
+
     
     
     def write_task(self):
@@ -182,7 +229,7 @@ class EtotWriterMain(object):
         
         ### Step 4. 终端输出信息，提醒用户设置完毕
         pp = subprocess.Popen(
-                ["echo", "Part I. 任务类型设置成功..."],
+                ["echo", " ---> Part I. 任务类型设置成功!"],
                 stdout=subprocess.PIPE,
                 #stderr=subprocess.PIPE,
                 shell=False,                
@@ -233,14 +280,14 @@ class EtotWriterMain(object):
                         ['cut', '-c', '3-'],
                         stdin=p1.stdout,
                         stdout=subprocess.PIPE,
-                        shell=True,
+                        shell=False,
             )
             output, _ = p2.communicate()
             self.long_str = output.decode().strip()
 
         ### Step 4. 在 terminal 输出提示信息，提醒用户输出成功
         pp = subprocess.Popen(
-                    ['echo', "Part II. 泛函类型设置成功..."],
+                    ['echo', " ---> Part II. 泛函类型设置成功!"],
                     stdout=subprocess.PIPE,
                     shell=False
         )
@@ -264,21 +311,26 @@ class EtotWriterMain(object):
     
     
     def write_pesudo(self):
+        '''
+        Description
+        -----------
+            1. 设置了 `self.pseudo_str_upper` 属性
+        '''
         ### Step 1. 取出代表 `赝势类型` 的两个字符
         p1 = subprocess.Popen(
                     ['echo', '{0}'.format(self.long_str)],
                     stdout=subprocess.PIPE,
-                    shell=True,
+                    shell=False,
         )
         p1.wait()
         p2 = subprocess.Popen(
                     ['echo', '{0}'.format(self.long_str)],
                     stdin=p1.stdout,
                     stdout=subprocess.PIPE,
-                    shell=True,
+                    shell=False,
         )
         output, _ = p2.communicate()
-        pseudo_str = output.decode()  # 此处的`赝势类型`可能不是真的 e.g. `scpesp`
+        pseudo_str = output.decode().strip()  # 此处的`赝势类型`可能不是真的 e.g. `scpesp`
         
         ### Step 2. `etot_writer` 赋予 `赝势类型`
         pseudo_str = get_upper_pseudo_mark(pseudo_str=pseudo_str)
@@ -296,6 +348,7 @@ class EtotWriterMain(object):
             p1.wait()
             p2 = subprocess.Popen(
                         ['cut', '-c', '3-'],
+                        stdin=p1.stdout,
                         stdout=subprocess.PIPE,
                         shell=False,
             )
@@ -304,7 +357,7 @@ class EtotWriterMain(object):
         
         ### Step 4. 
         pp = subprocess.Popen(
-                    ['echo', 'Part III. 赝势类型设置成功...'],
+                    ['echo', ' ---> Part III. 赝势类型设置成功!'],
                     stdout=subprocess.PIPE,
                     shell=False,
         )
@@ -314,26 +367,91 @@ class EtotWriterMain(object):
     
     
     def write_specific(self):
-        ### Step 1. 检查是否有剩余的字符，用于 `特殊设置`
-        #if self.long_str == '':
-            
+        ### Step 1. 将剩余的字符串(`self.long_str`)中的字母两两分开
+        ### e.g. ["SP", "SO", ...]
+        specifics_str = get_upper_specifics_mark(self.long_str)
+        specifics_str = list( set(specifics_str) )
+        ### Step 2. 依次处理 `specifics_str` 中的特殊设置
+        for tmp_specific_str in specifics_str:
+            if tmp_specific_str == "CS":
+                Warner.cs_warning() # 终端输出提示
+                charge_density_capacity = float( input(" ------------>>\n").strip() )
+                self.etot_writer.write_specific(
+                                    specific_str=tmp_specific_str,
+                                    charge_density_capacity=charge_density_capacity,
+                                    sg15_dir_path=self.sg15_dir_path,
+                )
+                
+            elif tmp_specific_str == "FF":
+                Warner.ff_warning() # 终端输出提示
+                eletrode_potential = float( input(" ------------>>\n").strip() )
+                self.etot_writer.write_specific(
+                                    specific_str=tmp_specific_str,
+                                    electrode_potential=eletrode_potential,
+                )
+                                
+            else:
+                self.etot_writer.write_specific(
+                                    specific_str=tmp_specific_str,
+                )
         
-        pass
-        ### Step 2. 
-        #self.write_specific()
-            
+        ### Step 3. 终端输出信息，提醒用户设置成功
+        pp = subprocess.Popen(
+                        ['echo', " ---> Part IV. 特殊类型设置成功!"],
+                        stdout=subprocess.PIPE,
+                        shell=False,
+        )
+        output, _ = pp.communicate()
+        print(output.decode().strip())
+    
+    
+    def write_other(self):
+        self.etot_writer.write_other()
+        
+        
+    def write_input_output(self):
+        ### Step 1. 找到赝势文件夹
+        if self.pseudo_str_upper == "SG":
+            pseudo_dir_path = SG15_DIR_PATH
+        elif self.pseudo_str_upper == "PD":
+            pseudo_dir_path = PD04_DIR_PATH
+        
+        ### Step 2. 运行
+        self.etot_writer.write_input_output(
+                        pseudo_name=self.pseudo_str_upper,
+                        atom_config_format_file_name=self.atom_config_path,
+                        pseudo_dir_path=pseudo_dir_path,
+                        )
 
 
 if __name__ == "__main__":    
     long_str = sys.argv[1]  # 完整的输入 `e.g. scpesgsp`
     current_path = os.getcwd()
     atom_config_path = os.path.join(current_path, sys.argv[2])  # atom.config 的路径
-    density = float(sys.argv[3])
-    etot_writer_main = EtotWriterMain(
+    sg15_dir_path = sys.argv[3]
+    
+    
+    task_str = long_str[:2].upper().strip()
+    
+    
+    try:
+        density = float(sys.argv[4])
+        etot_writer_main = EtotWriterMain(
                             long_str=long_str,
                             atom_config_path=atom_config_path,
-                            density=density,
-    )
+                            sg15_dir_path=sg15_dir_path,
+                            density=density
+                            
+        )
+    except IndexError:
+        etot_writer_main = EtotWriterMain(
+                            long_str=long_str,
+                            atom_config_path=atom_config_path,
+                            sg15_dir_path=sg15_dir_path,
+                            density=None,
+        )
+
     
     
+    ### Driver code
     etot_writer_main.execute()
