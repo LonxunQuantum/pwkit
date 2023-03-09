@@ -56,7 +56,12 @@ class AtomConfigGenerator(object):
                         ( "OUT." in tmp_file_name) or \
                         ( "REPORT" in tmp_file_name) or \
                         ( "slurm" in tmp_file_name) or \
-                        ( "output" in tmp_file_name) :
+                        ( "output" in tmp_file_name) or \
+                        ( "jpg" in tmp_file_name) or \
+                        ( "gen.kpt" in tmp_file_name ) or \
+                        ( "HIGH" in tmp_file_name ) or \
+                        ( "DOS" in tmp_file_name) or \
+                        ( "ORIGIN.INDEX" in tmp_file_name ):
                         # 1. 不处理 文件夹
                         continue
 
