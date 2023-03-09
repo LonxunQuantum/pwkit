@@ -14,10 +14,14 @@ from warning import Warner
 
 
 
+'''
+Part O. 得到赝势文件夹的路径
+'''
+# 1. SG15
 SG15_DIR_PATH = os.environ.get("SG15_DIR_PATH")
+
+# 2. PD04
 PD04_DIR_PATH = os.environ.get("PD04_DIR_PATH")
-
-
 
 '''
 Part I. Task Type
@@ -415,7 +419,7 @@ class EtotWriterMain(object):
             pseudo_dir_path = SG15_DIR_PATH
         elif self.pseudo_str_upper == "PD":
             pseudo_dir_path = PD04_DIR_PATH
-        
+            
         ### Step 2. 运行
         self.etot_writer.write_input_output(
                         pseudo_name=self.pseudo_str_upper,
@@ -424,7 +428,7 @@ class EtotWriterMain(object):
                         )
 
 
-if __name__ == "__main__":    
+if __name__ == "__main__": 
     long_str = sys.argv[1]  # 完整的输入 `e.g. scpesgsp`
     current_path = os.getcwd()
     atom_config_path = os.path.join(current_path, sys.argv[2])  # atom.config 的路径
