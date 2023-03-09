@@ -96,7 +96,7 @@ def get_upper_pseudo_mark(pseudo_str:str):
     ----------
         1. pseudo_mark: str
             - 赝势的类型
-    '''
+    '''    
     if pseudo_str == '':
         return "default"
     elif (pseudo_str.upper() not in pseudos_str_lst):
@@ -328,7 +328,7 @@ class EtotWriterMain(object):
         )
         p1.wait()
         p2 = subprocess.Popen(
-                    ['echo', '{0}'.format(self.long_str)],
+                    ['cut', '-c', '1-2'],
                     stdin=p1.stdout,
                     stdout=subprocess.PIPE,
                     shell=False,
@@ -419,7 +419,7 @@ class EtotWriterMain(object):
             pseudo_dir_path = SG15_DIR_PATH
         elif self.pseudo_str_upper == "PD":
             pseudo_dir_path = PD04_DIR_PATH
-            
+        
         ### Step 2. 运行
         self.etot_writer.write_input_output(
                         pseudo_name=self.pseudo_str_upper,
