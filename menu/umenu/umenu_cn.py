@@ -16,7 +16,7 @@ def mmenu_cn():
     ### Part II. Utility 数据后处理
     print("{0:-^60}".format(" 数据后处理 "))
     print(
-''' a) 能带带隙              b) 真空能级 (待开发)
+''' a) 能带带隙              b) 真空能级
 '''
     )
 
