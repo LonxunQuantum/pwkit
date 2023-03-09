@@ -15,6 +15,42 @@ from select_pseudo import *
 from select_specific import *
 
 
+'''
+Part I. Task Type
+'''
+tasks_str_lst = [
+            "SC", "CR", "AR", 
+            "NS", "DS", "OS",
+            "EP", "MD", "NA",
+            "TD", "TC", "TS"
+]
+
+
+def get_upper_task_mark(task_str:str):
+    '''
+    Descritpion
+    -----------
+        1. 得到 `task_mark` 的大写形式 (`sc` -> `SC`)
+    
+    Paramaters
+    ----------
+        1. task_str: str
+            - 任务类型的简写
+    '''
+    return task_str.upper()
+
+
+
+'''
+Part I. Task Type
+'''
+
+
+
+
+'''
+Part VI. Driver code
+'''
 class EtotWriterMain(object):
     def __init__(self,
                 long_str:str,
@@ -38,59 +74,63 @@ class EtotWriterMain(object):
     
     def execute(self):
         self.write_task()
-        self.write_functional()
+        #self.write_functional()
+        #self.write_accuracy_and_scf()
     
     
     def write_task(self):
         '''
         Description
         -----------
-            1. 
+            1. 设置`EtotWriter object`的`任务类型`属性
         '''
         ### Step 1. 得到前两个字符，作为 `task_str`
         p1 = subprocess.Popen(
                         ["echo", "{0}".format(self.long_str)],
                         stdout=subprocess.PIPE,
-                        shell=True,
+                        shell=False,
         )
         p1.wait()
         p2 = subprocess.Popen(
                         ["cut", "-c", "1-2"],
+                        stdin=p1.stdout,
                         stdout=subprocess.PIPE,
-                        shell=True,
+                        shell=False,
         )
         output, _ = p2.communicate()
-        task_str = output.decode()
+        task_str = output.decode().strip()  # 删除末尾的 '\n'
         
         ### Step 2. `etot_writer` 赋予 `任务类型`
-        task_str = select_task()
-        if task_str in tasks_str_lst:
-            self.etot_writer.write_task(task_name=task_str)
-        #elif task_str == "default":     # menu.sh 文件中，在此之前已经处理过了! 
-        #    raise SystemExit
-        #else:                           # menu.sh 文件中，在此之前已经处理过了! 
-        #    raise SystemExit
+        task_str = get_upper_task_mark(task_str=task_str)
+        self.etot_writer.write_task(task_name=task_str)
         
         
-            ### Step 3. 在 `self.long_str` 删去任务类型
-            p1 = subprocess.Popen(
-                            ["echo", "{0}".format(self.long_str)],
-                            stdout=subprocess.PIPE,
-                            shell=True,
-            )
-            p1.wait()
-            p2 = subprocess.Popen(
-                            ["cut", "-c", "3-"]
-            )
-            output, _ = p2.communicate()
-            self.long_str = output.decode()
-        
-        pp = subprocess.Popen(
-                ["echo", "Part I. 任务类型设置成功.."],
-                stdout=subprocess.PIPE,
-                shell=True,                
+        ### Step 3. 在 `self.long_str` 删去任务类型
+        p1 = subprocess.Popen(
+                        ["echo", "{0}".format(self.long_str)],
+                        stdout=subprocess.PIPE,
+                        shell=False,
         )
-        pp.wait()
+        p1.wait()
+        p2 = subprocess.Popen(
+                        ["cut", "-c", "3-"],
+                        stdin=p1.stdout,
+                        stdout=subprocess.PIPE,
+                        shell=False,
+        )
+        output, _ = p2.communicate()
+        self.long_str = output.decode()
+        
+        ### Step 4. 终端输出信息，提醒用户设置完毕
+        pp = subprocess.Popen(
+                ["echo", "Part I. 任务类型设置成功..."],
+                stdout=subprocess.PIPE,
+                #stderr=subprocess.PIPE,
+                shell=False,                
+        )
+        output, _ = pp.communicate()
+        
+        print(output.decode().strip())
     
     
     def write_functional(self):
@@ -103,13 +143,14 @@ class EtotWriterMain(object):
         p1 = subprocess.Popen(
                     ['echo', '{0}'.format(self.long_str)],
                     stdout=subprocess.PIPE,
-                    shell=True,
+                    shell=False,
         )
         p1.wait()
         p2 = subprocess.Popen(
                     ['cut', '-c', '1-2'],
+                    stdin=p1.stdout,
                     stdout=subprocess.PIPE,
-                    shell=True,
+                    shell=False,
         )
         output, _ = p2.communicate()
         functional_str = output.decode()
@@ -125,11 +166,12 @@ class EtotWriterMain(object):
             p1 = subprocess.Popen(
                         ['echo', '{0}'.format(self.long_str)],
                         stdout=subprocess.PIPE,
-                        shell=True
+                        shell=False,
             )
             p1.wait()
             p2 = subprocess.Popen(
                         ['cut', '-c', '3-'],
+                        stdin=p1.stdout,
                         stdout=subprocess.PIPE,
                         shell=True,
             )
@@ -163,6 +205,7 @@ class EtotWriterMain(object):
         p1.wait()
         p2 = subprocess.Popen(
                     ['echo', '{0}'.format(self.long_str)],
+                    stdin=p1.stdout,
                     stdout=subprocess.PIPE,
                     shell=True,
         )
