@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 
 from exception_decorator import dos_decorator
 from exception_decorator import EnergyRangeError
+from exception_decorator import Element2OrbitalFormatError
 
 
 '''
@@ -115,7 +116,7 @@ def warm_tips_nospin(columns_lst:List[str]):
     print("   - 格式: <元素>: <轨道1>, <轨道2>, ...")
     print("   - 输入“回车键”后，即可输入下一个原子以及对应轨道")
     print("   - 连续输入两次“回车键”后，开始绘制")
-    print("   - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2")
+    print("\033[0;32m   - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2 \033[0m")
     print("+{0:-^68}+".format("---------"))
     
 
@@ -197,7 +198,11 @@ def main_nospin(dos_totalspin_projected_name):
     
     ### Step 3.2. 输入需要绘制原子及其轨道 -- mask_element_orbitals
     warm_tips_nospin(columns_lst=df_orbitals.columns.to_list())
-    mask_element_orbitals = get_orbitals_from_input_nospin()
+    try:
+        mask_element_orbitals = get_orbitals_from_input_nospin()
+    except IndexError as ie:
+        raise Element2OrbitalFormatError("未输入:和轨道名称")
+        
     #print(mask_element_orbitals)
     
     ### Step 3.3. 输入能量的范围
@@ -216,7 +221,10 @@ def main_nospin(dos_totalspin_projected_name):
     
     ### Step 3.5. 根据用户的输入筛选数据 (e.g. "Mo:4S,4Px,4Py,4Pz,4Dxy,4Dxz,4Dyz,4D(x^2-y^2)")
     # Step 3.2 :warm_tips(columns_lst=df_orbitals_plot.columns.to_list()) 
-    df_orbitals_plot = df_orbitals_plot.loc[:, mask_element_orbitals]
+    try:
+        df_orbitals_plot = df_orbitals_plot.loc[:, mask_element_orbitals]
+    except KeyError as ke:
+        raise Element2OrbitalFormatError("未输入轨道名称 or 轨道名称错误")
     
     
     ### Step 4. 绘制图像
@@ -455,7 +463,7 @@ def warm_tips_spin(columns_lst:List[str]):
     print("   - 格式: <元素>: <轨道1>, <轨道2>, ...")
     print("   - 输入“回车键”后，即可输入下一个原子以及对应轨道")
     print("   - 连续输入两次“回车键”后，开始绘制")
-    print("   - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2")
+    print("\033[0;32m    - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2 \033[0m")
     print("+{0:-^68}+".format("---------"))
 
 
@@ -553,8 +561,11 @@ def main_spin(
     
     ### Step 3.2. 输入需要绘制原子及其轨道 -- mask_element_orbitals
     warm_tips_nospin(columns_lst=df_spinup_orbitals.columns.to_list())
-    mask_element_orbitals = get_orbitals_from_input_nospin()
-    #print(mask_element_orbitals)
+    try:
+        mask_element_orbitals = get_orbitals_from_input_nospin()
+    except IndexError as ie:
+        raise Element2OrbitalFormatError("未输入:和轨道名称")
+    
     
     ### Step 3.3. 输入能量的范围
     print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
@@ -572,12 +583,14 @@ def main_spin(
     mask_spindown = (df_spindown_orbitals.loc[:, "energy"] < e_max) & \
                 (df_spindown_orbitals.loc[:, "energy"] > e_min)
     df_spindown_orbitals_plot = df_spindown_orbitals.loc[mask_spindown, :]
-    
+
     ### Step 3.5. 根据用户的输入筛选数据 (e.g. "Mo:4S,4Px,4Py,4Pz,4Dxy,4Dxz,4Dyz,4D(x^2-y^2)")
     # Step 3.2 :warm_tips(columns_lst=df_orbitals_plot.columns.to_list()) 
-    df_spinup_orbitals_plot = df_spinup_orbitals_plot.loc[:, mask_element_orbitals]
-    df_spindown_orbitals_plot = df_spindown_orbitals_plot.loc[:, mask_element_orbitals]
-    
+    try:
+        df_spinup_orbitals_plot = df_spinup_orbitals_plot.loc[:, mask_element_orbitals]
+        df_spindown_orbitals_plot = df_spindown_orbitals_plot.loc[:, mask_element_orbitals]
+    except KeyError as ke:
+        raise Element2OrbitalFormatError("未输入轨道名称 or 轨道名称错误")
     
     ### Step 4. 绘制图像
     plot_pdos_orbitals_spin(

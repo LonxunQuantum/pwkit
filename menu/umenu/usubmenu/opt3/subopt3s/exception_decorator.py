@@ -53,7 +53,24 @@ class Element2OrbitalFormatError(KeyError, IndexError):
             Mo:
             
             KeyError: "['mo-'] not in index"
-        2. 
+        2. IndexError
+            e.g.
+            +---------------------------- Warm Tips -----------------------------+
+            * 存在的原子及轨道:
+            - Mo : 4s, 4px, 4py, 4pz, 4dxy, 4dxz, 4dyz, 4dz2, 4d(x^2-y^2), 5s, 
+            - S  : 3s, 3px, 3py, 3pz, 
+
+            * 注意事项:
+            - 格式: <元素>: <轨道1>, <轨道2>, ...
+            - 输入“回车键”后，即可输入下一个原子以及对应轨道
+            - 连续输入两次“回车键”后，开始绘制
+            - 示例: Mo:4d(x^2-y^2), 4dxy, 4dz2
+            +--------------------------------------------------------------------+
+            输入绘制的原子(index=1)及轨道:
+            ------------>>
+            Mo
+            
+            Out range of list
     '''
     def __init__(self, message:str):
         self.message = message
@@ -77,6 +94,8 @@ def dos_decorator(func):
         except IndexError as ie:    # 仅输入了 1
             if isinstance(ie, EnergyRangeFormatError):
                 print_error(information="输入能量范围的格式错误!")
+            elif isinstance(ie, Element2OrbitalFormatError):
+                print_error(information="输入原子及轨道的格式错误!")
             else:
                 print(ie)
         except ValueError as ve:    # -2,,2
@@ -84,8 +103,23 @@ def dos_decorator(func):
                 print_error(information="输入能量范围的格式错误!")
             else:
                 print(ve)
+        except KeyError as ke:
+            if isinstance(ke, Element2OrbitalFormatError):
+                print_error(information="输入原子及轨道的格式错误!")
+            else:
+                print(ke)
+                
     return wrapper
 
+
+
+def orbital_decorator(func):
+    def wrapper(*args, **kwargs):
+        try:
+            func(*args, **kwargs)
+        except:
+            pass
+    return wrapper
 
 
 def print_error(information:str):
