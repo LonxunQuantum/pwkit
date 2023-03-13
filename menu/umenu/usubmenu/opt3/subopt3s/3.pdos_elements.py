@@ -6,6 +6,7 @@ from pflow.io.pwmat.output.outfermi import OutFermi
 import matplotlib.pyplot as plt
 
 from exception_decorator import dos_decorator
+from exception_decorator import EnergyRangeError
 
 
 '''
@@ -55,7 +56,7 @@ def main_noispin(dos_totalspin_projected_name):
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
         # 超出所能绘制的能量范围
-        raise KeyError("\n\033[0;31m Error: 超出能量范围! \033[0m")
+        raise EnergyRangeError("\n\033[0;31m Error: 超出能量范围! \033[0m")
         #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
         #raise SystemExit
 
@@ -274,7 +275,7 @@ def main_ispin(
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
         #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
-        raise KeyError("超出能量范围")
+        raise EnergyRangeError("超出能量范围")
 
     ### 3.3. 根据输入的能量范围筛选数据 -- `df_elements_plot`
     mask_spinup = (df_elements_spinup.loc[:, "Energy"] < e_max) & \
@@ -448,7 +449,9 @@ if __name__ == "__main__":
     ### Step 1. 如果没有 DOS.input 直接报错
     dos_input_path = os.path.join(current_path, "DOS.input")
     if not os.path.exists(dos_input_path):
-        print('\n\033[0;31m   * Error: 请先使用PWkit生成 DOS.input 文件! \033[0m')
+        print("\033[0;31m+{0:-^60}+\033[0m".format(" Error "))
+        print('\033[0;31m\t* 请先使用PWkit生成 DOS.input 文件!\033[0m')
+        print("\033[0;31m+{0:-^60}+\033[0m".format(""))
         raise SystemExit
     
     

@@ -33,6 +33,10 @@ do
         $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt3/subopt3s/4.pdos_orbitals.py
         exit 0
         ;;
+    *) 
+        echo -e "\033[35m(*_*) Unsupported selection! Try Again... (*_*)\033[0m" 
+        continue
+        ;;
     esac
 done
 }

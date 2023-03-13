@@ -4,8 +4,10 @@ import numpy as np
 from typing import List
 from pflow.io.pwmat.output.dostotalspin import Dostotalspin
 from pflow.io.pwmat.output.outfermi import OutFermi
-
 import matplotlib.pyplot as plt
+
+from exception_decorator import dos_decorator
+from exception_decorator import EnergyRangeError
 
 
 '''
@@ -140,22 +142,25 @@ def get_orbitals_from_input_nospin():
     element_count = 0
     while (True):
         element_count += 1
-        print("输入绘制的原子(index={0})及轨道:".format(element_count))
+        print(" 输入绘制的原子(index={0})及轨道:".format(element_count))
         # e.g. Mo: 4dxy, 4dyz
         element_orbitals = input(" ------------>>\n")
+        
         if element_orbitals == '':
             break
+        
         else:
             tmp_element = element_orbitals.split(":")[0].strip().lower()
             tmp_orbitals_lst = [orbital.strip().lower() for orbital in element_orbitals.split(":")[1].split(",")]
             for tmp_orbital in tmp_orbitals_lst:
                 columns_lower_lst.append( "{0}-{1}".format(tmp_element, tmp_orbital) )
+            #print(tmp_orbitals_lst)
     columns_lower_lst.append("energy")
     
     return columns_lower_lst
 
     
-
+@dos_decorator
 def main_nospin(dos_totalspin_projected_name):
     ### Step 1. 运行 `plot_DOS_interp.x`，得到 `DOS.totalspin_projected`
     current_path = os.getcwd()
@@ -201,8 +206,8 @@ def main_nospin(dos_totalspin_projected_name):
     e_max = float( e_range_str.split(',')[1].strip() )
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
-        print('\n\033[0;31m Error: 超出能量范围! \033[0m')
-        raise SystemExit
+        #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
+        raise EnergyRangeError("超出能量范围")
     
     ### Step 3.4. 根据输入的能量范围筛选数据 -- `df_elements_plot`
     mask = (df_orbitals.loc[:, "energy"] < e_max) & \
@@ -478,7 +483,7 @@ def get_orbitals_from_input_spin():
     element_count = 0
     while (True):
         element_count += 1
-        print("输入绘制的原子(index={0})及轨道:".format(element_count))
+        print(" 输入绘制的原子(index={0})及轨道:".format(element_count))
         # e.g. Mo: 4dxy, 4dyz
         element_orbitals = input(" ------------>>\n")
         if element_orbitals == '':
@@ -494,6 +499,7 @@ def get_orbitals_from_input_spin():
 
 
 
+@dos_decorator
 def main_spin(
             dos_spinup_projected_name:str,
             dos_spindown_projected_name:str,
@@ -556,8 +562,8 @@ def main_spin(
     e_max = float( e_range_str.split(',')[1].strip() )
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
-        print('\n\033[0;31m Error: 超出能量范围! \033[0m')
-        raise SystemExit
+        #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
+        raise EnergyRangeError("超出能量范围")
     
     ### Step 3.4. 根据输入的能量范围筛选数据 -- `df_elements_plot`
     mask_spinup = (df_spinup_orbitals.loc[:, "energy"] < e_max) & \
@@ -743,7 +749,9 @@ if __name__ == "__main__":
     current_path = os.getcwd()
     dos_input_path = os.path.join(current_path, "DOS.input")
     if not os.path.exists(dos_input_path):
-        print('\n\033[0;31m Warning: 请先使用PWkit生成 DOS.input 文件! \033[0m')
+        print("\033[0;31m+{0:-^60}+\033[0m".format(" Error "))
+        print('\033[0;31m\t* 请先使用PWkit生成 DOS.input 文件!\033[0m')
+        print("\033[0;31m+{0:-^60}+\033[0m".format(""))
         raise SystemExit
         
         

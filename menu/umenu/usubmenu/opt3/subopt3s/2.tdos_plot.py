@@ -7,8 +7,11 @@ from read_dostotal import (
                     get_dos_df, 
                     get_dfs_dos,
                     )
+from exception_decorator import dos_decorator
+from exception_decorator import EnergyRangeError
 
 
+@dos_decorator
 def opt3_nospin():
     '''
     Description
@@ -55,8 +58,8 @@ def opt3_nospin():
     E_max = float( input_string.split(",")[1].strip() )
     
     if (E_min < E_min_range) or (E_max > E_max_range):
-        os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
-        raise SystemExit
+        #os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
+        raise EnergyRangeError("超出能量范围")
 
 
     ### Step 1. Plot TDOS
@@ -246,7 +249,7 @@ def print_sum_nospin(marks_lst):
     
     
     
-    
+@dos_decorator
 def opt3_spin():
     '''
     Description
@@ -299,8 +302,8 @@ def opt3_spin():
     E_max = float( input_string.split(",")[1] )
     
     if (E_min < E_min_range) or (E_max > E_max_range):
-        os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
-        raise SystemExit
+        #os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
+        raise EnergyRangeError("超出能量范围")
     
     
     ### Step 1. Plot TDOS

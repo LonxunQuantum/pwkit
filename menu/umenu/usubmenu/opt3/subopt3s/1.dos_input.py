@@ -10,7 +10,7 @@ def choose_mark_method():
         1. Gaussian Broading / Interpolation
     '''
     print("{0:-^50}".format(" 插值选择 "))
-    print(" 1) Gaussian Broading    2) Interpolation\n")
+    print(" 1) Gaussian Broading    2) Interpolation")
     mark_method = int(input(" ------------>>\n")) - 1
     return mark_method
 
