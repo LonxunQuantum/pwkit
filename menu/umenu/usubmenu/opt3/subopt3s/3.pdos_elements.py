@@ -3,8 +3,9 @@ import pandas as pd
 import numpy as np
 from pflow.io.pwmat.output.dostotalspin import Dostotalspin
 from pflow.io.pwmat.output.outfermi import OutFermi
-
 import matplotlib.pyplot as plt
+
+from exception_decorator import dos_decorator
 
 
 '''
@@ -16,6 +17,7 @@ def max_and_min_noispin(df:pd.DataFrame):
     return max_energy, min_energy
 
 
+@dos_decorator
 def main_noispin(dos_totalspin_projected_name):
     ### Step 1. 运行 `plot_DOS_interp.x`，得到 `DOS.totalspin_projected`
     current_path = os.getcwd()
@@ -52,8 +54,10 @@ def main_noispin(dos_totalspin_projected_name):
     e_max = float( e_range_str.split(',')[1].strip() )
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
-        print('\n\033[0;31m Error: 超出能量范围! \033[0m')
-        raise SystemExit
+        # 超出所能绘制的能量范围
+        raise KeyError("\n\033[0;31m Error: 超出能量范围! \033[0m")
+        #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
+        #raise SystemExit
 
     ### 3.3. 根据输入的能量范围筛选数据 -- `df_elements_plot`
     mask = (df_elements.loc[:, "Energy"] < e_max) & \
@@ -210,6 +214,7 @@ def max_and_min_ispin(
     return max_energy, min_energy
 
 
+@dos_decorator
 def main_ispin(
             dos_spinup_projected_name:str,
             dos_spindown_projected_name:str,
@@ -268,8 +273,8 @@ def main_ispin(
     e_max = float( e_range_str.split(',')[1].strip() )
     e_min = float( e_range_str.split(',')[0].strip() )
     if (e_max > e_max_value) or (e_min < e_min_value):
-        print('\n\033[0;31m Error: 超出能量范围! \033[0m')
-        raise SystemExit
+        #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
+        raise KeyError("超出能量范围")
 
     ### 3.3. 根据输入的能量范围筛选数据 -- `df_elements_plot`
     mask_spinup = (df_elements_spinup.loc[:, "Energy"] < e_max) & \

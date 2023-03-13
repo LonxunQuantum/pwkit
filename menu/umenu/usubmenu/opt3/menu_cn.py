@@ -24,7 +24,7 @@ def mmenu_cn():
     dos_input_path = os.path.join(current_path, "DOS.input")
     if not os.path.exists(dos_input_path):
         print("+{0:-^78}+".format(" Warm Tips "))
-        print("\033[0;32m   * 在绘制态密度之前, 需要先生成 DOS.input 文件! \033[0m")
+        print("\033[0;31m   * 在绘制态密度之前, 需要先生成 DOS.input 文件! \033[0m")
         print('''   * 使用`echo -e 'u\\n3\\n1\\n1\\n0.04\\n4000\\n6,6,6\\n' | pwkit`生成默认的DOS.input''')
         print("+{0:-^78}+".format("---------"))
         #raise SystemExit
