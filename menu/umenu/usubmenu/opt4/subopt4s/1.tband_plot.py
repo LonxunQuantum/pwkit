@@ -8,6 +8,10 @@ from pflow.io.pwmat.output.report import Report
 from pflow.io.pwmat.input.inkpt import Inkpt
 from pflow.io.pwmat.output.outfermi import OutFermi
 
+from band_decorator import band_decorator
+from band_decorator import EnergyRangeError
+from band_decorator import EnergyRangeFormatError
+
 
 ### Step 1. 得到能带的横坐标 (unit: 埃)
 def get_xs_lst(
@@ -244,7 +248,8 @@ def print_sum(efermi_ev:Union[float, bool]):
 
 
 
-if __name__ == "__main__":
+@band_decorator
+def main():
     # 0. 文件路径
     current_path = os.getcwd()
     in_kpt_path = os.path.join(current_path, "IN.KPT")
@@ -292,8 +297,14 @@ if __name__ == "__main__":
         round(e_min, 3),
         round(e_max, 3),
         ))
-    E_min = float( input_string.split(",")[0] )
-    E_max = float( input_string.split(",")[1] )
+    try:
+        E_min = float( input_string.split(",")[0] )
+        E_max = float( input_string.split(",")[1] )
+    except:
+        raise EnergyRangeFormatError("能量范围的格式错误")
+    
+    if (E_min < e_min) or (E_max > e_max): 
+        raise EnergyRangeError("输入的能量区间过大")
     
     # 4. hsp_names_lst, hsp_xs_lst
     hsp_names_lst, hsp_xs_lst = get_hsp(
@@ -314,3 +325,7 @@ if __name__ == "__main__":
             )
     
     print_sum(efermi_ev=efermi_ev)
+    
+    
+if __name__ == "__main__":
+    main()
