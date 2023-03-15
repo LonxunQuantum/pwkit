@@ -1,4 +1,5 @@
 import os 
+import subprocess
 from pflow.io.pwmat.input.gen_vext import GenVext
 
 
@@ -26,9 +27,10 @@ def opt_1():
     try:
         vr_center_lst = [float(coordinate.strip()) for coordinate in vr_center_str.split(',')]
     except ValueError:
+        print_error(information="输入电场中心的格式错误!")
         raise SystemExit
-        #print_error()
     if len(vr_center_lst) != 3:
+        print_error(information="输入电场中心的格式错误!")
         raise SystemExit
     #print_error()
 
@@ -37,7 +39,7 @@ def opt_1():
     vr_type_str = input(" 输入外加电场的类型 (1 or 2 or 3) \n ------------>>\n")
     vr_type = int(vr_type_str)
     if vr_type not in [1,2,3]:
-        #print_error()
+        print_error(information="输入电场类型的格式错误!")
         raise SystemExit
     
     ### Step 2.3. 电场的参数
@@ -48,10 +50,10 @@ def opt_1():
     try:
         coeffs_lst = [float(coeff.strip()) for coeff in coeffs_str.split(',')]
     except ValueError:
-        #print_error()
+        print_error(information="输入参数的格式错误!")
         raise SystemExit
     if len(coeffs_lst) != len(vr_type2coeffs[str(vr_type)]):
-        #print_error()
+        print_error(information="输入参数的格式错误!")
         raise SystemExit
     
     
@@ -62,23 +64,10 @@ def opt_1():
     elif add_vr_str.startswith('F') or add_vr_str.startswith('f'):
         add_vr = False
     else:
-        #print_error()
+        print_error(information="输入格式错误!")
         raise SystemExit
     
-    ### Step 2. 将电场信息转换为 pflow 需要的形式
-    ### Step 2.1. 电场中心
-    vr_center_lst = [float(coordinate.strip()) for coordinate in vr_center_str.split(',')]
-    ### Step 2.2. 电场的类型
-    vr_type = int(vr_type_str)
-    ### Step 2.3. 电场的参数
-    coeffs_lst = [float(coeff.strip()) for coeff in coeffs_str.split(',')]
-    ### Step 2.4. 是否将电场添加到旧的电势文件上
-    if add_vr_str.startswith('T') or add_vr_str.startswith('t'):
-        add_vr = True
-    elif add_vr_str.startswith('F') or add_vr_str.startswith('f'):
-        add_vr = False
-    
-    ### Step 3. 调用pflow生成gen.vext文件
+    ### Step 2. 调用pflow生成gen.vext文件
     current_path = os.getcwd()
     gen_vext_path = os.path.join(current_path, "gen.vext")
     gen_vext = GenVext(
@@ -88,6 +77,17 @@ def opt_1():
                     *coeffs_lst,
                     )
     gen_vext.to(gen_vext_path)
+    
+    
+    ### Step 3. 调用 `add_field.x` 命令
+    #p = subprocess.Popen(
+    #        ["$PWKIT_ROOT/menu/scripts/add_field.x"],
+    #        shell=False
+    #)
+    #output, _ = p.communicate()
+    
+    ### 4. print_sum
+    #print_sum()
     
 
 def print_vr_tips(vr_type:int=None):
@@ -114,6 +114,17 @@ def print_vr_tips(vr_type:int=None):
             print("\t\t- a4 的单位: Hartree")
             print("\t\t- a5 的单位: Bohr")
         print("+{0:-^68}+".format(""))
+
+
+def print_error(information:str):
+    '''
+    Description
+    -----------
+        1. 当触发 `dos_decorator` 的错误后，此函数负责输出对应的信息
+    '''
+    print("\033[0;31m+{0:-^60}+\033[0m".format(" Error "))
+    print("\033[0;31m\t* {0}\033[0m".format(information))
+    print("\033[0;31m+{0:-^60}+\033[0m".format(""))
 
 
 def print_sum(vacuum_name:str):
