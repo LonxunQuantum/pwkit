@@ -79,14 +79,27 @@ def opt_1():
     
     
     ### Step 3. 调用 `add_field.x` 命令
+    ### Step 3.1. 判断 IN.VR 是否存在，若不存在，用户输入
+    in_vr_name = "IN.VR"
+    if not os.path.exists(os.path.join(current_path, in_vr_name)):
+        print("\033[0;31m - 未搜索到 IN.VR 文件\033[0m")
+    
+    while (not os.path.exists(os.path.join(current_path, in_vr_name))):
+        in_vr_name = input("\n 输入 IN.VR 格式的文件名\n ------------>>\n")
+    
+    ### Step 3.2. 运行 add_field.x IN.VR
     #p = subprocess.Popen(
-    #        ["$PWKIT_ROOT/menu/scripts/add_field.x"],
-    #        shell=False
+    #        ["$PWKIT_ROOT/menu/scripts/add_field.x {0}".format(in_vr_name)],
+    #        shell=True
     #)
     #output, _ = p.communicate()
+    os.system("$PWKIT_ROOT/menu/scripts/add_field.x {0} > /dev/null".format(in_vr_name))
+    
+    ### Step 3.3. 改名 (e.g. IN.VR -> IN.VEXT)
+    os.system("mv {0} IN.VEXT".format(in_vr_name))
     
     ### 4. print_sum
-    #print_sum()
+    print_sum(in_vr_name)
     
 
 def print_vr_tips(vr_type:int=None):
@@ -126,7 +139,7 @@ def print_error(information:str):
     print("\033[0;31m+{0:-^60}+\033[0m".format(""))
 
 
-def print_sum(vacuum_name:str):
+def print_sum(in_vr_name:str):
     '''
     Description
     -----------
@@ -135,12 +148,11 @@ def print_sum(vacuum_name:str):
     print("*{0:-^68}*".format(" Summary "))
     
     print("\t* 输入文件:", end='\t')
-    print(" - {0}".format("OUT.VR_hion"))
+    print(" - {0}".format(in_vr_name))
     
     print("\t* 输出文件:", end='\t')
-    print(" - {0}".format("RHO.xsf"))
-    print(" \t\t\t - {0}".format(vacuum_name))
-    print(" \t\t\t - {0}.jpg".format(vacuum_name.split('.')[0]))
+    print(" - {0}".format("gen.vext"))
+    print(" \t\t\t - {0}".format("IN.VEXT"))
     
     print("*{0:-^68}*".format("---------"))
 
