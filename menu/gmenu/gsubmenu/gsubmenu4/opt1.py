@@ -1,5 +1,5 @@
 import os 
-import subprocess
+import shutil
 from pflow.io.pwmat.input.gen_vext import GenVext
 
 
@@ -96,7 +96,9 @@ def opt_1():
     os.system("$PWKIT_ROOT/menu/scripts/add_field.x {0} > /dev/null".format(in_vr_name))
     
     ### Step 3.3. 改名 (e.g. IN.VR -> IN.VEXT)
-    os.system("mv {0} IN.VEXT".format(in_vr_name))
+    shutil.move(src=os.path.join(current_path, in_vr_name),
+                dst=os.path.join(current_path, "IN.VEXT")
+                )
     
     ### 4. print_sum
     print_sum(in_vr_name)
