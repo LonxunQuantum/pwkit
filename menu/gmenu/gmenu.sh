@@ -38,6 +38,8 @@ while [ 1 ]
         ;;
     4)
         #umenu::usubmenu4
+        $PYTHON_PATH $PWKIT_ROOT/menu/gmenu/gsubmenu/gsubmenu4/opt1.py
+        exit
         ;;
     *)
         echo -e "\033[35m (*_*) Unsupported selection! Try Again... (*_*)\033[0m" ;;

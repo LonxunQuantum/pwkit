@@ -666,7 +666,7 @@ class EtotWriter(object):
             f.write("OUT.VATOM = {0}\n".format(out_vatom))
             
             
-            ### 某些 `特殊设置` 需要添加输入输出
+            ### 某些 `特殊设置` 需要添加输入输出        
             try:    # 当没有 `特殊设置` 时，没有 `self.specific_name` 属性
                 # 1. `特殊设置` == 溶剂效应
                 if (self.specific_name == "SE"):
@@ -678,6 +678,12 @@ class EtotWriter(object):
                     f.write("OUT.SOLVENT_CHARGE = T     # 固定电势计算\n")    
             except AttributeError:
                 pass
+            
+            
+            ### 外加电场设置
+            f.write("\n")
+            f.write("#OUT.REAL.RHOWF_SP = 2  # 产生电势时，建议打开，输出 OUT.REAL.RHOWF_SP 文件\n")
+            f.write("#IN.VEXT = T    # 外加电场计算时，需要设置为 T\n")
     
     
     
