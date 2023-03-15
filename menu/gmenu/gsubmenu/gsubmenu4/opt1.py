@@ -34,7 +34,7 @@ def opt_1():
         raise SystemExit
     #print_error()
 
-    ### Step 2.2. 电场的类型
+    ### Step 1.2. 电场的类型
     print_vr_tips()
     vr_type_str = input(" 输入外加电场的类型 (1 or 2 or 3) \n ------------>>\n")
     vr_type = int(vr_type_str)
@@ -42,7 +42,7 @@ def opt_1():
         print_error(information="输入电场类型的格式错误!")
         raise SystemExit
     
-    ### Step 2.3. 电场的参数
+    ### Step 1.3. 电场的参数
     print_vr_tips(int(vr_type_str))
     coeffs_str = input(" 设置电场的参数 ({0}) \n ------------>>\n".format(
                         ','.join(vr_type2coeffs[str(vr_type)]))
@@ -56,8 +56,7 @@ def opt_1():
         print_error(information="输入参数的格式错误!")
         raise SystemExit
     
-    
-    ### Step 2.4. 是否将电场添加到旧的电势文件上
+    ### Step 1.4. 是否将电场添加到旧的电势文件上
     add_vr_str = input("\n 是否将新电场加到输入文件势场上 (T or F)\n ------------>>\n")
     if add_vr_str.startswith('T') or add_vr_str.startswith('t'):
         add_vr = True
@@ -142,7 +141,6 @@ def print_sum(vacuum_name:str):
     print(" - {0}".format("RHO.xsf"))
     print(" \t\t\t - {0}".format(vacuum_name))
     print(" \t\t\t - {0}.jpg".format(vacuum_name.split('.')[0]))
-    
     
     print("*{0:-^68}*".format("---------"))
 
