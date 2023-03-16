@@ -7,7 +7,10 @@
 
 # 1. 安装说明
 ## 1.1. 安装步骤
+```html
 <span style="color:red">This text will be red.</span>
+```
+
 ```shell
 # Step 1. 解压文件
 $ cd pwkit
