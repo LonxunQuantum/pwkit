@@ -6,11 +6,11 @@
 2. PWmat 常见任务计算方法: http://www.pwmat.com/Tutorials
 
 # 1. 安装说明
-## 1.1. 安装步骤
-```html
-<span style="color:red">This text will be red.</span>
-```
+## 1.0. Warm tips
+1. 如果你进行 `1.1 安装步骤` 部分时，没有找到 `pwkit_env.tar.gz` 文件，你可以在百度网盘  (https://pan.baidu.com/s/14JEInTL9WSbLVP3LUqCK-A) 中下载，提取码为 `lxkt`
+2. `pwkit_env.tar.gz` 中包含一个 Python 解释器，解释器内置龙讯旷腾开发的Python库 `pflow`
 
+## 1.1. 安装步骤
 ```shell
 # Step 1. 解压文件
 $ cd pwkit
