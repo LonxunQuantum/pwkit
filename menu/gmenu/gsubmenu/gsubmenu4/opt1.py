@@ -37,7 +37,10 @@ def opt_1():
     ### Step 1.2. 电场的类型
     print_vr_tips()
     vr_type_str = input(" 输入外加电场的类型 (1 or 2 or 3) \n ------------>>\n")
-    vr_type = int(vr_type_str)
+    try:
+        vr_type = int(vr_type_str)
+    except ValueError:
+        print_error(information="输入电场类型的格式错误!")
     if vr_type not in [1,2,3]:
         print_error(information="输入电场类型的格式错误!")
         raise SystemExit
