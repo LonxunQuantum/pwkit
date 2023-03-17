@@ -1,0 +1,117 @@
+import re
+import os 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
+from typing import List
+from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
+from pflow.io.pwmat.output.outfermi import OutFermi
+
+
+
+def main_nospin():
+    ### Step 1. 文件路径
+    current_path = os.getcwd()
+    fatbandstructure_txt_path = os.path.join(current_path, "fatbandstructure_1.txt")
+    out_fermi_path = os.path.join(current_path, "OUT.FERMI")
+    
+    ### Step 2. 若当前目录下存在 OUT.FERMI，则所有本征能量需要减去费米能级
+    efermi_ev = False
+    if os.path.exists(out_fermi_path):
+        out_fermi_object = OutFermi(out_fermi_path=out_fermi_path)
+        efermi_ev = out_fermi_object.get_efermi()
+    
+    ### Step 3. xs_lst, 能带结构的横坐标是 `当前kpoint距前一个kpoint之间的距离`
+    fatbandstructure = FatbandStructure(fatbandstructure_txt_path=fatbandstructure_txt_path)
+    element_dfs_lst:List[pd.DataFrame] = fatbandstructure.get_element_dfs_lst()
+    xs_lst = list( element_dfs_lst[0].loc[:, "KPOINT"] )
+    
+
+    ### Step 4. yss_scatter_lst, scatter 纵坐标为某元素对应的权重
+    input_element_string = input("\n 输入投影到的元素\n ------------>>\n")
+    element_for_fatband = input_element_string.strip()
+    yss_scatter_lst:List[List[float]] = []   # 每条能带上各个kpoints的本征能量
+    for tmp_element_df in element_dfs_lst:
+        yss_scatter_lst.append( 
+                tmp_element_df.filter(
+                        regex=re.compile("^{0}".format(element_for_fatband), re.IGNORECASE), 
+                        axis=1
+                ).values.flatten().tolist()
+        )
+    
+    ### Step 5. yss_line_lst，能带结构的纵坐标是 `band#1, kpoint#1 对应的本征能量    
+    ### Step 5.1. 输入需要绘制的能量区间 (e_min ~ e_max)
+    df_raw = fatbandstructure._preprocess()
+    if (efermi_ev): ### 能量范围也需要减去费米能级
+        df_raw.loc[:, "ENERGY"] = df_raw.loc[:, "ENERGY"] - efermi_ev
+    e_min_value = df_raw.loc[:, "ENERGY"].min()
+    e_max_value = df_raw.loc[:, "ENERGY"].max()
+    input_energy_string = input(
+        "\n 能量范围是 {0} eV ~ {1} eV。请输入绘制的能量范围 (e.g. -5,5)\n ------------>>\n".format(
+        round(e_min_value, 3),
+        round(e_max_value, 3),
+        ))
+    e_min = float( input_energy_string.split(',')[0].strip() )
+    e_max = float( input_energy_string.split(',')[1].strip() )
+    if ( (e_min < e_min_value) or (e_max > e_max_value) ):
+        #print_error(输入的能量区间过大)
+        raise SystemExit
+    
+    ### Step 5.2. 得到能带的纵坐标 (减去？不减去？费米能级)
+    yss_line_lst:List[List[float]] = []   # 每条能带上各个kpoints的本征能量
+    if (efermi_ev):
+        for tmp_element_df in element_dfs_lst:
+            tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"] - efermi_ev
+            yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )
+    else:
+        for tmp_element_df in element_dfs_lst:
+            tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"]
+            yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )        
+    
+    ### Step 6. 绘制 fatbandstructure
+    #plot_fatband_nospin()
+    plot_fatband_nospin(xs_lst=xs_lst,
+                        yss_line_lst=yss_line_lst,
+                        yss_scatter_lst=yss_scatter_lst,
+                        x_min=0,
+                        x_max=df_raw.loc[:, "KPOINT"].max(),
+                        e_min=e_min,
+                        e_max=e_max
+                        )
+
+
+def plot_fatband_nospin(
+                xs_lst:List[float],
+                yss_line_lst:List[List[float]],
+                yss_scatter_lst:List[List[float]],
+                x_min:float,
+                x_max:float,
+                e_min:float,
+                e_max:float
+                ):
+    COLOR_LINE = "steelblue"
+    COLOR_SCATTER = "orangered"
+    plt.figure(figsize=(10, 8))
+    for idx_band in range(len(yss_line_lst)):
+        plt.plot(xs_lst, yss_line_lst[idx_band],
+                c=COLOR_LINE,
+                lw=2,
+                zorder=1
+                )
+        mark_sizes = [size*80 for size in yss_scatter_lst[idx_band]]
+        plt.scatter(xs_lst, yss_line_lst[idx_band],
+                    s=mark_sizes,
+                    c=COLOR_SCATTER,
+                    zorder=2)
+    
+    plt.xlim(x_min, x_max)
+    plt.ylim(e_min, e_max)
+    
+    plt.savefig("./test.png")
+    
+
+
+
+if __name__ == "__main__":
+    main_nospin()
