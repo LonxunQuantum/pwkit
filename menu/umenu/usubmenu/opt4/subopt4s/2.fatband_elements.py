@@ -3,6 +3,7 @@ import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from matplotlib.lines import Line2D
 
 from typing import List
 from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
@@ -74,6 +75,7 @@ def main_nospin():
     plot_fatband_nospin(xs_lst=xs_lst,
                         yss_line_lst=yss_line_lst,
                         yss_scatter_lst=yss_scatter_lst,
+                        element=element_for_fatband,
                         x_min=0,
                         x_max=df_raw.loc[:, "KPOINT"].max(),
                         e_min=e_min,
@@ -85,6 +87,7 @@ def plot_fatband_nospin(
                 xs_lst:List[float],
                 yss_line_lst:List[List[float]],
                 yss_scatter_lst:List[List[float]],
+                element:str,
                 x_min:float,
                 x_max:float,
                 e_min:float,
@@ -104,11 +107,73 @@ def plot_fatband_nospin(
                     s=mark_sizes,
                     c=COLOR_SCATTER,
                     zorder=2)
+
+    # 1. xlabel / ylabel
+    plt.ylabel("Energy (eV)",
+               fontsize=24,
+               fontweight="bold")
+    # 2. xticks / yticks
+    ax = plt.gca()
+    #ax.axes.xaxis.set_visible(False)
+    #plt.xticks(fontsize=20, 
+    #    fontweight="bold"
+    #    )
+    plt.yticks(fontsize=20, 
+        fontweight="bold"
+        )
+    # 3. 刻度线的粗细
+    plt.tick_params(
+        width=2,        # 刻度线的粗细
+        length=5,       # 刻度线的长短
+        #labelsize=28   # 刻度线的字体大小
+        )
+    # 4. 设置坐标轴的粗细
+    ax = plt.gca()
+    ax.spines['bottom'].set_linewidth(1.5);###设置底部坐标轴的粗细
+    ax.spines['left'].set_linewidth(1.5);####设置左边坐标轴的粗细
+    ax.spines['right'].set_linewidth(1.5);###设置右边坐标轴的粗细
+    ax.spines['top'].set_linewidth(1.5);###设置右边坐标轴的粗细
     
+    '''
+    # 5. 高对称点
+    ax.set_xticks(hsp_xs_lst, )
+    ax.set_xticklabels(hsp_names_lst)
+    plt.xticks(fontsize=20, 
+        fontweight="bold"
+        )
+    #ax.tick_params(axis='x', labelsize=20, weight="bold")
+    
+    # 6. 高对称点处的虚线
+    for x_value in hsp_xs_lst:
+        plt.axvline(
+                x=x_value,
+                lw=2, 
+                linestyle="--",
+                color="black")
+    '''
+    # 7. xrange / yrange
     plt.xlim(x_min, x_max)
     plt.ylim(e_min, e_max)
     
-    plt.savefig("./test.png")
+    # 8. legend
+    line1 = Line2D([0], [0], color=COLOR_SCATTER, 
+                   linewidth=0,
+                   marker='o', markersize=10)
+    legend_font = {"size" : 18, 
+                    "weight": "bold"
+                    }
+    legend_handles = [line1]
+    legend_labels = [element.capitalize()]
+    ax.legend(legend_handles, legend_labels, 
+            prop=legend_font,
+            frameon=False)    
+
+    # 9. Save
+    plt.savefig("./test.png",
+                dpi=300,
+                bbox_inches="tight"
+    )
+
     
 
 
