@@ -217,13 +217,13 @@ def plot_band(
                 prop=legend_font,
                 frameon=False)
 
-    
+    # 9. 保存图片
     plt.savefig(band_png_path,
                 dpi=300,
                 bbox_inches="tight",)
 
 
-def print_sum(efermi_ev:Union[float, bool]):
+def print_sum(efermi_ev:Union[float, bool]): 
     print("*{0:-^68}*".format( " Summary "))
     
     print("\t* 输入文件:", end='\t')

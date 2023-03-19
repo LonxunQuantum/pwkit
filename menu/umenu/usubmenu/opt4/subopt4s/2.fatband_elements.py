@@ -174,8 +174,6 @@ def plot_fatband_nospin(
                 bbox_inches="tight"
     )
 
-    
-
 
 
 if __name__ == "__main__":

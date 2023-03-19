@@ -7,7 +7,7 @@
 
 # 1. 安装说明
 ## 1.0. 安装提示
-1. 如果你进行 `1.1 安装步骤` 部分时，没有找到 `pwkit_env.tar.gz` 文件，你可以在百度网盘  (https://pan.baidu.com/s/14JEInTL9WSbLVP3LUqCK-A) 中下载，提取码为 `lxkt`
+1. 如果你进行 `1.1 安装步骤` 部分时，没有找到 `pwkit_env.tar.gz` 文件，你可以在百度网盘  (链接: https://pan.baidu.com/s/1E2W6giM_aGSI_1PdO0VuoA) 中下载，提取码为 `lxkt`
 2. `pwkit_env.tar.gz` 中包含一个 Python 解释器，解释器内置龙讯旷腾开发的Python库 `pflow`
 
 ## 1.1. 安装步骤
