@@ -8,6 +8,13 @@ from typing import List, Union
 from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
 from pflow.io.pwmat.output.outfermi import OutFermi
 from pflow.io.pwmat.input.inkpt import Inkpt
+from band_decorator import (
+                EnergyRangeError, 
+                EnergyRangeFormatError,
+                ElementNotExistsError,
+                band_decorator
+)
+
 
 
 
@@ -43,7 +50,7 @@ def get_hsp(
     return hsp_names_lst, hsp_xs_lst
     
 
-
+@band_decorator
 def main_nospin():
     ### Step 0. 运行 `plot_fatband_structure.x` 生成 `fatbandstructure_1.txt`
     '''
@@ -80,8 +87,10 @@ def main_nospin():
                         regex=re.compile("^{0}".format(element_for_fatband), re.IGNORECASE), 
                         axis=1
                 ).values.flatten().tolist()
-        )
-    
+        )    
+    for tmp_lst in yss_scatter_lst:
+        if tmp_lst == []:
+            raise ElementNotExistsError("体系中不存在 {0} 元素!".format(element_for_fatband))
     ### Step 5. yss_line_lst，能带结构的纵坐标是 `band#1, kpoint#1 对应的本征能量    
     ### Step 5.1. 输入需要绘制的能量区间 (e_min ~ e_max)
     df_raw = fatbandstructure._preprocess()
@@ -95,8 +104,7 @@ def main_nospin():
     e_min = float( input_energy_string.split(',')[0].strip() )
     e_max = float( input_energy_string.split(',')[1].strip() )
     if ( (e_min < e_min_value) or (e_max > e_max_value) ):
-        #print_error(输入的能量区间过大)
-        raise SystemExit
+        raise EnergyRangeError("输入的能量区间过大!")
     
     ### Step 5.2. 得到能带的纵坐标 (减去？不减去？费米能级) -- `plot_fatbandstructure.x` 已经处理过了
     yss_line_lst:List[List[float]] = []   # 每条能带上各个kpoints的本征能量
@@ -269,6 +277,7 @@ def print_sum_nospin(efermi_ev:Union[float, bool], element:str):
 '''
 Part II. spin
 '''
+@band_decorator
 def main_spin():
     '''
     Note
@@ -312,7 +321,7 @@ def main_spin():
         
     for tmp_lst in yss_scatter_1_lst:
         if tmp_lst == []:
-            raise Exception("没有这种元素")
+            raise ElementNotExistsError("体系中不存在 {0} 元素!".format(element_for_fatband))
         
     for tmp_element_df in element_dfs_2_lst:
         yss_scatter_2_lst.append( 
@@ -340,8 +349,7 @@ def main_spin():
     e_min = float( input_energy_string.split(',')[0].strip() )
     e_max = float( input_energy_string.split(',')[1].strip() )
     if ( (e_min < e_min_value) or (e_max > e_max_value) ):
-        #print_error(输入的能量区间过大)
-        raise SystemExit
+        raise EnergyRangeError("输入的能量区间过大!")
     
     ### Step 5.2. 得到能带的纵坐标 (减去？不减去？费米能级) -- `plot_fatbandstructure.x` 已经处理过了
     yss_line_1_lst:List[List[float]] = []   # 每条能带上各个kpoints的本征能量

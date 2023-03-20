@@ -6,6 +6,11 @@ class EnergyRangeError(Exception):
 class EnergyRangeFormatError(Exception):
     def __init__(self, message:str):
         self.message = message
+    
+    
+class ElementNotExistsError(Exception):
+    def __init__(self, message:str):
+        self.message = message
 
 
 def band_decorator(func):
@@ -13,9 +18,11 @@ def band_decorator(func):
         try:
             func(*args, **kwargs)
         except EnergyRangeError as e:
-            print_error(information="输入的能量超出范围!")
+            print_error(information=e.message)
         except EnergyRangeFormatError as e:
             print_error(information="输入能量范围的格式错误!")
+        except ElementNotExistsError as e:
+            print_error(information=e.message)
         except Exception as e:
             print(e)
     return wrapper
