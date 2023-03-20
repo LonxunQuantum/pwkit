@@ -1,6 +1,5 @@
 import re
 import os 
-import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -8,6 +7,41 @@ from matplotlib.lines import Line2D
 from typing import List
 from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
 from pflow.io.pwmat.output.outfermi import OutFermi
+from pflow.io.pwmat.input.inkpt import Inkpt
+
+
+
+def get_hsp(
+        in_kpt_path:str,
+        atom_config_path:str
+):
+    '''
+    Description
+    -----------
+        1. 得到对称点的`名称`和`距gamma的距离（unit: 埃）`
+    
+    Return
+    ------
+        1. hsp_names_lst: List[str]
+            - 高对称点的名字
+        2. hsp_xs_lst: List[float]
+            - 高对称点的横坐标（在 bandstructure 上）
+    '''
+    in_kpt_object = Inkpt(in_kpt_path=in_kpt_path)
+    ### Step 1. `idx2hsp`: e.g. 
+    idx2hsp = in_kpt_object._get_idx2hsp()
+    ### Step 2. `distances_from_gamma`: e.g. 
+    distances_from_gamma = \
+                in_kpt_object.get_distance_from_gamma_A(
+                            atom_config_path=atom_config_path
+                            )
+    ### Step 3. 分别得到对称点的`名称`和`距gamma的距离（unit: 埃）`
+    hsp_names_lst = [value for key, value in idx2hsp.items()]
+    hsp_idxs_lst = [key for key, value in idx2hsp.items()]
+    hsp_xs_lst = [distances_from_gamma[tmp_idx] for tmp_idx in hsp_idxs_lst]
+    
+    return hsp_names_lst, hsp_xs_lst
+    
 
 
 
@@ -16,6 +50,8 @@ def main_nospin():
     current_path = os.getcwd()
     fatbandstructure_txt_path = os.path.join(current_path, "fatbandstructure_1.txt")
     out_fermi_path = os.path.join(current_path, "OUT.FERMI")
+    in_kpt_path = os.path.join(current_path, "IN.KPT")
+    atom_config_path = os.path.join(current_path, "atom.config")
     
     ### Step 2. 若当前目录下存在 OUT.FERMI，则所有本征能量需要减去费米能级
     efermi_ev = False
@@ -70,7 +106,15 @@ def main_nospin():
             tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"]
             yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )        
     
-    ### Step 6. 绘制 fatbandstructure
+    
+    ### Step 6. 得到高对称点的横坐标和名称
+    hsp_names_lst, hsp_xs_lst = get_hsp(
+                                    in_kpt_path=in_kpt_path,
+                                    atom_config_path=atom_config_path,
+                                    )
+    
+    
+    ### Step 7. 绘制 fatbandstructure
     #plot_fatband_nospin()
     plot_fatband_nospin(xs_lst=xs_lst,
                         yss_line_lst=yss_line_lst,
@@ -79,7 +123,9 @@ def main_nospin():
                         x_min=0,
                         x_max=df_raw.loc[:, "KPOINT"].max(),
                         e_min=e_min,
-                        e_max=e_max
+                        e_max=e_max,
+                        hsp_names_lst=hsp_names_lst,
+                        hsp_xs_lst=hsp_xs_lst
                         )
 
 
@@ -91,7 +137,9 @@ def plot_fatband_nospin(
                 x_min:float,
                 x_max:float,
                 e_min:float,
-                e_max:float
+                e_max:float,
+                hsp_names_lst:List[str],
+                hsp_xs_lst:List[float]
                 ):
     COLOR_LINE = "steelblue"
     COLOR_SCATTER = "orangered"
@@ -134,9 +182,9 @@ def plot_fatband_nospin(
     ax.spines['right'].set_linewidth(1.5);###设置右边坐标轴的粗细
     ax.spines['top'].set_linewidth(1.5);###设置右边坐标轴的粗细
     
-    '''
+    
     # 5. 高对称点
-    ax.set_xticks(hsp_xs_lst, )
+    ax.set_xticks(hsp_xs_lst)
     ax.set_xticklabels(hsp_names_lst)
     plt.xticks(fontsize=20, 
         fontweight="bold"
@@ -149,8 +197,10 @@ def plot_fatband_nospin(
                 x=x_value,
                 lw=2, 
                 linestyle="--",
-                color="black")
-    '''
+                color="black",
+                zorder=0
+                )
+
     # 7. xrange / yrange
     plt.xlim(x_min, x_max)
     plt.ylim(e_min, e_max)
