@@ -17,7 +17,6 @@ from band_decorator import (
 
 
 
-
 def get_hsp(
         in_kpt_path:str,
         atom_config_path:str

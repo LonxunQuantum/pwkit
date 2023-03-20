@@ -26,7 +26,7 @@ do
         exit 0
         ;;
     3) 
-        echo "投影到轨道"
+        $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt4/subopt4s/3.fatband_orbitals.py
         exit 0
         ;;
     *) 
