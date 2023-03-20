@@ -22,7 +22,6 @@ do
         exit 0
         ;;
     2) 
-        echo "投影到原子"
         $PYTHON_PATH $PWKIT_ROOT/menu/umenu/usubmenu/opt4/subopt4s/2.fatband_elements.py
         exit 0
         ;;

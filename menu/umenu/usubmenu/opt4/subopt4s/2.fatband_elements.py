@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
-from typing import List
+from typing import List, Union
 from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
 from pflow.io.pwmat.output.outfermi import OutFermi
 from pflow.io.pwmat.input.inkpt import Inkpt
@@ -46,6 +46,14 @@ def get_hsp(
 
 
 def main_nospin():
+    ### Step 0. 运行 `plot_fatband_structure.x` 生成 `fatbandstructure_1.txt`
+    '''
+    Note
+    ----
+        1. 注意 plot_fatbandstructure.x 可以自己处理 OUT.FERMI，不需要我们再次处理！！！
+    '''
+    os.system("$PWKIT_ROOT/menu/scripts/plot_fatband_structure.x > /dev/null")
+    
     ### Step 1. 文件路径
     current_path = os.getcwd()
     fatbandstructure_txt_path = os.path.join(current_path, "fatbandstructure_1.txt")
@@ -80,8 +88,6 @@ def main_nospin():
     ### Step 5. yss_line_lst，能带结构的纵坐标是 `band#1, kpoint#1 对应的本征能量    
     ### Step 5.1. 输入需要绘制的能量区间 (e_min ~ e_max)
     df_raw = fatbandstructure._preprocess()
-    if (efermi_ev): ### 能量范围也需要减去费米能级
-        df_raw.loc[:, "ENERGY"] = df_raw.loc[:, "ENERGY"] - efermi_ev
     e_min_value = df_raw.loc[:, "ENERGY"].min()
     e_max_value = df_raw.loc[:, "ENERGY"].max()
     input_energy_string = input(
@@ -95,25 +101,23 @@ def main_nospin():
         #print_error(输入的能量区间过大)
         raise SystemExit
     
-    ### Step 5.2. 得到能带的纵坐标 (减去？不减去？费米能级)
+    ### Step 5.2. 得到能带的纵坐标 (减去？不减去？费米能级) -- `plot_fatbandstructure.x` 已经处理过了
     yss_line_lst:List[List[float]] = []   # 每条能带上各个kpoints的本征能量
-    if (efermi_ev):
-        for tmp_element_df in element_dfs_lst:
-            tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"] - efermi_ev
-            yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )
-    else:
-        for tmp_element_df in element_dfs_lst:
-            tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"]
-            yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )        
-    
+    #if (efermi_ev):
+    #    for tmp_element_df in element_dfs_lst:
+    #        tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"] - efermi_ev
+    #        yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )
+    #else:
+    for tmp_element_df in element_dfs_lst:
+        tmp_element_df.loc[:, "ENERGY"] = tmp_element_df.loc[:, "ENERGY"]
+        yss_line_lst.append( list(tmp_element_df.loc[:, "ENERGY"]) )        
     
     ### Step 6. 得到高对称点的横坐标和名称
     hsp_names_lst, hsp_xs_lst = get_hsp(
                                     in_kpt_path=in_kpt_path,
                                     atom_config_path=atom_config_path,
                                     )
-    
-    
+     
     ### Step 7. 绘制 fatbandstructure
     #plot_fatband_nospin()
     plot_fatband_nospin(xs_lst=xs_lst,
@@ -125,8 +129,15 @@ def main_nospin():
                         e_min=e_min,
                         e_max=e_max,
                         hsp_names_lst=hsp_names_lst,
-                        hsp_xs_lst=hsp_xs_lst
+                        hsp_xs_lst=hsp_xs_lst,
+                        efermi_ev=efermi_ev
                         )
+
+    ### Step 8. 输出
+    print_sum_nospin(
+            efermi_ev=efermi_ev,
+            element=element_for_fatband
+    )
 
 
 def plot_fatband_nospin(
@@ -139,7 +150,8 @@ def plot_fatband_nospin(
                 e_min:float,
                 e_max:float,
                 hsp_names_lst:List[str],
-                hsp_xs_lst:List[float]
+                hsp_xs_lst:List[float],
+                efermi_ev:Union[float, bool]
                 ):
     COLOR_LINE = "steelblue"
     COLOR_SCATTER = "orangered"
@@ -219,11 +231,40 @@ def plot_fatband_nospin(
             frameon=False)    
 
     # 9. Save
-    plt.savefig("./test.png",
+    if efermi_ev:
+        png_name = "./bandstructure_{0}_ShiftFermi.png".format(element)
+    else:
+        png_name = "./bandstructure_{0}.png".format(element)
+
+    plt.savefig(png_name,
                 dpi=300,
                 bbox_inches="tight"
     )
 
+
+
+def print_sum_nospin(efermi_ev:Union[float, bool], element:str): 
+    print("*{0:-^68}*".format( " Summary "))
+    
+    print("\t* 输入文件:", end='\t')
+    print(" - {0}".format("final.config"))
+    print(" \t\t\t - {0}".format("IN.KPT"))
+    if (efermi_ev != False):
+        print(" \t\t\t - {0}".format("OUT.FERMI"))
+    
+    print("\t* 输出文件:", end='\t')
+    print(" - {0}".format("fatbandstructure_1.txt"))
+    if (efermi_ev == False):
+        print(" \t\t\t - {0}".format("bandstructure_{0}.png".format(element)))
+    else:
+        print(" \t\t\t - {0}".format("bandstructure_{0}_ShiftFermi.png".format(element)))
+
+    # Warning: 
+    if (efermi_ev == False):
+        print("*{0:-^68}*".format("---------"), end="")
+        print("\n\033[1;31m \t* 当前目录下没有 OUT.FERMI 文件，能带没有减去费米能级!\033[0m\n", end="")
+    
+    print("*{0:-^68}*".format("---------"))
 
 
 if __name__ == "__main__":
