@@ -100,8 +100,20 @@ def main_nospin():
         round(e_min_value, 3),
         round(e_max_value, 3),
         ))
-    e_min = float( input_energy_string.split(',')[0].strip() )
-    e_max = float( input_energy_string.split(',')[1].strip() )
+    
+    if ',' in input_energy_string:
+        e_min = float( input_energy_string.split(",")[0].strip() )
+        e_max = float( input_energy_string.split(",")[1].strip() )
+    elif (input_energy_string.split() != 1):
+        e_min = float( input_energy_string.split()[0].strip() )
+        e_max = float( input_energy_string.split()[1].strip() )
+    elif ('-' in input_energy_string):
+        e_min = float( input_energy_string.split("-")[0].strip() )
+        e_max = float( input_energy_string.split("-")[1].strip() )
+    elif ('~' in input_energy_string):
+        e_min = float( input_energy_string.split("~")[0].strip() )
+        e_max = float( input_energy_string.split("~")[1].strip() )
+        
     if ( (e_min < e_min_value) or (e_max > e_max_value) ):
         raise EnergyRangeError("输入的能量区间过大!")
     
@@ -345,8 +357,20 @@ def main_spin():
         round(e_min_value, 3),
         round(e_max_value, 3),
         ))
-    e_min = float( input_energy_string.split(',')[0].strip() )
-    e_max = float( input_energy_string.split(',')[1].strip() )
+
+    if ',' in input_energy_string:
+        e_min = float( input_energy_string.split(",")[0].strip() )
+        e_max = float( input_energy_string.split(",")[1].strip() )
+    elif (input_energy_string.split() != 1):
+        e_min = float( input_energy_string.split()[0].strip() )
+        e_max = float( input_energy_string.split()[1].strip() )
+    elif ('-' in input_energy_string):
+        e_min = float( input_energy_string.split("-")[0].strip() )
+        e_max = float( input_energy_string.split("-")[1].strip() )
+    elif ('~' in input_energy_string):
+        e_min = float( input_energy_string.split("~")[0].strip() )
+        e_max = float( input_energy_string.split("~")[1].strip() )
+
     if ( (e_min < e_min_value) or (e_max > e_max_value) ):
         raise EnergyRangeError("输入的能量区间过大!")
     

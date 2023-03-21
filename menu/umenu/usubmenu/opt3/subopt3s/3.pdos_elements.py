@@ -57,8 +57,20 @@ def main_noispin(dos_totalspin_projected_name):
     ### Step 3.2. 输入能量范围
     print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
     e_range_str = input(" ------------>>\n")
-    e_max = float( e_range_str.split(',')[1].strip() )
-    e_min = float( e_range_str.split(',')[0].strip() )
+    
+    if ',' in e_range_str:
+        e_min = float( e_range_str.split(",")[0].strip() )
+        e_max = float( e_range_str.split(",")[1].strip() )
+    elif (e_range_str.split() != 1):
+        e_min = float( e_range_str.split()[0].strip() )
+        e_max = float( e_range_str.split()[1].strip() )
+    elif ('-' in e_range_str):
+        e_min = float( e_range_str.split("-")[0].strip() )
+        e_max = float( e_range_str.split("-")[1].strip() )
+    elif ('~' in e_range_str):
+        e_min = float( e_range_str.split("~")[0].strip() )
+        e_max = float( e_range_str.split("~")[1].strip() )
+        
     if (e_max > e_max_value) or (e_min < e_min_value):
         # 超出所能绘制的能量范围
         raise EnergyRangeError("\n\033[0;31m Error: 超出能量范围! \033[0m")
@@ -281,8 +293,20 @@ def main_ispin(
     ### Step 3.2. 输入能量范围
     print(" 能量范围是 {0} eV ~ {1} eV。输入绘制的能量范围 (e.g. -2,2)".format(e_min_value, e_max_value))
     e_range_str = input(" ------------>>\n")
-    e_max = float( e_range_str.split(',')[1].strip() )
-    e_min = float( e_range_str.split(',')[0].strip() )
+
+    if ',' in e_range_str:
+        e_min = float( e_range_str.split(",")[0].strip() )
+        e_max = float( e_range_str.split(",")[1].strip() )
+    elif (e_range_str.split() != 1):
+        e_min = float( e_range_str.split()[0].strip() )
+        e_max = float( e_range_str.split()[1].strip() )
+    elif ('-' in e_range_str):
+        e_min = float( e_range_str.split("-")[0].strip() )
+        e_max = float( e_range_str.split("-")[1].strip() )
+    elif ('~' in e_range_str):
+        e_min = float( e_range_str.split("~")[0].strip() )
+        e_max = float( e_range_str.split("~")[1].strip() )
+
     if (e_max > e_max_value) or (e_min < e_min_value):
         #print('\n\033[0;31m Error: 超出能量范围! \033[0m')
         raise EnergyRangeError("超出能量范围")

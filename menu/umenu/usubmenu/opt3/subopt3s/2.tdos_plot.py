@@ -54,8 +54,18 @@ def opt3_nospin():
         round(E_min_range, 3),
         round(E_max_range, 3),
         ))
-    E_min = float( input_string.split(",")[0].strip() )
-    E_max = float( input_string.split(",")[1].strip() )
+    if ',' in input_string:
+        E_min = float( input_string.split(",")[0].strip() )
+        E_max = float( input_string.split(",")[1].strip() )
+    elif (input_string.split() != 1):
+        E_min = float( input_string.split()[0].strip() )
+        E_max = float( input_string.split()[1].strip() )
+    elif ('-' in input_string):
+        E_min = float( input_string.split("-")[0].strip() )
+        E_max = float( input_string.split("-")[1].strip() )
+    elif ('~' in input_string):
+        E_min = float( input_string.split("~")[0].strip() )
+        E_max = float( input_string.split("~")[1].strip() )
     
     if (E_min < E_min_range) or (E_max > E_max_range):
         #os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')
@@ -298,8 +308,18 @@ def opt3_spin():
         round(E_min_range, 3),
         round(E_max_range, 3),
         ))
-    E_min = float( input_string.split(",")[0] )
-    E_max = float( input_string.split(",")[1] )
+    if ',' in input_string:
+        E_min = float( input_string.split(",")[0].strip() )
+        E_max = float( input_string.split(",")[1].strip() )
+    elif (input_string.split() != 1):
+        E_min = float( input_string.split()[0].strip() )
+        E_max = float( input_string.split()[1].strip() )
+    elif ('-' in input_string):
+        E_min = float( input_string.split("-")[0].strip() )
+        E_max = float( input_string.split("-")[1].strip() )
+    elif ('~' in input_string):
+        E_min = float( input_string.split("~")[0].strip() )
+        E_max = float( input_string.split("~")[1].strip() )
     
     if (E_min < E_min_range) or (E_max > E_max_range):
         #os.system('echo -e "\n\033[31m - Error: 输入的能量区间超出范围!\033[0m\n"')

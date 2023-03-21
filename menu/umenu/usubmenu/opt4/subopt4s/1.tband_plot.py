@@ -298,8 +298,18 @@ def main():
         round(e_max, 3),
         ))
     try:
-        E_min = float( input_string.split(",")[0] )
-        E_max = float( input_string.split(",")[1] )
+        if ',' in input_string:
+            E_min = float( input_string.split(",")[0].strip() )
+            E_max = float( input_string.split(",")[1].strip() )
+        elif (input_string.split() != 1):
+            E_min = float( input_string.split()[0].strip() )
+            E_max = float( input_string.split()[1].strip() )
+        elif ('-' in input_string):
+            E_min = float( input_string.split("-")[0].strip() )
+            E_max = float( input_string.split("-")[1].strip() )
+        elif ('~' in input_string):
+            E_min = float( input_string.split("~")[0].strip() )
+            E_max = float( input_string.split("~")[1].strip() )
     except:
         raise EnergyRangeFormatError("能量范围的格式错误")
     
