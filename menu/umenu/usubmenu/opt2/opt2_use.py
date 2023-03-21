@@ -7,9 +7,9 @@ def opt1():
     '''
     Description
     -----------
-        1. plot_wg2.x 主要用于将 OUT.WG 转换为可视化的文件 (PSI.xsf) 放在 VESTA 里面查看。
+        1. plot_wg2.x 主要用于将 OUT.WG 转换为可视化的文件 (partialcharge.xsf) 放在 VESTA 里面查看。
         2. `plot_wg2.x`
-            - 之后就会得到 PSI.xsf
+            - 之后就会得到 partialcharge.xsf
         
     Variables
     ---------
@@ -28,19 +28,15 @@ def opt1():
     '''        
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
-    try: # 删除原本存在的 PSI.xsf
-        shutil.rmtree(os.path.join(current_path, "PSI.xsf"))
+    try: # 删除原本存在的 partialcharge.xsf
+        shutil.rmtree(os.path.join(current_path, "partialcharge.xsf"))
     except:
         pass
+
+    wg_file_name = input(" 请输入 OUT.WG 格式的文件名\n ------------>>\n")
     
-    wg_file_name = "OUT.WG"
-    while ( not os.path.exists( os.path.join(current_path, wg_file_name) ) ):
-        os.system('echo -e "\n\033[31m - 未搜索到 {0} 文件，需要手动指定文件名...\033[0m\n"'.format(wg_file_name))
-        wg_file_name = input(" 请输入 OUT.WG 格式的文件名\n------------>>\n")
-    
-    # e.g. output_file_name = "atom.config"
-    output_file_name = "PSI.xsf"
-    output_file_path = os.path.join(current_path, output_file_name)
+    # e.g. output_file_name = "partialcharge.xsf"
+    output_file_name = "partialcharge.xsf"
     
     
     ### Step 2. 用户手动输入 plot_wg2.x 的参数
@@ -59,27 +55,38 @@ def opt1():
     
     
     ##  Step 2.2. 得到 plot_wg2.x 的各种信息
-    ##             1. kpoint 的 index
+    ##             1. kpoint 的 index 
     ##             2. OUT.WG 格式的文件名
     ##             3. atom.config 格式的文件名
     ##             4. 波函数的 range of index
-    # 1. kpoint 的 index
-    idx_kpoint = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3,7 or 3`)\n------------>>\n".format(num_kpt))
+    # 1. OUT.WG 格式的文件名： 在前面
     
-    # 2. OUT.WG 格式的文件名： 在前面
+    # 2. atom.config 格式的文件
+    #atom_config_name = "atom.config"    # 默认结构文件名为 atom.config
+    #while ( not os.path.exists( os.path.join(current_path, atom_config_name) ) ):
+    #    os.system('echo -e "\n\033[31m - 未搜索到 {0} 文件，需要手动指定结构文件的文件名...\033[0m\n"'.format(atom_config_name))
+    atom_config_name = input(" 请输入 atom.config 格式的文件名\n ------------>>\n")
     
-    # 3. atom.config 格式的文件
-    atom_config_name = "atom.config"    # 默认结构文件名为 atom.config
-    while ( not os.path.exists( os.path.join(current_path, atom_config_name) ) ):
-        os.system('echo -e "\n\033[31m - 未搜索到 {0} 文件，需要手动指定结构文件的文件名...\033[0m\n"'.format(atom_config_name))
-        atom_config_name = input(" 请输入 atom.config 格式的文件名\n------------>>\n")
+    # 3. kpoint 的 index
+    idx_kpoint = input(" 一共有{0}个K点，请输入要画的K点 (e.g. `3`)\n ------------>>\n".format(num_kpt))
+    
         
     # 4. 波函数的index (e.g. `12,16`)
-    idx_wg = input(" 一共有{0}个波函数，请输入要画的波函数 (e.g. `12,16 or 12`)\n------------>>\n".format(num_band))
+    idx_wg = input(" 一共有{0}个波函数，请输入要画的波函数 (e.g. `12,16 or 12`)\n ------------>>\n".format(num_band))
     
         
     ### Step 3. 文件格式转换 (plot_wg2.x)
-    if ',' in idx_wg:
+    if (',' in idx_wg) or \
+        (idx_wg.split() != 1) or \
+        ('-' in idx_wg) or \
+        ('~' in idx_wg):
+        if (idx_wg.split() != 1):
+            idx_wg = ','.join( [value.strip() for value in idx_wg.split()] )
+        if ('-' in idx_wg):
+            idx_wg = ','.join( [value.strip() for value in idx_wg.split('-')] )
+        if ('~' in idx_wg):
+            idx_wg = ','.join( [value.strip() for value in idx_wg.split('-')] )
+        
         os.system('echo -e "{0}\n{1}\n{2}\n{3}\n" | $PWKIT_ROOT/menu/scripts/plot_wg2.x > /dev/null'.format(
                                             idx_kpoint,
                                             wg_file_name,
@@ -97,15 +104,17 @@ def opt1():
                 )
 
 
-    ### Step 4. 输出程序运行的信息
-    wg_xsf_file_path = os.path.join(current_path, "PSI.xsf")
-    if os.path.exists(wg_xsf_file_path): # os.system() 中的cmd执行成功
+    ### Step 4. 输出程序运行的信息    
+    if os.path.exists(os.path.join(current_path, "PSI.xsf")): # os.system() 中的cmd执行成功
+        os.system("mv PSI.xsf partialcharge.xsf")
         print_sum(atom_config_name=atom_config_name,
                   wg_file_name=wg_file_name,
                   idx_kpoint=idx_kpoint,
                   idx_wg=idx_wg,
                   output_file_name=output_file_name,
                   )
+    else:
+        print("Error!")
     
 
 def print_sum(
@@ -113,7 +122,7 @@ def print_sum(
             wg_file_name:str,
             idx_kpoint:str,
             idx_wg:str,
-            output_file_name:str="PSI.xsf",
+            output_file_name:str="partialcharge.xsf",
             ):
     '''
     Description
@@ -135,7 +144,7 @@ def print_sum(
             - 波函数的范围， e.g. `12,16`
         
         5. output_file_name: str
-            - `PSI.xsf`
+            - `partialcharge.xsf`
     '''
     print("*{0:-^68}*".format(" Summary "))
     
