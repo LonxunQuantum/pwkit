@@ -4,6 +4,7 @@ import numpy as np
 from pflow.io.pwmat.output.dostotalspin import Dostotalspin
 from pflow.io.pwmat.output.outfermi import OutFermi
 import matplotlib.pyplot as plt
+import subprocess
 
 from exception_decorator import dos_decorator
 from exception_decorator import EnergyRangeError
@@ -25,6 +26,11 @@ def main_noispin(dos_totalspin_projected_name):
     dos_totalspin_projected_path = os.path.join(
                                         current_path,
                                         dos_totalspin_projected_name)
+    
+    ### Note: `module load mkl/latest`
+    returncode = os.system("module load mkl/latest > /dev/null")
+    if returncode != 0:
+        print("Warning: Can't load MKL module")
     os.system('plot_DOS_interp.x > /dev/null')
     
     
@@ -236,6 +242,11 @@ def main_ispin(
     dos_spindown_projected_path = os.path.join(
                                     current_path,
                                     dos_spindown_projected_name)
+    
+    ### Note: `module load mkl/latest`
+    returncode = os.system("module load mkl/latest > /dev/null")
+    if returncode != 0:
+        print("Warning: Can't load MKL module")
     os.system('plot_DOS_interp.x > /dev/null')
     
     
