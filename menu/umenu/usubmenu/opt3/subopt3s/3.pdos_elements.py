@@ -28,10 +28,9 @@ def main_noispin(dos_totalspin_projected_name):
                                         dos_totalspin_projected_name)
     
     ### Note: `module load mkl/latest`
-    returncode = os.system("module load mkl/latest > /dev/null")
-    if returncode != 0:
-        print("Warning: Can't load MKL module")
-    os.system('plot_DOS_interp.x > /dev/null')
+    os.system('''
+        module load mkl/latest > /dev/null; $PWKIT_ROOT/menu/scripts/plot_DOS_interp.x > /dev/null
+    ''')
     
     
     ### Step 2. 用 `DOS.totalspin_projected` 初始化 `Dostotalspin` 对象
@@ -244,10 +243,10 @@ def main_ispin(
                                     dos_spindown_projected_name)
     
     ### Note: `module load mkl/latest`
-    returncode = os.system("module load mkl/latest > /dev/null")
-    if returncode != 0:
-        print("Warning: Can't load MKL module")
-    os.system('plot_DOS_interp.x > /dev/null')
+    os.system('''
+        module load mkl/latest > /dev/null; $PWKIT_ROOT/menu/scripts/plot_DOS_interp.x > /dev/null
+    ''')
+    
     
     
     ### Step 2. 用 `DOS.totalspin_projected` 初始化 `Dostotalspin` 对象

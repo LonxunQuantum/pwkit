@@ -1,5 +1,6 @@
 import re
 import os 
+import subprocess
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
@@ -694,11 +695,9 @@ def print_sum_spin(efermi_ev:Union[float, bool], orbital:str):
 
 if __name__ == "__main__":
     ### Note: `module load mkl/latest`
-    returncode = os.system("module load mkl/latest > /dev/null")
-    if returncode != 0:
-        print("Warning: Can't load MKL module")
-        
-    os.system("$PWKIT_ROOT/menu/scripts/plot_fatband_structure.x > /dev/null")
+    os.system('''
+        module load mkl/latest > /dev/null; $PWKIT_ROOT/menu/scripts/plot_fatband_structure.x > /dev/null
+    ''')
     current_path = os.getcwd()
     fatbandstructure_txt_2_path = os.path.join(current_path, "fatbandstructure_2.txt")
     
