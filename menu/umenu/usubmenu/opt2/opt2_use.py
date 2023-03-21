@@ -20,6 +20,11 @@ def opt1():
     ----------
         1. 结构文件：atom.config 格式文件
         2. 波函数文件：OUT.WG 格式文件
+        
+    Note
+    ----
+        1. `plot_wg.x`: 绘制单个kpoint、单个波函数的电荷 (rho)
+        2. `plot_wg2.x`: 绘制单个kpoint、序号连续的多个波函数的电荷 (rho)
     '''        
     ### Step 1. 得到输入输出格式的文件
     current_path = os.getcwd()
