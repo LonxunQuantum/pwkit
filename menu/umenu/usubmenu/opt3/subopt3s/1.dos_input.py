@@ -1,5 +1,5 @@
 import os
-from pflow.io.pwmat.input.dos_input import DosInput
+from matersdk.io.pwmat.input.dos_input import DosInput
 
 
 

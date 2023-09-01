@@ -1,6 +1,6 @@
 import os
 import sys
-from pflow.io.publicLayer.structure import DStructure
+from matersdk.io.publicLayer.structure import DStructure
 
 
 def get_basis_vector(atom_config_name:str):

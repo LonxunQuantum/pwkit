@@ -4,8 +4,8 @@ import shutil
 import json
 import numpy as np
 
-from pflow.io.publicLayer.structure import DStructure
-from pflow.calculation.kpoints.kmesh import KMesh
+from matersdk.io.publicLayer.structure import DStructure
+from matersdk.calculation.kpoints.kmesh import KMesh
 
 
 # `任务类型` 简写: PWmat任务类型

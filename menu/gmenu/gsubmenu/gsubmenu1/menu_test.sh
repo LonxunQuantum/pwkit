@@ -13,7 +13,7 @@
 
 
 ### Key global parameters
-# 1.pflow 可以支持的结构文件类型
+# 1.matersdk 可以支持的结构文件类型
 file_formats_lst=([0]="pwmat" [1]="vasp" [2]="mcsqs" [3]="json" [4]="xsf" [5]="yaml" [6]="cssr" [7]="prismatic")
 # 2. 需要输入 KMesh 的任务类型
 #      NS(非自洽计算): 1.KMesh 2.KPATH

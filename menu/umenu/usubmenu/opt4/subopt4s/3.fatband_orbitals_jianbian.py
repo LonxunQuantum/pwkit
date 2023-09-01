@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 from matplotlib.lines import Line2D
 
 from typing import List, Union
-from pflow.io.pwmat.output.fatabandstructureTxt import FatbandStructure
-from pflow.io.pwmat.output.outfermi import OutFermi
-from pflow.io.pwmat.input.inkpt import Inkpt
+from matersdk.io.pwmat.output.fatabandstructureTxt import FatbandStructure
+from matersdk.io.pwmat.output.outfermi import OutFermi
+from matersdk.io.pwmat.input.inkpt import Inkpt
 from band_decorator import (
                 EnergyRangeError, 
                 EnergyRangeFormatError,

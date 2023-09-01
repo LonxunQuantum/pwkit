@@ -1,7 +1,7 @@
 import sys
 import warnings
-from pflow.io.publicLayer.structure import DStructure
-from pflow.calculation.kpath.kpathSampler import KpathSampler
+from matersdk.io.publicLayer.structure import DStructure
+from matersdk.calculation.kpath.kpathSampler import KpathSampler
 
 
 warnings.filterwarnings("ignore")

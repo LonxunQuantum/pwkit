@@ -1,7 +1,7 @@
 import os
 import sys
 import linecache
-from pflow.io.publicLayer.structure import DStructure
+from matersdk.io.publicLayer.structure import DStructure
 
 
 class AtomConfigGenerator(object):

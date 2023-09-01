@@ -2,8 +2,8 @@ import os
 import pandas as pd 
 import numpy as np
 from typing import List
-from pflow.io.pwmat.output.dostotalspin import Dostotalspin
-from pflow.io.pwmat.output.outfermi import OutFermi
+from matersdk.io.pwmat.output.dostotalspin import Dostotalspin
+from matersdk.io.pwmat.output.outfermi import OutFermi
 import matplotlib.pyplot as plt
 
 from exception_decorator import dos_decorator
