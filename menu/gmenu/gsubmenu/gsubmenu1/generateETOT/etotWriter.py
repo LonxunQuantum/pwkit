@@ -170,6 +170,7 @@ class EtotWriter(object):
             hse_alpha = 0.25
             hse_beta = 0.0
             hse_omega = 0.3
+            
         # 3. self.functional_name == P0
         if self.functional_name == "P0":
             hse_alpha = 0.25
