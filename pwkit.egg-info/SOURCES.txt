@@ -2,11 +2,16 @@ LICENSE
 README.rst
 setup.py
 pwkit/__init__.py
+pwkit/variable.py
 pwkit.egg-info/PKG-INFO
 pwkit.egg-info/SOURCES.txt
 pwkit.egg-info/dependency_links.txt
 pwkit.egg-info/requires.txt
 pwkit.egg-info/top_level.txt
+pwkit/scripts/__init__.py
+pwkit/scripts/generator_scripts/__init__.py
+pwkit/scripts/generator_scripts/structureFileConvert_scripts/__init__.py
+pwkit/scripts/generator_scripts/structureFileConvert_scripts/outcar2movement.py
 pwkit/ui/__init__.py
 pwkit/ui/main_ui.py
 pwkit/ui/ui_template.py

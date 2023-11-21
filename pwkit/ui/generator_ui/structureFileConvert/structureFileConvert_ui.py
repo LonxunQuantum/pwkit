@@ -2,15 +2,17 @@ import sys
 from typing import Union
 
 from ...ui_template import UITemplate
+from .structureFileConvert_topw import StructureFileConvertorTopw
+from .structureFileConvert_frompw import StructureFileConvertorFrompw
 
 
 class StructureFileConvertUI(UITemplate):
     def show(self):
         ### Part I. 
-        print("{0:-^60}".format(" 生成输入文件 "))
+        print("{0:-^60}".format(" 结构转换 "))
         print(
-''' 1) 生成etot.input                2) 结构文件格式转换
-3) 生成高对称点文件              4) 外加电场
+''' 1) 其他格式 -> PWMat格式        2) PWMat格式 -> 其他格式
+ 3) 查看结构信息                 4) 按照原子序数整理atom.config
 '''
         )
         
@@ -46,13 +48,21 @@ q)  退出'''
             
             # Case 2. 1) 其他格式 -> PWmat 格式
             elif (user_choice == "1"):
-                print("Under development")
-                break
+                StructureFileConvertorTopw().show()
+                back_mark = StructureFileConvertorTopw().process_input()
+                if back_mark == None:
+                    break
+                elif back_mark == "BB":
+                    return "BB"
             
             # Case 3. 2) PWmat 格式 -> 其他格式
             elif (user_choice == "2"):
-                print("Under development")
-                break
+                StructureFileConvertorFrompw().show()
+                back_mark = StructureFileConvertorFrompw().process_input()
+                if back_mark == None:
+                    break
+                elif back_mark == "BB":
+                    return "BB"
             
             # Case 4. 3) 生成高对称点文件
             elif (user_choice == "3"):

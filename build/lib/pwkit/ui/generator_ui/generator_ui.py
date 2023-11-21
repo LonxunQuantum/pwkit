@@ -2,7 +2,7 @@ import sys
 from typing import Union
 
 from ..ui_template import UITemplate
-from .structureFileConvert.structureFileConvert_topw import StructureFileConvertorTopw
+from .structureFileConvert.structureFileConvert_ui import StructureFileConvertUI
 
 
 class GeneratorUI(UITemplate):
@@ -52,10 +52,12 @@ class GeneratorUI(UITemplate):
             
             # Case 3. 2) 结构文件格式转换
             elif (generator_ui_choice == "2"):
-                StructureFileConvertorTopw.show()
-                StructureFileConvertorTopw.process_input()
-                print("Under Development !!!")
-                break
+                StructureFileConvertUI().show()
+                back_mark = StructureFileConvertUI().process_input()
+                if back_mark == None:
+                    break
+                elif back_mark == "BB":
+                    continue
             
             # Case 4. 3) 生成高对称点文件
             elif (generator_ui_choice == "3"):

@@ -1,11 +1,16 @@
 import os
-
+import sys
+import subprocess
+from typing import Union
 from matersdk.io.publicLayer.structure import DStructure
 
+from ...ui_template import UITemplate
+from ....variable import *
 
-class StructureFileConvertorFrompw(object):
-    @staticmethod
+
+class StructureFileConvertorFrompw(UITemplate):
     def convert(
+            self,
             input_file_path:str,
             input_file_format:str,
             output_file_path:str,
@@ -14,8 +19,7 @@ class StructureFileConvertorFrompw(object):
         structure.to(file_path=output_file_path, file_format=output_file_format)
     
     
-    @staticmethod
-    def show():
+    def show(self):
         print("{0:-^50}".format(" PWmat格式 -> 其他格式 "))
         print(
 ''' 1) atom.config -> POSCAR文件 (POSCAR)    
@@ -34,68 +38,111 @@ class StructureFileConvertorFrompw(object):
         )
         
     
-    @staticmethod
-    def process_input():
+    def process_input(self):
         '''
         Description
         -----------
             1. 
         '''
         current_path = os.getcwd()
+        # back_mark:Union[None, str] = None
         
-        ### Step 1. 读取用户的输入
-        ### Step 1.1. 选项
-        structure_file_convert_choice = input("------------>>\n")
-        
-        ### Step 1.2. 输入文件名
-        def get_structure_file_name(current_path:str=current_path):
-            input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
-            if (input_file_name == ""):
-                input_file_name = "atom.config"
-            input_file_path = os.path.join(current_path, input_file_name)
-
-            return input_file_path
-        
-        
-        ### Step 2. 转换
-        ### Step 2.1. 根据输入设置格式、输出文件
-        if (structure_file_convert_choice == "1"):
-            input_file_path:str = get_structure_file_name(
-                                        structure_file_convert_choice=structure_file_convert_choice,
-                                        current_path=current_path)
-            input_file_format:str = "pwmat"
-            output_file_path:str = os.path.join(current_path, "POSCAR")
-            output_file_format:str = "poscar"
-        
-        if (structure_file_convert_choice == "2"):
-            input_file_path:str = get_structure_file_name(
-                                        structure_file_convert_choice=structure_file_convert_choice,
-                                        current_path=current_path)
-            input_file_format:str = "pwmat"
-            output_file_path:str = os.path.join(current_path, "atom.xsf")
-            output_file_format:str = "xsf"
-        
-        if (structure_file_convert_choice == "3"):
-            input_file_path:str = get_structure_file_name(
-                                        structure_file_convert_choice=structure_file_convert_choice,
-                                        current_path=current_path)
-            input_file_format:str = "pwmat"
-            output_file_path:str = os.path.join(current_path, "rndstr.in")
-            output_file_format:str = "atat"
-        
-        if (structure_file_convert_choice == "4"):
-            input_file_path:str = get_structure_file_name(
-                                        structure_file_convert_choice=structure_file_convert_choice,
-                                        current_path=current_path)
-            input_file_format:str = "pwmat"
-            output_file_path:str = os.path.join(current_path, "atom.cif")
-            output_file_format:str = "cif"
-
-        if (structure_file_convert_choice == "5"):
-            print("Under Development!!!")
+        while (True):
+            ### Step 1. 读取用户的输入
+            ### Step 1.1. 选项
+            structure_file_convert_choice = input("------------>>\n").upper()
             
-        if (structure_file_convert_choice == "6"):
-                print("Under Development!!!")    
-        
+            ### Step 2. 转换
+            ### Step 2.1. 根据输入设置格式、输出文件
+            if (structure_file_convert_choice == "Q"):
+                try:
+                    sys.exit()
+                except SystemExit as e:
+                    pass
+            
+            elif (structure_file_convert_choice == "BB"):
+                return "BB"
+            
+            elif (structure_file_convert_choice == "1"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_path:str = os.path.join(current_path, "POSCAR")
+                output_file_format:str = "poscar"
+                self.convert(
+                    input_file_path=input_file_path,
+                    input_file_format=input_file_format,
+                    output_file_path=output_file_path,
+                    output_file_format=output_file_format)
+                break
+            
+            if (structure_file_convert_choice == "2"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_path:str = os.path.join(current_path, "atom.xsf")
+                output_file_format:str = "xsf"
+                self.convert(
+                    input_file_path=input_file_path,
+                    input_file_format=input_file_format,
+                    output_file_path=output_file_path,
+                    output_file_format=output_file_format)
+                break
+            
+            if (structure_file_convert_choice == "3"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_path:str = os.path.join(current_path, "rndstr.in")
+                output_file_format:str = "atat"
+                self.convert(
+                    input_file_path=input_file_path,
+                    input_file_format=input_file_format,
+                    output_file_path=output_file_path,
+                    output_file_format=output_file_format)
+                break
+            
+            if (structure_file_convert_choice == "4"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_path:str = os.path.join(current_path, "atom.cif")
+                output_file_format:str = "cif"
+                self.convert(
+                    input_file_path=input_file_path,
+                    input_file_format=input_file_format,
+                    output_file_path=output_file_path,
+                    output_file_format=output_file_format)
+                break
+
+            if (structure_file_convert_choice == "5"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_format:str = "xsf"
+                convert_from_config_x = os.path.join(PWKIT_SCRIPT_DIR, "generator_scripts", "structureFileConvert_scripts", "convert_from_config.x")
+                subprocess.call([convert_from_config_x, input_file_path])
+                break
+                
+            if (structure_file_convert_choice == "6"):
+                input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
+                if (input_file_name == ""):
+                    input_file_name = "atom.config"
+                input_file_path = os.path.join(current_path, input_file_name)
+                input_file_format:str = "pwmat"
+                output_file_format:str = "xyz"
+                convert_from_config_x = os.path.join(PWKIT_SCRIPT_DIR, "generator_scripts", "structureFileConvert_scripts", "convert_from_config.x")
+                subprocess.call([convert_from_config_x, input_file_path])
+                break
         
         
