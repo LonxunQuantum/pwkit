@@ -78,7 +78,7 @@ class StructureFileConvertorFrompw(UITemplate):
                     output_file_format=output_file_format)
                 break
             
-            if (structure_file_convert_choice == "2"):
+            elif (structure_file_convert_choice == "2"):
                 input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
                 if (input_file_name == ""):
                     input_file_name = "atom.config"
@@ -93,7 +93,7 @@ class StructureFileConvertorFrompw(UITemplate):
                     output_file_format=output_file_format)
                 break
             
-            if (structure_file_convert_choice == "3"):
+            elif (structure_file_convert_choice == "3"):
                 input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
                 if (input_file_name == ""):
                     input_file_name = "atom.config"
@@ -108,7 +108,7 @@ class StructureFileConvertorFrompw(UITemplate):
                     output_file_format=output_file_format)
                 break
             
-            if (structure_file_convert_choice == "4"):
+            elif (structure_file_convert_choice == "4"):
                 input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
                 if (input_file_name == ""):
                     input_file_name = "atom.config"
@@ -123,7 +123,7 @@ class StructureFileConvertorFrompw(UITemplate):
                     output_file_format=output_file_format)
                 break
 
-            if (structure_file_convert_choice == "5"):
+            elif (structure_file_convert_choice == "5"):
                 input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
                 if (input_file_name == ""):
                     input_file_name = "atom.config"
@@ -134,7 +134,7 @@ class StructureFileConvertorFrompw(UITemplate):
                 subprocess.call([convert_from_config_x, input_file_path])
                 break
                 
-            if (structure_file_convert_choice == "6"):
+            elif (structure_file_convert_choice == "6"):
                 input_file_name = input("结构文件名 (default: atom.config)\n------------>>\n")
                 if (input_file_name == ""):
                     input_file_name = "atom.config"
@@ -145,4 +145,6 @@ class StructureFileConvertorFrompw(UITemplate):
                 subprocess.call([convert_from_config_x, input_file_path])
                 break
         
-        
+            else:
+                print("(*_*) Unsupported input! Try again... (*_*)")
+            

@@ -4,6 +4,8 @@ from typing import Union
 from ...ui_template import UITemplate
 from .structureFileConvert_topw import StructureFileConvertorTopw
 from .structureFileConvert_frompw import StructureFileConvertorFrompw
+from .structureInfo import StructureInfo
+from .sortAtoms import AtomsSorter
 
 
 class StructureFileConvertUI(UITemplate):
@@ -53,7 +55,7 @@ q)  退出'''
                 if back_mark == None:
                     break
                 elif back_mark == "BB":
-                    return "BB"
+                    continue
             
             # Case 3. 2) PWmat 格式 -> 其他格式
             elif (user_choice == "2"):
@@ -62,17 +64,25 @@ q)  退出'''
                 if back_mark == None:
                     break
                 elif back_mark == "BB":
-                    return "BB"
+                    continue
             
-            # Case 4. 3) 生成高对称点文件
+            # Case 4. 3) 查看结构信息 
             elif (user_choice == "3"):
-                print("Under development")
-                break
+                StructureInfo().show()
+                back_mark = StructureInfo().process_input()
+                if back_mark == None:
+                    break
+                elif back_mark == "BB":
+                    continue
             
-            # Case 5. 4) 外加电场
+            # Case 5. 4) 按照原子序数整理atom.config
             elif (user_choice == "4"):
-                print("Under development")
-                break
+                AtomsSorter().show()
+                back_mark = AtomsSorter().process_input()
+                if back_mark == None:
+                    break
+                elif back_mark == "BB":
+                    continue
             
             else:
                 print("(*_*) Unsupported input! Try again... (*_*)")

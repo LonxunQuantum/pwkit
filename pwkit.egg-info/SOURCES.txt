@@ -18,9 +18,11 @@ pwkit/ui/ui_template.py
 pwkit/ui/generator_ui/__init__.py
 pwkit/ui/generator_ui/generator_ui.py
 pwkit/ui/generator_ui/structureFileConvert/__init__.py
+pwkit/ui/generator_ui/structureFileConvert/sortAtoms.py
 pwkit/ui/generator_ui/structureFileConvert/structureFileConvert_frompw.py
 pwkit/ui/generator_ui/structureFileConvert/structureFileConvert_topw.py
 pwkit/ui/generator_ui/structureFileConvert/structureFileConvert_ui.py
+pwkit/ui/generator_ui/structureFileConvert/structureInfo.py
 pwkit/ui/generator_ui/structureFileConvert/test/__init__.py
 pwkit/ui/generator_ui/test/__init__.py
 pwkit/ui/generator_ui/test/test_generator_ui.py
