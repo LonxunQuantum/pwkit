@@ -17,6 +17,10 @@ pwkit/ui/main_ui.py
 pwkit/ui/ui_template.py
 pwkit/ui/generator_ui/__init__.py
 pwkit/ui/generator_ui/generator_ui.py
+pwkit/ui/generator_ui/genEtot/__init__.py
+pwkit/ui/generator_ui/genEtot/test/__init__.py
+pwkit/ui/generator_ui/highSymmetryPoints/__init__.py
+pwkit/ui/generator_ui/highSymmetryPoints/hspSampler.py
 pwkit/ui/generator_ui/structureFileConvert/__init__.py
 pwkit/ui/generator_ui/structureFileConvert/sortAtoms.py
 pwkit/ui/generator_ui/structureFileConvert/structureFileConvert_frompw.py

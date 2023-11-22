@@ -3,6 +3,7 @@ from typing import Union
 
 from ..ui_template import UITemplate
 from .structureFileConvert.structureFileConvert_ui import StructureFileConvertUI
+from .highSymmetryPoints.hspSampler import HspSampler
 
 
 class GeneratorUI(UITemplate):
@@ -61,7 +62,7 @@ class GeneratorUI(UITemplate):
             
             # Case 4. 3) 生成高对称点文件
             elif (generator_ui_choice == "3"):
-                print("Under Development !!!")
+                HspSampler().run()
                 break
             
             # Case 5. 4) 外加电场

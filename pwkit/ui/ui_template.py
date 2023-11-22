@@ -10,3 +10,10 @@ class UITemplate(object):
     @abstractmethod
     def process_input(self):
         pass
+    
+    
+    
+class OPTTemplate(object):
+    @abstractmethod
+    def run(self):
+        pass
