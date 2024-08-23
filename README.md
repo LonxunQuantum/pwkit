@@ -8,7 +8,7 @@
 # 1. 安装说明
 ## 1.0. 安装提示
 1. 如果你进行 `1.1 安装步骤` 部分时，没有找到 `pwkit_env.tar.gz` 文件，你可以通过如下方式下载：  
-    https://www.jianguoyun.com/p/DfhQFx8Q_qS-CxifgfwEIAA， 提取码为 `lxkt`
+    https://www.jianguoyun.com/p/DfhQFx8Q_qS-CxifgfwEIAA ，提取码为 `lxkt`
 2. `pwkit_env.tar.gz` 中包含一个 Python 解释器，解释器内置Python库 `MaterSDK`
 
 ## 1.1. 安装步骤
